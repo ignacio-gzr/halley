@@ -794,7 +794,7 @@ html body
    La animación existe únicamente al aparecer.
 
    Duración:
-   0,24 segundos.
+   0,38 segundos.
 ================================================== */
 
 html body
@@ -808,7 +808,7 @@ html body
 
     animation:
         halley-tooltip-aparecer
-        0.24s
+        0.38s
         ease-out
         both !important;
 }
@@ -996,6 +996,12 @@ html body
 
     visibility:
         visible !important;
+
+    animation:
+        halley-tooltip-aparecer
+        0.38s
+        ease-out
+        both !important;
 }
 
 
