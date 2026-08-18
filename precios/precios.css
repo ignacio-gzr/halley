@@ -156,23 +156,11 @@
         background-color: #F2F5F6 !important;
     }
 
-
-    /* ------------------------------------------------
-       03. HALLEY UI — MENÚ MOBILE
-       SUBCATEGORÍA: COLOR DE LOS ENLACES
-    ------------------------------------------------ */
-
     .tatsu-mobile-navigation a,
     .tatsu-mobile-navigation li a,
     .tatsu-mobile-menu a {
         color: #3D3D40 !important;
     }
-
-
-    /* ------------------------------------------------
-       03. HALLEY UI — MENÚ MOBILE
-       SUBCATEGORÍA: COLOR HOVER DE LOS ENLACES
-    ------------------------------------------------ */
 
     .tatsu-mobile-navigation a:hover,
     .tatsu-mobile-navigation li a:hover,
@@ -180,34 +168,16 @@
         color: #000000 !important;
     }
 
-
-    /* ------------------------------------------------
-       03. HALLEY UI — MENÚ MOBILE
-       SUBCATEGORÍA: LÍNEAS DIVISORIAS
-    ------------------------------------------------ */
-
     .tatsu-mobile-navigation li {
         border-bottom:
             1px solid #DBE0E1 !important;
     }
-
-
-    /* ------------------------------------------------
-       03. HALLEY UI — MENÚ MOBILE
-       SUBCATEGORÍA: COLOR GENERAL DE BORDES
-    ------------------------------------------------ */
 
     .tatsu-mobile-menu *,
     .tatsu-mobile-navigation *,
     .tatsu-mobile-menu-wrap * {
         border-color: #DBE0E1 !important;
     }
-
-
-    /* ------------------------------------------------
-       03. HALLEY UI — MENÚ MOBILE
-       SUBCATEGORÍA: BORDES SUPERIORES E INFERIORES
-    ------------------------------------------------ */
 
     .tatsu-mobile-navigation li,
     .tatsu-mobile-menu li,
@@ -244,49 +214,22 @@
    04. HALLEY UI — POPUPS
 ################################################## */
 
-
-/* ==================================================
-   04. HALLEY UI — POPUPS
-   SUBCATEGORÍA: POSICIÓN SOBRE EL HEADER FIJO
-================================================== */
-
 .tatsu-popup-container {
     z-index: 100000 !important;
 }
 
-
-/* ==================================================
-   04. HALLEY UI — POPUPS
-   SUBCATEGORÍA: CONTENEDOR INTERNO
-================================================== */
-
 .tatsu-popup-inner-container {
     position: relative !important;
-
     z-index: 1 !important;
 }
 
-
-/* ==================================================
-   04. HALLEY UI — POPUPS
-   SUBCATEGORÍA: MÁSCARA OSCURA
-================================================== */
-
 .tatsu-popup-inner-container .popup-mask {
     position: fixed !important;
-
     z-index: 0 !important;
 }
 
-
-/* ==================================================
-   04. HALLEY UI — POPUPS
-   SUBCATEGORÍA: CONTENIDO VISIBLE
-================================================== */
-
 .tatsu-popup-inner-container > div:not(.popup-mask) {
     position: relative !important;
-
     z-index: 2 !important;
 }
 
@@ -297,12 +240,6 @@
    05. HALLEY UI — COPYRIGHT AUTOMÁTICO
 ################################################## */
 
-
-/* ==================================================
-   05. HALLEY UI — COPYRIGHT AUTOMÁTICO
-   SUBCATEGORÍA: APARIENCIA DEL TEXTO
-================================================== */
-
 [id="copyright-halley"],
 [id="copyright-halley"] *,
 [id="copyright-halley"] .tatsu-text-inner,
@@ -310,35 +247,19 @@
 [id="copyright-halley"] span,
 [id="copyright-halley"] div {
     color: #8A8C8E !important;
-
     text-align: center !important;
 }
 
-
-/* ==================================================
-   05. HALLEY UI — COPYRIGHT AUTOMÁTICO
-   SUBCATEGORÍA: ANCHO Y CENTRADO
-================================================== */
-
 [id="copyright-halley"] {
     display: block !important;
-
     width: 100% !important;
     max-width: 100% !important;
-
     margin-left: auto !important;
     margin-right: auto !important;
 }
 
-
-/* ==================================================
-   05. HALLEY UI — COPYRIGHT AUTOMÁTICO
-   SUBCATEGORÍA: CONTENEDOR INTERNO
-================================================== */
-
 [id="copyright-halley"] .tatsu-text-inner {
     display: block !important;
-
     width: 100% !important;
 }
 
@@ -348,12 +269,6 @@
 /* ##################################################
    06. HALLEY UI — CARDS DE BENEFICIOS
 ################################################## */
-
-
-/* ==================================================
-   06. HALLEY UI — CARDS DE BENEFICIOS
-   SUBCATEGORÍA: COMPORTAMIENTO GENERAL
-================================================== */
 
 #card-beneficio-1,
 #card-beneficio-1 *,
@@ -362,190 +277,97 @@
     cursor: default !important;
 }
 
-
-/* ==================================================
-   06. HALLEY UI — CARDS DE BENEFICIOS
-   SUBCATEGORÍA: ENLACES INTERNOS
-================================================== */
-
 #card-beneficio-1 a,
 #card-beneficio-2 a {
     color: inherit !important;
-
     cursor: default !important;
-
     pointer-events: none !important;
-
     text-decoration: none !important;
 }
 
-
-/* ==================================================
-   06. HALLEY UI — CARDS DE BENEFICIOS
-   SUBCATEGORÍA: AJUSTES MOBILE
-================================================== */
-
 @media (max-width: 767px) {
-
-
-    /* ------------------------------------------------
-       06. HALLEY UI — CARDS DE BENEFICIOS
-       SUBCATEGORÍA: ESTRUCTURA GENERAL MOBILE
-    ------------------------------------------------ */
 
     #card-beneficio-1,
     #card-beneficio-2 {
         position: relative !important;
-
         display: grid !important;
-
-        grid-template-columns:
-            25px
-            minmax(0, 290px) !important;
-
+        grid-template-columns: 25px minmax(0, 290px) !important;
         align-items: center !important;
         justify-content: center !important;
-
         column-gap: 7px !important;
-
         width: 100% !important;
-
         margin-left: auto !important;
         margin-right: auto !important;
-
         padding: 0 8px !important;
-
         box-sizing: border-box !important;
-
         overflow: visible !important;
     }
-
-
-    /* ------------------------------------------------
-       06. HALLEY UI — CARDS DE BENEFICIOS
-       SUBCATEGORÍA: CONTENEDOR DEL ÍCONO MOBILE
-    ------------------------------------------------ */
 
     #card-beneficio-1 > div:first-child,
     #card-beneficio-2 > div:first-child {
         position: static !important;
-
         display: flex !important;
-
         align-items: center !important;
         justify-content: center !important;
-
         align-self: center !important;
-
         width: 25px !important;
         height: 25px !important;
-
         min-width: 25px !important;
         min-height: 25px !important;
-
         margin: 0 !important;
         padding: 0 !important;
-
         transform: none !important;
-
         line-height: 0 !important;
-
         overflow: visible !important;
     }
-
-
-    /* ------------------------------------------------
-       06. HALLEY UI — CARDS DE BENEFICIOS
-       SUBCATEGORÍA: ÍCONO SVG MOBILE
-    ------------------------------------------------ */
 
     #card-beneficio-1 > div:first-child svg,
     #card-beneficio-2 > div:first-child svg {
         display: block !important;
-
         width: 25px !important;
         height: 25px !important;
-
         min-width: 25px !important;
         min-height: 25px !important;
-
         max-width: 25px !important;
         max-height: 25px !important;
-
         margin: 0 !important;
         padding: 0 !important;
-
         transform: none !important;
-
         overflow: visible !important;
     }
-
-
-    /* ------------------------------------------------
-       06. HALLEY UI — CARDS DE BENEFICIOS
-       SUBCATEGORÍA: CONTENEDOR PRINCIPAL DEL TEXTO
-    ------------------------------------------------ */
 
     #card-beneficio-1 > div:last-child,
     #card-beneficio-2 > div:last-child {
         display: block !important;
-
         width: 100% !important;
         max-width: 290px !important;
-
         margin: 0 !important;
         padding: 0 !important;
-
         text-align: center !important;
-
         box-sizing: border-box !important;
     }
-
-
-    /* ------------------------------------------------
-       06. HALLEY UI — CARDS DE BENEFICIOS
-       SUBCATEGORÍA: CONTENEDORES INTERNOS DEL TEXTO
-    ------------------------------------------------ */
 
     #card-beneficio-1 > div:last-child > div,
     #card-beneficio-2 > div:last-child > div {
         display: block !important;
-
         width: 100% !important;
-
         margin: 0 !important;
         padding: 0 !important;
-
         text-align: center !important;
-
         box-sizing: border-box !important;
     }
-
-
-    /* ------------------------------------------------
-       06. HALLEY UI — CARDS DE BENEFICIOS
-       SUBCATEGORÍA: TEXTO MOBILE
-    ------------------------------------------------ */
 
     #card-beneficio-1 > div:last-child a,
     #card-beneficio-2 > div:last-child a {
         display: block !important;
-
         width: 100% !important;
-
         margin: 0 !important;
         padding: 0 !important;
-
         color: inherit !important;
-
         text-align: center !important;
-
         text-decoration: none !important;
-
         line-height: 1.35 !important;
-
         white-space: normal !important;
-
         box-sizing: border-box !important;
     }
 
@@ -557,425 +379,199 @@
 /* ##################################################
    07. HALLEY UI — SISTEMA DE TOOLTIPS
 ################################################## */
-
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: ELEMENTO CONTENEDOR
-================================================== */
 
 .halley-tooltip-item {
     overflow: visible !important;
 }
 
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: BOTÓN DEL TOOLTIP
-================================================== */
-
 .halley-tooltip-trigger {
     position: relative !important;
-
     display: inline-flex !important;
-
     align-items: center !important;
     justify-content: center !important;
-
     width: 18px !important;
     height: 18px !important;
-
     min-width: 18px !important;
-
     margin-left: 6px !important;
     padding: 0 !important;
-
     border: none !important;
     border-radius: 50% !important;
-
     background: transparent !important;
-
     cursor: pointer !important;
-
     appearance: none !important;
-
     overflow: visible !important;
-
     vertical-align: middle !important;
-
     transform: translateY(-1px) !important;
-
     line-height: 0 !important;
-
     z-index: 20 !important;
 }
 
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: ÍCONO SVG
-================================================== */
-
 .halley-tooltip-icon {
     display: block !important;
-
     width: 18px !important;
     height: 18px !important;
-
     overflow: visible !important;
 }
 
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: CÍRCULO EXTERIOR DEL ÍCONO
-================================================== */
-
 .halley-tooltip-icon-circle {
     fill: none !important;
-
     stroke: #43A6B2 !important;
     stroke-width: 1.25 !important;
-
     stroke-linecap: round !important;
     stroke-linejoin: round !important;
 }
 
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: BARRA VERTICAL DE LA "I"
-================================================== */
-
 .halley-tooltip-icon-line {
     fill: none !important;
-
     stroke: #43A6B2 !important;
     stroke-width: 1.25 !important;
-
     stroke-linecap: round !important;
 }
 
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: PUNTO SUPERIOR DE LA "I"
-================================================== */
-
 .halley-tooltip-icon-dot {
     fill: #43A6B2 !important;
-
     stroke: none !important;
 }
-
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: FOCO DEL BOTÓN
-================================================== */
 
 .halley-tooltip-trigger:focus {
     outline: none !important;
 }
 
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: FOCO ACCESIBLE
-================================================== */
-
 .halley-tooltip-trigger:focus-visible {
-    outline:
-        2px solid rgba(67, 166, 178, 0.45) !important;
-
+    outline: 2px solid rgba(67, 166, 178, 0.45) !important;
     outline-offset: 3px !important;
 }
-
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: CARTEL DEL TOOLTIP
-================================================== */
 
 html body
 .halley-tooltip-box {
     display: none;
-
     position: fixed !important;
-
     top: 0 !important;
     left: 0 !important;
-
     right: auto !important;
     bottom: auto !important;
-
     width: 270px !important;
-
-    max-width:
-        calc(100vw - 24px) !important;
-
+    max-width: calc(100vw - 24px) !important;
     margin: 0 !important;
-
-    padding:
-        12px 14px !important;
-
+    padding: 12px 14px !important;
     box-sizing: border-box !important;
-
-    background:
-        #7B61FF !important;
-
-    color:
-        #FFFFFF !important;
-
+    background: #1C1F24 !important;
+    color: #FFFFFF !important;
     border: none !important;
-
-    border-radius:
-        6px !important;
-
-    box-shadow:
-        0 6px 20px
-        rgba(0, 0, 0, 0.24) !important;
-
-    font-size:
-        14px !important;
-
-    font-weight:
-        400 !important;
-
-    line-height:
-        1.5 !important;
-
-    text-align:
-        left !important;
-
-    white-space:
-        normal !important;
-
-    transform:
-        none !important;
-
-    opacity:
-        0;
-
-    visibility:
-        hidden;
-
-    pointer-events:
-        none !important;
-
-    transition:
-        none !important;
-
-    z-index:
-        2147483646 !important;
+    border-radius: 6px !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.24) !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    text-align: left !important;
+    white-space: normal !important;
+    transform: none !important;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none !important;
+    transition: none !important;
+    z-index: 2147483646 !important;
 }
-
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: CARTEL VISIBLE
-
-   La animación existe únicamente al aparecer.
-
-   Duración:
-   0,55 segundos.
-================================================== */
 
 html body
 .halley-tooltip-box.tooltip-visible {
     display: block !important;
-
     opacity: 1 !important;
-
-    visibility:
-        visible !important;
-
-    animation:
-        halley-tooltip-aparecer
-        0.55s
-        ease-out
-        both !important;
+    visibility: visible !important;
+    animation: halley-tooltip-aparecer 1.10s ease-out both !important;
 }
-
 
 @keyframes halley-tooltip-aparecer {
-
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
-
 
 html body
 .halley-tooltip-box::before,
-
 html body
 .halley-tooltip-box::after,
-
 html body
-.halley-tooltip-box
-.halley-tooltip-arrow {
+.halley-tooltip-box .halley-tooltip-arrow {
     content: none !important;
-
     display: none !important;
-
     width: 0 !important;
     height: 0 !important;
-
     border: none !important;
 }
-
 
 html body
 .halley-tooltip-arrow-fixed {
     display: none;
-
     position: fixed !important;
-
     top: 0 !important;
     left: 0 !important;
-
     right: auto !important;
     bottom: auto !important;
-
     width: 0 !important;
     height: 0 !important;
-
     margin: 0 !important;
     padding: 0 !important;
-
-    box-sizing:
-        content-box !important;
-
-    background:
-        transparent !important;
-
+    box-sizing: content-box !important;
+    background: transparent !important;
     opacity: 0;
-
-    visibility:
-        hidden;
-
-    pointer-events:
-        none !important;
-
-    z-index:
-        2147483647 !important;
+    visibility: hidden;
+    pointer-events: none !important;
+    z-index: 2147483647 !important;
 }
-
 
 html body
 .halley-tooltip-arrow-fixed.halley-tooltip-arrow-up {
-    border-left:
-        7px solid transparent !important;
-
-    border-right:
-        7px solid transparent !important;
-
-    border-bottom:
-        8px solid #7B61FF !important;
-
-    border-top:
-        0 solid transparent !important;
+    border-left: 7px solid transparent !important;
+    border-right: 7px solid transparent !important;
+    border-bottom: 8px solid #1C1F24 !important;
+    border-top: 0 solid transparent !important;
 }
-
 
 html body
 .halley-tooltip-arrow-fixed.halley-tooltip-arrow-down {
-    border-left:
-        7px solid transparent !important;
-
-    border-right:
-        7px solid transparent !important;
-
-    border-top:
-        8px solid #7B61FF !important;
-
-    border-bottom:
-        0 solid transparent !important;
+    border-left: 7px solid transparent !important;
+    border-right: 7px solid transparent !important;
+    border-top: 8px solid #1C1F24 !important;
+    border-bottom: 0 solid transparent !important;
 }
-
 
 html body
 .halley-tooltip-arrow-fixed.halley-tooltip-arrow-left {
-    border-top:
-        7px solid transparent !important;
-
-    border-bottom:
-        7px solid transparent !important;
-
-    border-right:
-        8px solid #7B61FF !important;
-
-    border-left:
-        0 solid transparent !important;
+    border-top: 7px solid transparent !important;
+    border-bottom: 7px solid transparent !important;
+    border-right: 8px solid #1C1F24 !important;
+    border-left: 0 solid transparent !important;
 }
-
 
 html body
 .halley-tooltip-arrow-fixed.halley-tooltip-arrow-right {
-    border-top:
-        7px solid transparent !important;
-
-    border-bottom:
-        7px solid transparent !important;
-
-    border-left:
-        8px solid #7B61FF !important;
-
-    border-right:
-        0 solid transparent !important;
+    border-top: 7px solid transparent !important;
+    border-bottom: 7px solid transparent !important;
+    border-left: 8px solid #1C1F24 !important;
+    border-right: 0 solid transparent !important;
 }
-
 
 html body
 .halley-tooltip-arrow-fixed.tooltip-visible {
     display: block !important;
-
     opacity: 1 !important;
-
-    visibility:
-        visible !important;
-
-    animation:
-        halley-tooltip-aparecer
-        0.55s
-        ease-out
-        both !important;
+    visibility: visible !important;
+    animation: halley-tooltip-aparecer 1.10s ease-out both !important;
 }
-
 
 .tatsu-pricing-icard,
 .tatsu-pricing-icard-text {
-    overflow:
-        visible !important;
+    overflow: visible !important;
 }
 
-
 @media (max-width: 767px) {
-
-    html body
-    .halley-tooltip-box {
-        width:
-            250px !important;
-
-        max-width:
-            calc(100vw - 24px) !important;
-
-        padding:
-            12px 14px !important;
-
-        font-size:
-            14px !important;
-
-        line-height:
-            1.5 !important;
+    html body .halley-tooltip-box {
+        width: 250px !important;
+        max-width: calc(100vw - 24px) !important;
+        padding: 12px 14px !important;
+        font-size: 14px !important;
+        line-height: 1.5 !important;
     }
-
 }
 
 
@@ -984,1313 +580,456 @@ html body
    08. HALLEY UI — TABLA DE PLANES
 ################################################## */
 
-
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: COLOR GENERAL DE LOS ÍTEMS
-================================================== */
-
-#planesHalley
-.tatsu-pricing-icard-text:not(
-    [data-halley-tooltip-2="true"]
-) {
+#planesHalley .tatsu-pricing-icard-text:not([data-halley-tooltip-2="true"]) {
     color: #2F3337 !important;
 }
 
-
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: FUNCIÓN BASE NO DISPONIBLE
-================================================== */
-
-#planesHalley
-.halley-funcion-base-no-disponible {
+#planesHalley .halley-funcion-base-no-disponible {
     color: #424242 !important;
-
     opacity: 0.30 !important;
 }
 
-
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: TEXTO DE FUNCIÓN BASE
-   NO DISPONIBLE
-================================================== */
-
-#planesHalley
-.halley-funcion-base-no-disponible
-.tatsu-pricing-icard-text,
-
-#planesHalley
-.halley-funcion-base-no-disponible-texto {
+#planesHalley .halley-funcion-base-no-disponible .tatsu-pricing-icard-text,
+#planesHalley .halley-funcion-base-no-disponible-texto {
     color: #424242 !important;
-
-    text-decoration-line:
-        line-through !important;
-
-    text-decoration-thickness:
-        1px !important;
-
-    text-decoration-color:
-        #424242 !important;
+    text-decoration-line: line-through !important;
+    text-decoration-thickness: 1px !important;
+    text-decoration-color: #424242 !important;
 }
 
-
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: ÍCONO DE FUNCIÓN BASE
-   NO DISPONIBLE
-================================================== */
-
-#planesHalley
-.halley-funcion-base-no-disponible
-svg {
+#planesHalley .halley-funcion-base-no-disponible svg,
+#planesHalley .halley-funcion-base-no-disponible svg path {
     color: #424242 !important;
-
     opacity: 1 !important;
 }
 
-
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: PATH DE FUNCIÓN BASE
-   NO DISPONIBLE
-================================================== */
-
-#planesHalley
-.halley-funcion-base-no-disponible
-svg path {
-    color: #424242 !important;
-
+#planesHalley .halley-fila-opcional-disponible {
     opacity: 1 !important;
 }
 
-
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: FUNCIÓN OPCIONAL DISPONIBLE
-================================================== */
-
-#planesHalley
-.halley-fila-opcional-disponible {
-    opacity: 1 !important;
-}
-
-
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: FUNCIÓN OPCIONAL NO DISPONIBLE
-================================================== */
-
-#planesHalley
-.halley-fila-opcional-no-disponible {
+#planesHalley .halley-fila-opcional-no-disponible {
     color: #424242 !important;
-
     opacity: 0.30 !important;
 }
 
-
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: TEXTO DE FUNCIÓN OPCIONAL
-   NO DISPONIBLE
-================================================== */
-
-#planesHalley
-.tatsu-pricing-icard-text.halley-opcional-no-disponible {
+#planesHalley .tatsu-pricing-icard-text.halley-opcional-no-disponible,
+#planesHalley .tatsu-pricing-icard-text.halley-opcional-no-disponible .halley-precio-opcional {
     color: #424242 !important;
-
-    text-decoration-line:
-        line-through !important;
-
-    text-decoration-thickness:
-        1px !important;
-
-    text-decoration-color:
-        #424242 !important;
+    text-decoration-line: line-through !important;
+    text-decoration-thickness: 1px !important;
+    text-decoration-color: #424242 !important;
 }
 
-
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: PRECIO DE FUNCIÓN OPCIONAL
-   NO DISPONIBLE
-================================================== */
-
-#planesHalley
-.tatsu-pricing-icard-text.halley-opcional-no-disponible
-.halley-precio-opcional {
-    display: inline !important;
-
-    color: #424242 !important;
-
-    text-decoration-line:
-        line-through !important;
-
-    text-decoration-thickness:
-        1px !important;
-
-    text-decoration-color:
-        #424242 !important;
-}
-
-
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: ÍCONO DE FUNCIÓN OPCIONAL
-   NO DISPONIBLE
-================================================== */
-
-#planesHalley
-.halley-fila-opcional-no-disponible
-svg {
+#planesHalley .halley-fila-opcional-no-disponible svg {
     opacity: 1 !important;
 }
 
-
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: PRECIO AUTOMÁTICO
-   DE FUNCIONES OPCIONALES
-================================================== */
-
-#planesHalley
-.halley-precio-opcional {
+#planesHalley .halley-precio-opcional {
     display: inline !important;
-
     margin: 0 !important;
     padding: 0 !important;
-
-    font-family:
-        "DM Sans",
-        sans-serif !important;
-
-    font-weight:
-        700 !important;
-
-    font-variation-settings:
-        "wght" 700 !important;
-
-    font-style:
-        normal !important;
-
-    line-height:
-        inherit !important;
-
-    white-space:
-        normal !important;
-
-    color:
-        #1C1F24 !important;
+    font-family: "DM Sans", sans-serif !important;
+    font-weight: 700 !important;
+    font-variation-settings: "wght" 700 !important;
+    font-style: normal !important;
+    line-height: inherit !important;
+    white-space: normal !important;
+    color: #1C1F24 !important;
 }
 
-
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: BOTÓN CONTRATAR
-================================================== */
-
-#planesHalley
-.halley-boton-contratar {
-    display:
-        inline-flex !important;
-
-    align-items:
-        center !important;
-
-    justify-content:
-        center !important;
-
-    width:
-        auto !important;
-
-    min-width:
-        0 !important;
-
-    max-width:
-        none !important;
-
-    margin:
-        0 !important;
-
-    text-align:
-        center !important;
-
-    box-sizing:
-        border-box !important;
+#planesHalley .halley-boton-contratar {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
 }
 
-
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: WRAPPER CONTRATAR
-================================================== */
-
-#planesHalley
-.halley-wrap-contratar {
-    display:
-        block !important;
-
-    width:
-        100% !important;
-
-    text-align:
-        left !important;
-
-    box-sizing:
-        border-box !important;
+#planesHalley .halley-wrap-contratar {
+    display: block !important;
+    width: 100% !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
 }
 
-
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: SEPARADOR DEL BLOQUE INFERIOR
-================================================== */
-
-#planesHalley
-.halley-separador-acciones {
-    display:
-        block !important;
-
-    width:
-        90% !important;
-
-    height:
-        0.7px !important;
-
-    margin-left:
-        auto !important;
-
-    margin-right:
-        auto !important;
-
-    padding:
-        0 !important;
-
-    background:
-        #E7EAEC !important;
-
-    opacity:
-        0.82 !important;
-
-    pointer-events:
-        none !important;
-
-    box-sizing:
-        border-box !important;
+#planesHalley .halley-separador-acciones {
+    display: block !important;
+    width: 90% !important;
+    height: 0.7px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 0 !important;
+    background: #E7EAEC !important;
+    opacity: 0.82 !important;
+    pointer-events: none !important;
+    box-sizing: border-box !important;
 }
 
-
-#planesHalley
-.halley-accion-requerimientos,
-
-#planesHalley
-.halley-accion-mas-funciones,
-
-#planesHalley
-.halley-accion-ayuda,
-
-#planesHalley
-.halley-accion-simulador {
-    display:
-        block !important;
-
-    width:
-        100% !important;
-
-    height:
-        auto !important;
-
-    min-height:
-        0 !important;
-
-    margin-left:
-        0 !important;
-
-    margin-right:
-        0 !important;
-
-    box-sizing:
-        border-box !important;
+#planesHalley .halley-accion-requerimientos,
+#planesHalley .halley-accion-mas-funciones,
+#planesHalley .halley-accion-ayuda,
+#planesHalley .halley-accion-simulador {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
 }
 
-
-#planesHalley
-.halley-link-requerimientos,
-
-#planesHalley
-.halley-link-mas-funciones,
-
-#planesHalley
-.halley-link-ayuda {
-    display:
-        inline-flex !important;
-
-    align-items:
-        center !important;
-
-    justify-content:
-        flex-start !important;
-
-    width:
-        auto !important;
-
-    min-width:
-        0 !important;
-
-    max-width:
-        none !important;
-
-    height:
-        auto !important;
-
-    min-height:
-        0 !important;
-
-    margin:
-        0 !important;
-
-    text-align:
-        left !important;
-
-    box-sizing:
-        border-box !important;
+#planesHalley .halley-link-requerimientos,
+#planesHalley .halley-link-mas-funciones,
+#planesHalley .halley-link-ayuda {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
 }
 
-
-#planesHalley
-.halley-link-simulador {
-    display:
-        inline-flex !important;
-
-    align-items:
-        center !important;
-
-    justify-content:
-        flex-start !important;
-
-    width:
-        auto !important;
-
-    min-width:
-        0 !important;
-
-    max-width:
-        none !important;
-
-    height:
-        auto !important;
-
-    margin:
-        0 !important;
-
-    text-align:
-        left !important;
-
-    box-sizing:
-        border-box !important;
+#planesHalley .halley-link-simulador {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: auto !important;
+    margin: 0 !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
 }
-
 
 @media (min-width: 769px) {
-
     #planesHalley {
-        width:
-            88% !important;
-
-        max-width:
-            1240px !important;
-
-        margin-left:
-            auto !important;
-
-        margin-right:
-            auto !important;
-
-        box-sizing:
-            border-box !important;
+        width: 88% !important;
+        max-width: 1240px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box !important;
     }
-
-    #planesHalley
-    > .tatsu-pricing-table-tabs {
-        margin-left:
-            auto !important;
-
-        margin-right:
-            auto !important;
-
-        margin-bottom:
-            22px !important;
+    #planesHalley > .tatsu-pricing-table-tabs {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        margin-bottom: 22px !important;
     }
-
-    #planesHalley
-    > .tatsu-pricing-table-tabs
-    > .tatsu-pricing-table-tab {
-        display:
-            flex !important;
-
-        align-items:
-            center !important;
-
-        justify-content:
-            center !important;
-
-        min-height:
-            36px !important;
-
-        padding:
-            8px 20px !important;
-
-        font-size:
-            15px !important;
-
-        line-height:
-            1.2 !important;
+    #planesHalley > .tatsu-pricing-table-tabs > .tatsu-pricing-table-tab {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 36px !important;
+        padding: 8px 20px !important;
+        font-size: 15px !important;
+        line-height: 1.2 !important;
     }
-
-    #planesHalley
-    > .tatsu-pricing-table-columns-align-top {
-        display:
-            flex !important;
-
-        flex-direction:
-            row !important;
-
-        align-items:
-            stretch !important;
-
-        gap:
-            6px !important;
-
-        width:
-            100% !important;
+    #planesHalley > .tatsu-pricing-table-columns-align-top {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: stretch !important;
+        gap: 6px !important;
+        width: 100% !important;
     }
-
-    #planesHalley
-    > .tatsu-pricing-table-columns-align-top
-    > .tatsu-pricing-col-wrap {
-        flex:
-            1 1 0 !important;
-
-        width:
-            auto !important;
-
-        min-width:
-            0 !important;
-
-        max-width:
-            none !important;
-
-        float:
-            none !important;
+    #planesHalley > .tatsu-pricing-table-columns-align-top > .tatsu-pricing-col-wrap {
+        flex: 1 1 0 !important;
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        float: none !important;
     }
-
-    #planesHalley
-    > .tatsu-pricing-table-columns-align-top
-    > .tatsu-pricing-col-wrap
-    > div:first-child {
-        padding-top:
-            32px !important;
-
-        padding-right:
-            26px !important;
-
-        padding-bottom:
-            32px !important;
-
-        padding-left:
-            26px !important;
-
-        box-sizing:
-            border-box !important;
+    #planesHalley > .tatsu-pricing-table-columns-align-top > .tatsu-pricing-col-wrap > div:first-child {
+        padding-top: 32px !important;
+        padding-right: 26px !important;
+        padding-bottom: 32px !important;
+        padding-left: 26px !important;
+        box-sizing: border-box !important;
     }
-
-    #planesHalley
-    .tatsu-pricing-col-wrap
-    h4.tatsu-pricing-title {
-        font-size:
-            22px !important;
-
-        line-height:
-            1.2 !important;
+    #planesHalley .tatsu-pricing-col-wrap h4.tatsu-pricing-title {
+        font-size: 22px !important;
+        line-height: 1.2 !important;
     }
-
-    #planesHalley
-    .tatsu-pricing-col-wrap
-    h4.tatsu-pricing-title
-    + div {
-        font-size:
-            14px !important;
-
-        line-height:
-            1.3 !important;
+    #planesHalley .tatsu-pricing-col-wrap h4.tatsu-pricing-title + div {
+        font-size: 14px !important;
+        line-height: 1.3 !important;
     }
-
-    #planesHalley
-    .tatsu-pricing-col-wrap
-    h3.tatsu-pricing-title {
-        font-size:
-            30px !important;
-
-        line-height:
-            1.2 !important;
-
-        letter-spacing:
-            -0.3px !important;
+    #planesHalley .tatsu-pricing-col-wrap h3.tatsu-pricing-title {
+        font-size: 30px !important;
+        line-height: 1.2 !important;
+        letter-spacing: -0.3px !important;
     }
-
-    #planesHalley
-    .tatsu-pricing-col-wrap
-    h3.tatsu-pricing-title
-    + div,
-
-    #planesHalley
-    .tatsu-pricing-col-wrap
-    h3.tatsu-pricing-title
-    + div
-    + div,
-
-    #planesHalley
-    .tatsu-pricing-col-wrap
-    h3.tatsu-pricing-title
-    + div
-    + div
-    + div {
-        font-size:
-            14px !important;
-
-        line-height:
-            1.3 !important;
+    #planesHalley .tatsu-pricing-col-wrap h3.tatsu-pricing-title + div,
+    #planesHalley .tatsu-pricing-col-wrap h3.tatsu-pricing-title + div + div,
+    #planesHalley .tatsu-pricing-col-wrap h3.tatsu-pricing-title + div + div + div {
+        font-size: 14px !important;
+        line-height: 1.3 !important;
     }
-
-    #planesHalley
-    .tatsu-pricing-icard-text:not(
-        [data-halley-tooltip-2="true"]
-    ) {
-        font-size:
-            13.5px !important;
-
-        font-weight:
-            300 !important;
-
-        font-variation-settings:
-            "wght" 300 !important;
-
-        line-height:
-            1.3 !important;
+    #planesHalley .tatsu-pricing-icard-text:not([data-halley-tooltip-2="true"]) {
+        font-size: 13.5px !important;
+        font-weight: 300 !important;
+        font-variation-settings: "wght" 300 !important;
+        line-height: 1.3 !important;
     }
-
-    #planesHalley
-    .tatsu-pricing-icard-text[
-        data-halley-tooltip-2="true"
-    ] {
-        font-size:
-            13.5px !important;
-
-        line-height:
-            1.3 !important;
+    #planesHalley .tatsu-pricing-icard-text[data-halley-tooltip-2="true"] {
+        font-size: 13.5px !important;
+        line-height: 1.3 !important;
     }
-
-    #planesHalley
-    .halley-precio-opcional {
-        font-size:
-            13.5px !important;
-
-        font-weight:
-            700 !important;
-
-        font-variation-settings:
-            "wght" 700 !important;
+    #planesHalley .halley-precio-opcional {
+        font-size: 13.5px !important;
+        font-weight: 700 !important;
+        font-variation-settings: "wght" 700 !important;
     }
-
-    #planesHalley
-    .tatsu-pricing-icard-text
-    svg {
-        max-width:
-            18px !important;
-
-        max-height:
-            18px !important;
+    #planesHalley .tatsu-pricing-icard-text svg {
+        max-width: 18px !important;
+        max-height: 18px !important;
     }
-
-    #planesHalley
-    .PH
-    .MH {
-        margin-bottom:
-            5px !important;
+    #planesHalley .PH .MH {
+        margin-bottom: 5px !important;
     }
-
-    #planesHalley
-    .halley-boton-contratar {
-        min-height:
-            46px !important;
-
-        padding:
-            11px 50px !important;
-
-        font-size:
-            16px !important;
-
-        line-height:
-            1.2 !important;
+    #planesHalley .halley-boton-contratar {
+        min-height: 46px !important;
+        padding: 11px 50px !important;
+        font-size: 16px !important;
+        line-height: 1.2 !important;
     }
-
-    #planesHalley
-    .halley-separador-acciones {
-        margin-top:
-            26px !important;
-
-        margin-bottom:
-            17px !important;
+    #planesHalley .halley-separador-acciones {
+        margin-top: 26px !important;
+        margin-bottom: 17px !important;
     }
-
-    #planesHalley
-    .halley-accion-requerimientos,
-
-    #planesHalley
-    .halley-accion-mas-funciones,
-
-    #planesHalley
-    .halley-accion-ayuda {
-        padding:
-            0 !important;
+    #planesHalley .halley-accion-requerimientos,
+    #planesHalley .halley-accion-mas-funciones,
+    #planesHalley .halley-accion-ayuda {
+        padding: 0 !important;
     }
-
-    #planesHalley
-    .halley-accion-requerimientos {
-        margin-top:
-            0 !important;
-
-        margin-bottom:
-            5px !important;
+    #planesHalley .halley-accion-requerimientos,
+    #planesHalley .halley-accion-mas-funciones {
+        margin-top: 0 !important;
+        margin-bottom: 5px !important;
     }
-
-    #planesHalley
-    .halley-accion-mas-funciones {
-        margin-top:
-            0 !important;
-
-        margin-bottom:
-            5px !important;
+    #planesHalley .halley-accion-ayuda {
+        margin-top: 0 !important;
+        margin-bottom: 12px !important;
     }
-
-    #planesHalley
-    .halley-accion-ayuda {
-        margin-top:
-            0 !important;
-
-        margin-bottom:
-            12px !important;
+    #planesHalley .halley-accion-simulador {
+        padding: 0 !important;
+        margin: 0 !important;
     }
-
-    #planesHalley
-    .halley-accion-simulador {
-        padding:
-            0 !important;
-
-        margin:
-            0 !important;
+    #planesHalley .halley-link-requerimientos,
+    #planesHalley .halley-link-mas-funciones,
+    #planesHalley .halley-link-ayuda {
+        padding: 5px 0 5px 20px !important;
+        font-size: 13.5px !important;
+        line-height: 1.2 !important;
     }
-
-    #planesHalley
-    .halley-link-requerimientos,
-
-    #planesHalley
-    .halley-link-mas-funciones,
-
-    #planesHalley
-    .halley-link-ayuda {
-        padding-top:
-            5px !important;
-
-        padding-right:
-            0 !important;
-
-        padding-bottom:
-            5px !important;
-
-        padding-left:
-            20px !important;
-
-        font-size:
-            13.5px !important;
-
-        line-height:
-            1.2 !important;
+    #planesHalley .halley-link-simulador {
+        min-height: 42px !important;
+        padding: 8px 18px 8px 20px !important;
+        font-size: 14px !important;
+        line-height: 1.15 !important;
     }
-
-    #planesHalley
-    .halley-link-simulador {
-        min-height:
-            42px !important;
-
-        padding-top:
-            8px !important;
-
-        padding-right:
-            18px !important;
-
-        padding-bottom:
-            8px !important;
-
-        padding-left:
-            20px !important;
-
-        font-size:
-            14px !important;
-
-        line-height:
-            1.15 !important;
-    }
-
 }
-
 
 @media (max-width: 768px) {
-
     #planesHalley {
-        width:
-            calc(100vw - 24px) !important;
-
-        max-width:
-            calc(100vw - 24px) !important;
-
-        margin-left:
-            calc(50% - 50vw + 7px) !important;
-
-        margin-right:
-            calc(50% - 50vw + 5px) !important;
-
-        box-sizing:
-            border-box !important;
+        width: calc(100vw - 24px) !important;
+        max-width: calc(100vw - 24px) !important;
+        margin-left: calc(50% - 50vw + 7px) !important;
+        margin-right: calc(50% - 50vw + 5px) !important;
+        box-sizing: border-box !important;
     }
-
-    #planesHalley
-    > .tatsu-pricing-table-tabs {
-        max-width:
-            calc(100vw - 24px) !important;
-
-        margin-left:
-            auto !important;
-
-        margin-right:
-            auto !important;
+    #planesHalley > .tatsu-pricing-table-tabs {
+        max-width: calc(100vw - 24px) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
-
-    #planesHalley
-    > .tatsu-pricing-table-tabs
-    > .tatsu-pricing-table-tab {
-        display:
-            flex !important;
-
-        align-items:
-            center !important;
-
-        justify-content:
-            center !important;
-
-        min-height:
-            38px !important;
-
-        padding:
-            10px 22px !important;
-
-        font-size:
-            16px !important;
-
-        line-height:
-            1.2 !important;
+    #planesHalley > .tatsu-pricing-table-tabs > .tatsu-pricing-table-tab {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 38px !important;
+        padding: 10px 22px !important;
+        font-size: 16px !important;
+        line-height: 1.2 !important;
     }
-
-    #planesHalley
-    > .tatsu-pricing-table-columns-align-top {
-        display:
-            flex !important;
-
-        flex-direction:
-            row !important;
-
-        flex-wrap:
-            nowrap !important;
-
-        gap:
-            3px !important;
-
-        padding:
-            0 9vw 14px 2vw !important;
-
-        overflow-x:
-            auto !important;
-
-        overflow-y:
-            hidden !important;
-
-        -webkit-overflow-scrolling:
-            touch;
-
-        scroll-snap-type:
-            none !important;
-
-        transform:
-            translateX(0);
+    #planesHalley > .tatsu-pricing-table-columns-align-top {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 3px !important;
+        padding: 0 9vw 14px 2vw !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: none !important;
+        transform: translateX(0);
     }
-
-    #planesHalley
-    > .tatsu-pricing-table-columns-align-top::after {
-        content:
-            "";
-
-        min-width:
-            9vw;
-
-        flex-shrink:
-            0;
+    #planesHalley > .tatsu-pricing-table-columns-align-top::after {
+        content: "";
+        min-width: 9vw;
+        flex-shrink: 0;
     }
-
-    #planesHalley
-    > .tatsu-pricing-table-columns-align-top
-    > .tatsu-pricing-col-wrap {
-        flex:
-            0 0 78vw !important;
-
-        width:
-            auto !important;
-
-        min-width:
-            0 !important;
-
-        max-width:
-            78vw !important;
-
-        float:
-            none !important;
-
-        scroll-snap-align:
-            none !important;
+    #planesHalley > .tatsu-pricing-table-columns-align-top > .tatsu-pricing-col-wrap {
+        flex: 0 0 78vw !important;
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: 78vw !important;
+        float: none !important;
+        scroll-snap-align: none !important;
     }
-
-    #planesHalley
-    > .tatsu-pricing-table-columns-align-top
-    > .tatsu-pricing-col-wrap
-    > div:first-child {
-        padding-top:
-            38px !important;
-
-        padding-right:
-            18px !important;
-
-        padding-bottom:
-            38px !important;
-
-        padding-left:
-            18px !important;
-
-        box-sizing:
-            border-box !important;
+    #planesHalley > .tatsu-pricing-table-columns-align-top > .tatsu-pricing-col-wrap > div:first-child {
+        padding-top: 38px !important;
+        padding-right: 18px !important;
+        padding-bottom: 38px !important;
+        padding-left: 18px !important;
+        box-sizing: border-box !important;
     }
-
-    #planesHalley
-    .tatsu-pricing-col-wrap
-    h4.tatsu-pricing-title
-    + div {
-        font-size:
-            16px !important;
-
-        line-height:
-            1.35 !important;
+    #planesHalley .tatsu-pricing-col-wrap h4.tatsu-pricing-title + div {
+        font-size: 16px !important;
+        line-height: 1.35 !important;
     }
-
-    #planesHalley
-    .tatsu-pricing-col-wrap
-    h3.tatsu-pricing-title {
-        font-size:
-            26px !important;
-
-        line-height:
-            1.35 !important;
-
-        letter-spacing:
-            -0.2px !important;
+    #planesHalley .tatsu-pricing-col-wrap h3.tatsu-pricing-title {
+        font-size: 26px !important;
+        line-height: 1.35 !important;
+        letter-spacing: -0.2px !important;
     }
-
-    #planesHalley
-    .tatsu-pricing-col-wrap
-    h3.tatsu-pricing-title
-    + div,
-
-    #planesHalley
-    .tatsu-pricing-col-wrap
-    h3.tatsu-pricing-title
-    + div
-    + div,
-
-    #planesHalley
-    .tatsu-pricing-col-wrap
-    h3.tatsu-pricing-title
-    + div
-    + div
-    + div {
-        font-size:
-            16px !important;
-
-        line-height:
-            1.35 !important;
+    #planesHalley .tatsu-pricing-col-wrap h3.tatsu-pricing-title + div,
+    #planesHalley .tatsu-pricing-col-wrap h3.tatsu-pricing-title + div + div,
+    #planesHalley .tatsu-pricing-col-wrap h3.tatsu-pricing-title + div + div + div {
+        font-size: 16px !important;
+        line-height: 1.35 !important;
     }
-
-    #planesHalley
-    .tatsu-pricing-icard-text:not(
-        [data-halley-tooltip-2="true"]
-    ) {
-        font-size:
-            15px !important;
-
-        font-weight:
-            300 !important;
-
-        font-variation-settings:
-            "wght" 300 !important;
-
-        line-height:
-            1.3 !important;
+    #planesHalley .tatsu-pricing-icard-text:not([data-halley-tooltip-2="true"]) {
+        font-size: 15px !important;
+        font-weight: 300 !important;
+        font-variation-settings: "wght" 300 !important;
+        line-height: 1.3 !important;
     }
-
-    #planesHalley
-    .tatsu-pricing-icard-text[
-        data-halley-tooltip-2="true"
-    ] {
-        font-size:
-            15px !important;
-
-        line-height:
-            1.3 !important;
+    #planesHalley .tatsu-pricing-icard-text[data-halley-tooltip-2="true"] {
+        font-size: 15px !important;
+        line-height: 1.3 !important;
     }
-
-    #planesHalley
-    .halley-precio-opcional {
-        font-size:
-            15px !important;
-
-        font-weight:
-            700 !important;
-
-        font-variation-settings:
-            "wght" 700 !important;
+    #planesHalley .halley-precio-opcional {
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        font-variation-settings: "wght" 700 !important;
     }
-
-    #planesHalley
-    .PH
-    .MH {
-        margin-bottom:
-            6px !important;
+    #planesHalley .PH .MH {
+        margin-bottom: 6px !important;
     }
-
-    #planesHalley
-    .halley-boton-contratar {
-        min-height:
-            46px !important;
-
-        padding:
-            11px 44px !important;
-
-        font-size:
-            16px !important;
-
-        line-height:
-            1.2 !important;
+    #planesHalley .halley-boton-contratar {
+        min-height: 46px !important;
+        padding: 11px 44px !important;
+        font-size: 16px !important;
+        line-height: 1.2 !important;
     }
-
-    #planesHalley
-    .halley-separador-acciones {
-        margin-top:
-            26px !important;
-
-        margin-bottom:
-            17px !important;
+    #planesHalley .halley-separador-acciones {
+        margin-top: 26px !important;
+        margin-bottom: 17px !important;
     }
-
-    #planesHalley
-    .halley-accion-requerimientos,
-
-    #planesHalley
-    .halley-accion-mas-funciones,
-
-    #planesHalley
-    .halley-accion-ayuda {
-        padding:
-            0 !important;
+    #planesHalley .halley-accion-requerimientos,
+    #planesHalley .halley-accion-mas-funciones,
+    #planesHalley .halley-accion-ayuda {
+        padding: 0 !important;
     }
-
-    #planesHalley
-    .halley-accion-requerimientos {
-        margin-top:
-            0 !important;
-
-        margin-bottom:
-            5px !important;
+    #planesHalley .halley-accion-requerimientos,
+    #planesHalley .halley-accion-mas-funciones {
+        margin-top: 0 !important;
+        margin-bottom: 5px !important;
     }
-
-    #planesHalley
-    .halley-accion-mas-funciones {
-        margin-top:
-            0 !important;
-
-        margin-bottom:
-            5px !important;
+    #planesHalley .halley-accion-ayuda {
+        margin-top: 0 !important;
+        margin-bottom: 11px !important;
     }
-
-    #planesHalley
-    .halley-accion-ayuda {
-        margin-top:
-            0 !important;
-
-        margin-bottom:
-            11px !important;
+    #planesHalley .halley-accion-simulador {
+        margin: 0 !important;
+        padding: 0 !important;
     }
-
-    #planesHalley
-    .halley-accion-simulador {
-        margin:
-            0 !important;
-
-        padding:
-            0 !important;
+    #planesHalley .halley-link-requerimientos,
+    #planesHalley .halley-link-mas-funciones,
+    #planesHalley .halley-link-ayuda {
+        padding: 5px 0 5px 18px !important;
+        font-size: 15px !important;
+        line-height: 1.2 !important;
     }
-
-    #planesHalley
-    .halley-link-requerimientos,
-
-    #planesHalley
-    .halley-link-mas-funciones,
-
-    #planesHalley
-    .halley-link-ayuda {
-        padding-top:
-            5px !important;
-
-        padding-right:
-            0 !important;
-
-        padding-bottom:
-            5px !important;
-
-        padding-left:
-            18px !important;
-
-        font-size:
-            15px !important;
-
-        line-height:
-            1.2 !important;
+    #planesHalley .halley-link-simulador {
+        min-height: 42px !important;
+        padding: 8px 16px 8px 18px !important;
+        font-size: 15px !important;
+        line-height: 1.15 !important;
     }
-
-    #planesHalley
-    .halley-link-simulador {
-        min-height:
-            42px !important;
-
-        padding-top:
-            8px !important;
-
-        padding-right:
-            16px !important;
-
-        padding-bottom:
-            8px !important;
-
-        padding-left:
-            18px !important;
-
-        font-size:
-            15px !important;
-
-        line-height:
-            1.15 !important;
-    }
-
 }
+
+
 
 /* ##################################################
    09. HALLEY UI — CARGA VISUAL DE PRECIOS
 ################################################## */
 
-
-html.halley-precios-cargando
-#planesHalley
-.tatsu-pricing-col-wrap
-h3.tatsu-pricing-title {
-
-    position:
-        relative !important;
-
-    color:
-        transparent !important;
-
-    text-shadow:
-        none !important;
-
+html.halley-precios-cargando #planesHalley .tatsu-pricing-col-wrap h3.tatsu-pricing-title {
+    position: relative !important;
+    color: transparent !important;
+    text-shadow: none !important;
 }
 
-
-html.halley-precios-cargando
-#planesHalley
-.tatsu-pricing-col-wrap
-h3.tatsu-pricing-title::after {
-
-    content:
-        "" !important;
-
-    display:
-        block !important;
-
-    position:
-        absolute !important;
-
-    top:
-        50% !important;
-
-    left:
-        0 !important;
-
-    width:
-        20px !important;
-
-    height:
-        20px !important;
-
-    margin:
-        -10px 0 0 0 !important;
-
-    padding:
-        0 !important;
-
-    border:
-        2px solid rgba(
-            67,
-            166,
-            178,
-            0.20
-        ) !important;
-
-    border-top-color:
-        #43A6B2 !important;
-
-    border-radius:
-        50% !important;
-
-    background:
-        transparent !important;
-
-    box-sizing:
-        border-box !important;
-
-    transform:
-        rotate(0deg);
-
-    transform-origin:
-        center center !important;
-
-    animation:
-        halley-loader-precio-girar
-        0.7s
-        linear
-        infinite !important;
-
-    opacity:
-        1 !important;
-
-    visibility:
-        visible !important;
-
-    pointer-events:
-        none !important;
-
-    z-index:
-        10 !important;
-
+html.halley-precios-cargando #planesHalley .tatsu-pricing-col-wrap h3.tatsu-pricing-title::after {
+    content: "" !important;
+    display: block !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 0 !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin: -10px 0 0 0 !important;
+    padding: 0 !important;
+    border: 2px solid rgba(67, 166, 178, 0.20) !important;
+    border-top-color: #43A6B2 !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    box-sizing: border-box !important;
+    transform: rotate(0deg);
+    transform-origin: center center !important;
+    animation: halley-loader-precio-girar 0.7s linear infinite !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: none !important;
+    z-index: 10 !important;
 }
-
 
 @keyframes halley-loader-precio-girar {
-
-    0% {
-
-        transform:
-            rotate(0deg);
-
-    }
-
-    100% {
-
-        transform:
-            rotate(360deg);
-
-    }
-
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
-
-html.halley-precios-resueltos
-#planesHalley
-.tatsu-pricing-col-wrap
-h3.tatsu-pricing-title {
-
-    text-shadow:
-        none !important;
-
+html.halley-precios-resueltos #planesHalley .tatsu-pricing-col-wrap h3.tatsu-pricing-title {
+    text-shadow: none !important;
 }
 
-
-html.halley-precios-resueltos
-#planesHalley
-.tatsu-pricing-col-wrap
-h3.tatsu-pricing-title::after {
-
-    content:
-        none !important;
-
-    display:
-        none !important;
-
+html.halley-precios-resueltos #planesHalley .tatsu-pricing-col-wrap h3.tatsu-pricing-title::after {
+    content: none !important;
+    display: none !important;
 }
-
 
 @media (max-width: 768px) {
-
-    html.halley-precios-cargando
-    #planesHalley
-    .tatsu-pricing-col-wrap
-    h3.tatsu-pricing-title::after {
-
-        width:
-            18px !important;
-
-        height:
-            18px !important;
-
-        margin-top:
-            -9px !important;
-
-        border-width:
-            2px !important;
-
-        left:
-            0 !important;
-
+    html.halley-precios-cargando #planesHalley .tatsu-pricing-col-wrap h3.tatsu-pricing-title::after {
+        width: 18px !important;
+        height: 18px !important;
+        margin-top: -9px !important;
+        border-width: 2px !important;
+        left: 0 !important;
     }
-
 }
 
-
 @media (prefers-reduced-motion: reduce) {
-
-    html.halley-precios-cargando
-    #planesHalley
-    .tatsu-pricing-col-wrap
-    h3.tatsu-pricing-title::after {
-
-        animation-duration:
-            1.4s !important;
-
+    html.halley-precios-cargando #planesHalley .tatsu-pricing-col-wrap h3.tatsu-pricing-title::after {
+        animation-duration: 1.4s !important;
     }
-
 }
