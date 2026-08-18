@@ -716,19 +716,13 @@ html body
 
     margin: 0 !important;
 
-
-    /* ------------------------------------------------
-       Padding original
-    ------------------------------------------------ */
-
     padding:
         12px 14px !important;
-
 
     box-sizing: border-box !important;
 
     background:
-        #1C1F24 !important;
+        #7B61FF !important;
 
     color:
         #FFFFFF !important;
@@ -769,16 +763,6 @@ html body
     pointer-events:
         none !important;
 
-
-    /*
-       IMPORTANTE:
-
-       No existe transición de salida.
-
-       El efecto de entrada se aplica solamente
-       mediante la clase .tooltip-visible.
-    */
-
     transition:
         none !important;
 
@@ -794,7 +778,7 @@ html body
    La animación existe únicamente al aparecer.
 
    Duración:
-   0,38 segundos.
+   0,55 segundos.
 ================================================== */
 
 html body
@@ -808,16 +792,11 @@ html body
 
     animation:
         halley-tooltip-aparecer
-        0.38s
+        0.55s
         ease-out
         both !important;
 }
 
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: ANIMACIÓN DE APARICIÓN
-================================================== */
 
 @keyframes halley-tooltip-aparecer {
 
@@ -831,11 +810,6 @@ html body
 
 }
 
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: ELIMINACIÓN DE FLECHAS INTERNAS
-================================================== */
 
 html body
 .halley-tooltip-box::before,
@@ -856,11 +830,6 @@ html body
     border: none !important;
 }
 
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: FLECHA GLOBAL
-================================================== */
 
 html body
 .halley-tooltip-arrow-fixed {
@@ -899,11 +868,6 @@ html body
 }
 
 
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: FLECHA HACIA ARRIBA
-================================================== */
-
 html body
 .halley-tooltip-arrow-fixed.halley-tooltip-arrow-up {
     border-left:
@@ -913,17 +877,12 @@ html body
         7px solid transparent !important;
 
     border-bottom:
-        8px solid #1C1F24 !important;
+        8px solid #7B61FF !important;
 
     border-top:
         0 solid transparent !important;
 }
 
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: FLECHA HACIA ABAJO
-================================================== */
 
 html body
 .halley-tooltip-arrow-fixed.halley-tooltip-arrow-down {
@@ -934,17 +893,12 @@ html body
         7px solid transparent !important;
 
     border-top:
-        8px solid #1C1F24 !important;
+        8px solid #7B61FF !important;
 
     border-bottom:
         0 solid transparent !important;
 }
 
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: FLECHA HACIA LA IZQUIERDA
-================================================== */
 
 html body
 .halley-tooltip-arrow-fixed.halley-tooltip-arrow-left {
@@ -955,17 +909,12 @@ html body
         7px solid transparent !important;
 
     border-right:
-        8px solid #1C1F24 !important;
+        8px solid #7B61FF !important;
 
     border-left:
         0 solid transparent !important;
 }
 
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: FLECHA HACIA LA DERECHA
-================================================== */
 
 html body
 .halley-tooltip-arrow-fixed.halley-tooltip-arrow-right {
@@ -976,17 +925,12 @@ html body
         7px solid transparent !important;
 
     border-left:
-        8px solid #1C1F24 !important;
+        8px solid #7B61FF !important;
 
     border-right:
         0 solid transparent !important;
 }
 
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: FLECHA GLOBAL VISIBLE
-================================================== */
 
 html body
 .halley-tooltip-arrow-fixed.tooltip-visible {
@@ -999,16 +943,11 @@ html body
 
     animation:
         halley-tooltip-aparecer
-        0.38s
+        0.55s
         ease-out
         both !important;
 }
 
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: PREVENCIÓN DE RECORTE
-================================================== */
 
 .tatsu-pricing-icard,
 .tatsu-pricing-icard-text {
@@ -1016,11 +955,6 @@ html body
         visible !important;
 }
 
-
-/* ==================================================
-   07. HALLEY UI — SISTEMA DE TOOLTIPS
-   SUBCATEGORÍA: AJUSTES MOBILE
-================================================== */
 
 @media (max-width: 767px) {
 
@@ -1311,14 +1245,6 @@ svg {
 /* ==================================================
    08. HALLEY UI — TABLA DE PLANES
    SUBCATEGORÍA: SEPARADOR DEL BLOQUE INFERIOR
-
-   La línea es creada físicamente mediante JavaScript.
-
-   No depende de:
-   - nth-child
-   - nth-last-child
-   - ::before
-   - estructura interna de Swipe Pages
 ================================================== */
 
 #planesHalley
@@ -1355,11 +1281,6 @@ svg {
 }
 
 
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: WRAPPERS DEL BLOQUE INFERIOR
-================================================== */
-
 #planesHalley
 .halley-accion-requerimientos,
 
@@ -1393,11 +1314,6 @@ svg {
         border-box !important;
 }
 
-
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: INTERACTIVOS DEL BLOQUE INFERIOR
-================================================== */
 
 #planesHalley
 .halley-link-requerimientos,
@@ -1442,11 +1358,6 @@ svg {
 }
 
 
-/* ==================================================
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: BOTÓN SIMULADOR
-================================================== */
-
 #planesHalley
 .halley-link-simulador {
     display:
@@ -1481,20 +1392,7 @@ svg {
 }
 
 
-
-
-/* ##################################################
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: AJUSTES DESKTOP
-################################################## */
-
 @media (min-width: 769px) {
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: ANCHO GENERAL DESKTOP
-    ------------------------------------------------ */
 
     #planesHalley {
         width:
@@ -1513,12 +1411,6 @@ svg {
             border-box !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: TABS DESKTOP
-    ------------------------------------------------ */
-
     #planesHalley
     > .tatsu-pricing-table-tabs {
         margin-left:
@@ -1530,7 +1422,6 @@ svg {
         margin-bottom:
             22px !important;
     }
-
 
     #planesHalley
     > .tatsu-pricing-table-tabs
@@ -1557,12 +1448,6 @@ svg {
             1.2 !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: CARDS DESKTOP
-    ------------------------------------------------ */
-
     #planesHalley
     > .tatsu-pricing-table-columns-align-top {
         display:
@@ -1580,7 +1465,6 @@ svg {
         width:
             100% !important;
     }
-
 
     #planesHalley
     > .tatsu-pricing-table-columns-align-top
@@ -1600,12 +1484,6 @@ svg {
         float:
             none !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: PADDING CARD DESKTOP
-    ------------------------------------------------ */
 
     #planesHalley
     > .tatsu-pricing-table-columns-align-top
@@ -1627,12 +1505,6 @@ svg {
             border-box !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: TÍTULO DEL PLAN DESKTOP
-    ------------------------------------------------ */
-
     #planesHalley
     .tatsu-pricing-col-wrap
     h4.tatsu-pricing-title {
@@ -1642,12 +1514,6 @@ svg {
         line-height:
             1.2 !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: TEXTO "DESDE" DESKTOP
-    ------------------------------------------------ */
 
     #planesHalley
     .tatsu-pricing-col-wrap
@@ -1659,12 +1525,6 @@ svg {
         line-height:
             1.3 !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: PRECIO PRINCIPAL DESKTOP
-    ------------------------------------------------ */
 
     #planesHalley
     .tatsu-pricing-col-wrap
@@ -1679,12 +1539,6 @@ svg {
             -0.3px !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: TEXTOS DEL PRECIO DESKTOP
-    ------------------------------------------------ */
-
     #planesHalley
     .tatsu-pricing-col-wrap
     h3.tatsu-pricing-title
@@ -1708,12 +1562,6 @@ svg {
         line-height:
             1.3 !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: ÍTEMS DESKTOP
-    ------------------------------------------------ */
 
     #planesHalley
     .tatsu-pricing-icard-text:not(
@@ -1732,12 +1580,6 @@ svg {
             1.3 !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: CONTRATACIÓN PROTEGIDA DESKTOP
-    ------------------------------------------------ */
-
     #planesHalley
     .tatsu-pricing-icard-text[
         data-halley-tooltip-2="true"
@@ -1748,12 +1590,6 @@ svg {
         line-height:
             1.3 !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: PRECIO OPCIONAL DESKTOP
-    ------------------------------------------------ */
 
     #planesHalley
     .halley-precio-opcional {
@@ -1767,12 +1603,6 @@ svg {
             "wght" 700 !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: ÍCONOS DESKTOP
-    ------------------------------------------------ */
-
     #planesHalley
     .tatsu-pricing-icard-text
     svg {
@@ -1783,24 +1613,12 @@ svg {
             18px !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: SEPARACIÓN ÍTEMS DESKTOP
-    ------------------------------------------------ */
-
     #planesHalley
     .PH
     .MH {
         margin-bottom:
             5px !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: CONTRATAR DESKTOP
-    ------------------------------------------------ */
 
     #planesHalley
     .halley-boton-contratar {
@@ -1817,12 +1635,6 @@ svg {
             1.2 !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: SEPARADOR DESKTOP
-    ------------------------------------------------ */
-
     #planesHalley
     .halley-separador-acciones {
         margin-top:
@@ -1831,12 +1643,6 @@ svg {
         margin-bottom:
             17px !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: WRAPPERS DE ACCIONES DESKTOP
-    ------------------------------------------------ */
 
     #planesHalley
     .halley-accion-requerimientos,
@@ -1850,17 +1656,6 @@ svg {
             0 !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: REQUERIMIENTOS TÉCNICOS DESKTOP
-
-       Espaciado intermedio:
-       antes 3 px
-       prueba anterior 8 px
-       nuevo 5 px
-    ------------------------------------------------ */
-
     #planesHalley
     .halley-accion-requerimientos {
         margin-top:
@@ -1869,14 +1664,6 @@ svg {
         margin-bottom:
             5px !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: VER MÁS FUNCIONES DESKTOP
-
-       Espaciado intermedio.
-    ------------------------------------------------ */
 
     #planesHalley
     .halley-accion-mas-funciones {
@@ -1887,15 +1674,6 @@ svg {
             5px !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: ¿NECESITÁS AYUDA? DESKTOP
-
-       Se mantiene un espacio levemente superior
-       antes del botón con contorno.
-    ------------------------------------------------ */
-
     #planesHalley
     .halley-accion-ayuda {
         margin-top:
@@ -1905,12 +1683,6 @@ svg {
             12px !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: SIMULADOR DESKTOP
-    ------------------------------------------------ */
-
     #planesHalley
     .halley-accion-simulador {
         padding:
@@ -1919,12 +1691,6 @@ svg {
         margin:
             0 !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: LINKS DE ACCIÓN DESKTOP
-    ------------------------------------------------ */
 
     #planesHalley
     .halley-link-requerimientos,
@@ -1953,12 +1719,6 @@ svg {
             1.2 !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: SIMULADOR DESKTOP
-    ------------------------------------------------ */
-
     #planesHalley
     .halley-link-simulador {
         min-height:
@@ -1986,20 +1746,7 @@ svg {
 }
 
 
-
-
-/* ##################################################
-   08. HALLEY UI — TABLA DE PLANES
-   SUBCATEGORÍA: AJUSTES MOBILE
-################################################## */
-
 @media (max-width: 768px) {
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: ANCHO GENERAL MOBILE
-    ------------------------------------------------ */
 
     #planesHalley {
         width:
@@ -2018,12 +1765,6 @@ svg {
             border-box !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: TABS MOBILE
-    ------------------------------------------------ */
-
     #planesHalley
     > .tatsu-pricing-table-tabs {
         max-width:
@@ -2035,7 +1776,6 @@ svg {
         margin-right:
             auto !important;
     }
-
 
     #planesHalley
     > .tatsu-pricing-table-tabs
@@ -2061,12 +1801,6 @@ svg {
         line-height:
             1.2 !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: CARRUSEL MOBILE
-    ------------------------------------------------ */
 
     #planesHalley
     > .tatsu-pricing-table-columns-align-top {
@@ -2101,7 +1835,6 @@ svg {
             translateX(0);
     }
 
-
     #planesHalley
     > .tatsu-pricing-table-columns-align-top::after {
         content:
@@ -2113,12 +1846,6 @@ svg {
         flex-shrink:
             0;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: CARD MOBILE
-    ------------------------------------------------ */
 
     #planesHalley
     > .tatsu-pricing-table-columns-align-top
@@ -2142,12 +1869,6 @@ svg {
             none !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: PADDING MOBILE
-    ------------------------------------------------ */
-
     #planesHalley
     > .tatsu-pricing-table-columns-align-top
     > .tatsu-pricing-col-wrap
@@ -2168,12 +1889,6 @@ svg {
             border-box !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: DESDE MOBILE
-    ------------------------------------------------ */
-
     #planesHalley
     .tatsu-pricing-col-wrap
     h4.tatsu-pricing-title
@@ -2184,12 +1899,6 @@ svg {
         line-height:
             1.35 !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: PRECIO MOBILE
-    ------------------------------------------------ */
 
     #planesHalley
     .tatsu-pricing-col-wrap
@@ -2204,7 +1913,6 @@ svg {
             -0.2px !important;
     }
 
-
     #planesHalley
     .tatsu-pricing-col-wrap
     h3.tatsu-pricing-title
@@ -2228,12 +1936,6 @@ svg {
         line-height:
             1.35 !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: ÍTEMS MOBILE
-    ------------------------------------------------ */
 
     #planesHalley
     .tatsu-pricing-icard-text:not(
@@ -2252,12 +1954,6 @@ svg {
             1.3 !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: CONTRATACIÓN PROTEGIDA MOBILE
-    ------------------------------------------------ */
-
     #planesHalley
     .tatsu-pricing-icard-text[
         data-halley-tooltip-2="true"
@@ -2268,12 +1964,6 @@ svg {
         line-height:
             1.3 !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: PRECIO OPCIONAL MOBILE
-    ------------------------------------------------ */
 
     #planesHalley
     .halley-precio-opcional {
@@ -2287,24 +1977,12 @@ svg {
             "wght" 700 !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: SEPARACIÓN ÍTEMS MOBILE
-    ------------------------------------------------ */
-
     #planesHalley
     .PH
     .MH {
         margin-bottom:
             6px !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: CONTRATAR MOBILE
-    ------------------------------------------------ */
 
     #planesHalley
     .halley-boton-contratar {
@@ -2321,12 +1999,6 @@ svg {
             1.2 !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: SEPARADOR MOBILE
-    ------------------------------------------------ */
-
     #planesHalley
     .halley-separador-acciones {
         margin-top:
@@ -2335,12 +2007,6 @@ svg {
         margin-bottom:
             17px !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: WRAPPERS MOBILE
-    ------------------------------------------------ */
 
     #planesHalley
     .halley-accion-requerimientos,
@@ -2354,17 +2020,6 @@ svg {
             0 !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: REQUERIMIENTOS TÉCNICOS MOBILE
-
-       Espaciado intermedio:
-       antes 3 px
-       prueba anterior 9 px
-       nuevo 5 px
-    ------------------------------------------------ */
-
     #planesHalley
     .halley-accion-requerimientos {
         margin-top:
@@ -2373,12 +2028,6 @@ svg {
         margin-bottom:
             5px !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: VER MÁS FUNCIONES MOBILE
-    ------------------------------------------------ */
 
     #planesHalley
     .halley-accion-mas-funciones {
@@ -2389,15 +2038,6 @@ svg {
             5px !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: ¿NECESITÁS AYUDA? MOBILE
-
-       Mantiene una separación apenas superior
-       antes del CTA con borde.
-    ------------------------------------------------ */
-
     #planesHalley
     .halley-accion-ayuda {
         margin-top:
@@ -2407,12 +2047,6 @@ svg {
             11px !important;
     }
 
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: SIMULADOR MOBILE
-    ------------------------------------------------ */
-
     #planesHalley
     .halley-accion-simulador {
         margin:
@@ -2421,12 +2055,6 @@ svg {
         padding:
             0 !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: LINKS MOBILE
-    ------------------------------------------------ */
 
     #planesHalley
     .halley-link-requerimientos,
@@ -2454,12 +2082,6 @@ svg {
         line-height:
             1.2 !important;
     }
-
-
-    /* ------------------------------------------------
-       08. HALLEY UI — TABLA DE PLANES
-       SUBCATEGORÍA: SIMULADOR MOBILE
-    ------------------------------------------------ */
 
     #planesHalley
     .halley-link-simulador {
@@ -2492,31 +2114,6 @@ svg {
 ################################################## */
 
 
-/* ==================================================
-   09. HALLEY UI — CARGA VISUAL DE PRECIOS
-   SUBCATEGORÍA: OBJETIVO GENERAL
-
-   Mientras Google Sheets obtiene los precios:
-
-   - Se oculta únicamente el texto del precio grande.
-   - Se muestra una ruedita de carga en su lugar.
-   - La ruedita queda alineada a la izquierda,
-     exactamente donde comienza el precio.
-   - La ruedita gira continuamente.
-   - No se modifica la apariencia final del precio.
-
-   Una vez cargados los precios:
-
-   - Desaparece el loader.
-   - El precio vuelve a verse normalmente.
-================================================== */
-
-
-/* ==================================================
-   09. HALLEY UI — CARGA VISUAL DE PRECIOS
-   SUBCATEGORÍA: CONTENEDOR DEL PRECIO DURANTE CARGA
-================================================== */
-
 html.halley-precios-cargando
 #planesHalley
 .tatsu-pricing-col-wrap
@@ -2533,11 +2130,6 @@ h3.tatsu-pricing-title {
 
 }
 
-
-/* ==================================================
-   09. HALLEY UI — CARGA VISUAL DE PRECIOS
-   SUBCATEGORÍA: LOADER CIRCULAR
-================================================== */
 
 html.halley-precios-cargando
 #planesHalley
@@ -2618,11 +2210,6 @@ h3.tatsu-pricing-title::after {
 }
 
 
-/* ==================================================
-   09. HALLEY UI — CARGA VISUAL DE PRECIOS
-   SUBCATEGORÍA: ANIMACIÓN DEL LOADER
-================================================== */
-
 @keyframes halley-loader-precio-girar {
 
     0% {
@@ -2642,11 +2229,6 @@ h3.tatsu-pricing-title::after {
 }
 
 
-/* ==================================================
-   09. HALLEY UI — CARGA VISUAL DE PRECIOS
-   SUBCATEGORÍA: ESTADO RESUELTO
-================================================== */
-
 html.halley-precios-resueltos
 #planesHalley
 .tatsu-pricing-col-wrap
@@ -2657,12 +2239,6 @@ h3.tatsu-pricing-title {
 
 }
 
-
-/* ==================================================
-   09. HALLEY UI — CARGA VISUAL DE PRECIOS
-   SUBCATEGORÍA: ELIMINACIÓN DEL LOADER
-   UNA VEZ RESUELTO
-================================================== */
 
 html.halley-precios-resueltos
 #planesHalley
@@ -2677,11 +2253,6 @@ h3.tatsu-pricing-title::after {
 
 }
 
-
-/* ==================================================
-   09. HALLEY UI — CARGA VISUAL DE PRECIOS
-   SUBCATEGORÍA: AJUSTE MOBILE
-================================================== */
 
 @media (max-width: 768px) {
 
@@ -2709,11 +2280,6 @@ h3.tatsu-pricing-title::after {
 
 }
 
-
-/* ==================================================
-   09. HALLEY UI — CARGA VISUAL DE PRECIOS
-   SUBCATEGORÍA: REDUCCIÓN DE MOVIMIENTO
-================================================== */
 
 @media (prefers-reduced-motion: reduce) {
 
