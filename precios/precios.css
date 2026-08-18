@@ -322,7 +322,7 @@ html body .halley-tooltip-box.tooltip-visible {
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
-    animation: halley-tooltip-aparecer 0.35s ease-out both !important;
+    animation: halley-tooltip-aparecer 0.28s ease-out both !important;
 }
 
 @keyframes halley-tooltip-aparecer {
@@ -359,16 +359,16 @@ html body .halley-tooltip-arrow-fixed {
     z-index: 2147483647 !important;
 }
 
-html body .halley-tooltip-arrow-fixed.halley-tooltip-arrow-up { border-left: 7px solid transparent !important; border-right: 7px solid transparent !important; border-bottom: 8px solid #1C1F24 !important; border-top: 0 solid transparent !important; }
-html body .halley-tooltip-arrow-fixed.halley-tooltip-arrow-down { border-left: 7px solid transparent !important; border-right: 7px solid transparent !important; border-top: 8px solid #1C1F24 !important; border-bottom: 0 solid transparent !important; }
-html body .halley-tooltip-arrow-fixed.halley-tooltip-arrow-left { border-top: 7px solid transparent !important; border-bottom: 7px solid transparent !important; border-right: 8px solid #1C1F24 !important; border-left: 0 solid transparent !important; }
-html body .halley-tooltip-arrow-fixed.halley-tooltip-arrow-right { border-top: 7px solid transparent !important; border-bottom: 7px solid transparent !important; border-left: 8px solid #1C1F24 !important; border-right: 0 solid transparent !important; }
+html body .halley-tooltip-arrow-fixed.halley-tooltip-arrow-up { border-left: 7px solid transparent !important; border-right: 7px solid transparent !important; border-bottom: 8px solid #1C1F24 !important; border-top: 0 solid transparent !important; transform: translateY(-1px) !important; }
+html body .halley-tooltip-arrow-fixed.halley-tooltip-arrow-down { border-left: 7px solid transparent !important; border-right: 7px solid transparent !important; border-top: 8px solid #1C1F24 !important; border-bottom: 0 solid transparent !important; transform: translateY(1px) !important; }
+html body .halley-tooltip-arrow-fixed.halley-tooltip-arrow-left { border-top: 7px solid transparent !important; border-bottom: 7px solid transparent !important; border-right: 8px solid #1C1F24 !important; border-left: 0 solid transparent !important; transform: translateX(-1px) !important; }
+html body .halley-tooltip-arrow-fixed.halley-tooltip-arrow-right { border-top: 7px solid transparent !important; border-bottom: 7px solid transparent !important; border-left: 8px solid #1C1F24 !important; border-right: 0 solid transparent !important; transform: translateX(1px) !important; }
 
 html body .halley-tooltip-arrow-fixed.tooltip-visible {
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
-    animation: halley-tooltip-aparecer 0.35s ease-out both !important;
+    animation: halley-tooltip-aparecer 0.28s ease-out both !important;
 }
 
 .tatsu-pricing-icard,
