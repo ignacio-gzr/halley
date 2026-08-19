@@ -368,7 +368,7 @@ html body .halley-tooltip-arrow-fixed.tooltip-visible {
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
-    animation: halley-tooltip-aparecer 0.16s ease-out 0.08s both !important;
+    animation: halley-tooltip-aparecer 0.28s ease-out both !important;
 }
 
 .tatsu-pricing-icard,
