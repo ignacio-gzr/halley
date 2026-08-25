@@ -16,6 +16,29 @@ document.documentElement.classList.remove(
     "halley-hero-ready"
 );
 
+/* =========================================================
+   FAIL-SAFE DE CARGA
+   ========================================================= */
+
+window.setTimeout(
+    function () {
+
+        document.documentElement
+            .classList
+            .add(
+                "halley-hero-ready"
+            );
+
+        document.documentElement
+            .classList
+            .remove(
+                "halley-preintro"
+            );
+
+    },
+    5000
+);
+
 
 (function () {
 
