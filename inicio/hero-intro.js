@@ -173,16 +173,26 @@ document.documentElement.classList.remove(
         function comenzarIntro() {
 
 
-            /* =================================================
-               TERMINAR PRE-INTRO
-            ================================================= */
+           /* =================================================
+   HERO LISTO
+================================================= */
 
-            document.documentElement
-                .classList
-                .remove(
-                    "halley-preintro"
-                );
+document.documentElement
+    .classList
+    .add(
+        "halley-hero-ready"
+    );
 
+
+/* =================================================
+   TERMINAR PRE-INTRO
+================================================= */
+
+document.documentElement
+    .classList
+    .remove(
+        "halley-preintro"
+    );
 
             /* =================================================
                MENÚ
