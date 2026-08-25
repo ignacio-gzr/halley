@@ -12,6 +12,10 @@ document.documentElement.classList.add(
     "halley-preintro"
 );
 
+document.documentElement.classList.remove(
+    "halley-hero-ready"
+);
+
 
 (function () {
 
