@@ -1,1 +1,355 @@
-pepe
+/* =========================================================
+   HALLEY — HERO INTRO CONTROLADA
+   ========================================================= */
+
+
+/* =========================================================
+   1. HERO
+   ========================================================= */
+
+#HeaderD {
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+
+/* =========================================================
+   2. PRE-INTRO
+   ========================================================= */
+
+html.halley-preintro #HeaderD {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+
+html.halley-preintro
+.tatsu-header
+.tatsu-header-menu,
+
+html.halley-preintro
+.tatsu-header
+.tatsu-menu,
+
+html.halley-preintro
+.tatsu-header
+nav,
+
+html.halley-preintro
+.tatsu-header
+.tatsu-mobile-menu-icon,
+
+html.halley-preintro
+.tatsu-header
+.tatsu-hamburger,
+
+html.halley-preintro
+.tatsu-header
+.mobile-menu-icon,
+
+html.halley-preintro
+.tatsu-header
+[class*="menu-icon"] {
+
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+
+/* =========================================================
+   3. MENÚ
+   ========================================================= */
+
+.tatsu-header
+.halley-menu-aparecer {
+
+    animation:
+        halleyMenuAparecer
+        0.42s
+        cubic-bezier(0.22, 1, 0.36, 1)
+        both !important;
+}
+
+
+@keyframes halleyMenuAparecer {
+
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   4. ANULAR ANIMACIONES NATIVAS
+   ========================================================= */
+
+#HeaderD [data-animation],
+#HeaderD .fadeInLeft,
+#HeaderD .fadeInRight,
+#HeaderD .fadeInUp,
+#HeaderD .fadeInDown,
+#HeaderD .already-visible,
+#HeaderD .end-animation {
+
+    animation: none !important;
+    animation-name: none !important;
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+}
+
+
+/* =========================================================
+   5. TÍTULO ORIGINAL
+   ========================================================= */
+
+html.halley-hero-intro-running
+#HeaderD
+.halley-hero-titulo-original {
+
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+
+/* =========================================================
+   6. WRAPPERS OCULTOS
+
+   IMPORTANTE:
+   no tocamos transform.
+   ========================================================= */
+
+html.halley-hero-intro-running
+#HeaderD
+.halley-hero-elemento-oculto {
+
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+
+/* =========================================================
+   7. OVERLAY
+   ========================================================= */
+
+#HeaderD
+.halley-hero-overlay {
+
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    overflow: hidden !important;
+
+    pointer-events: none !important;
+
+    z-index: 100 !important;
+}
+
+
+/* =========================================================
+   8. TÍTULO INTRO
+   ========================================================= */
+
+#HeaderD
+.halley-hero-titulo-intro {
+
+    position: absolute !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    transform-origin: top left !important;
+
+    pointer-events: none !important;
+
+    will-change:
+        transform,
+        opacity !important;
+
+    backface-visibility:
+        hidden !important;
+
+    -webkit-font-smoothing:
+        antialiased;
+}
+
+
+/* =========================================================
+   9. GRUPOS DEL TÍTULO
+   ========================================================= */
+
+#HeaderD
+.halley-hero-grupo-titulo {
+
+    display: inline-block;
+
+    opacity: 0;
+
+    will-change:
+        transform,
+        opacity;
+}
+
+
+#HeaderD
+.halley-hero-grupo-linea-final {
+    display: block;
+}
+
+
+/* =========================================================
+   10. CONTENIDO INTERNO ANIMABLE
+
+   Este es el punto clave:
+   animamos el hijo interno, NO el wrapper de Swipe Pages.
+   ========================================================= */
+
+#HeaderD
+.halley-hero-contenido-interno {
+
+    will-change:
+        opacity,
+        transform;
+
+    backface-visibility:
+        hidden;
+}
+
+
+/* =========================================================
+   11. TEXTO
+
+   0.825 s
+   ========================================================= */
+
+#HeaderD
+.halley-hero-texto-aparecer {
+
+    animation:
+        halleyHeroTextoEntrada
+        0.825s
+        cubic-bezier(0.22, 1, 0.36, 1)
+        both !important;
+}
+
+
+@keyframes halleyHeroTextoEntrada {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   12. FLECHA
+
+   0.825 s
+   ========================================================= */
+
+#HeaderD
+.halley-hero-flecha-aparecer {
+
+    animation:
+        halleyHeroFlechaEntrada
+        0.825s
+        cubic-bezier(0.22, 1, 0.36, 1)
+        both !important;
+}
+
+
+@keyframes halleyHeroFlechaEntrada {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   13. GIF
+
+   1.403 s
+
+   Más lento que texto y flecha.
+   ========================================================= */
+
+#HeaderD
+.halley-hero-gif-aparecer {
+
+    animation:
+        halleyHeroGifEntrada
+        1.403s
+        cubic-bezier(0.22, 1, 0.36, 1)
+        both !important;
+}
+
+
+@keyframes halleyHeroGifEntrada {
+
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   14. REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    #HeaderD
+    .halley-hero-titulo-intro,
+
+    #HeaderD
+    .halley-hero-grupo-titulo,
+
+    #HeaderD
+    .halley-hero-texto-aparecer,
+
+    #HeaderD
+    .halley-hero-flecha-aparecer,
+
+    #HeaderD
+    .halley-hero-gif-aparecer,
+
+    .tatsu-header
+    .halley-menu-aparecer {
+
+        animation: none !important;
+        transition: none !important;
+    }
+
+}
