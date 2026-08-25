@@ -1,0 +1,26 @@
+/* ========================================
+   APARIENCIA AÑO COPYRIGHT AUTOMÁTICO
+======================================== */
+
+[id="copyright-halley"],
+[id="copyright-halley"] *,
+[id="copyright-halley"] .tatsu-text-inner,
+[id="copyright-halley"] p,
+[id="copyright-halley"] span,
+[id="copyright-halley"] div {
+  text-align: center !important;
+  color: #8A8C8E !important;
+}
+
+[id="copyright-halley"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+[id="copyright-halley"] .tatsu-text-inner {
+  width: 100% !important;
+  display: block !important;
+}
