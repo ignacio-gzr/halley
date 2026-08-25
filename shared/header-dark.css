@@ -1,2 +1,62 @@
+/* ========================================
+   HEADER OSCURO
+======================================== */
 
-pepe
+.tatsu-header.header-scrolled,
+.tatsu-header.menu-open {
+  background-color: #1C1F24 !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25) !important;
+}
+
+
+/* ========================================
+   MENÚ MOBILE OSCURO
+======================================== */
+
+@media (max-width: 767px) {
+
+  .tatsu-mobile-menu,
+  .tatsu-mobile-menu-wrap,
+  .tatsu-mobile-menu-container,
+  .tatsu-mobile-navigation,
+  .tatsu-mobile-navigation ul,
+  .tatsu-mobile-navigation li {
+    background-color: #1C1F24 !important;
+  }
+
+
+  .tatsu-mobile-navigation a,
+  .tatsu-mobile-navigation li a,
+  .tatsu-mobile-menu a {
+    color: #8A8C8E !important;
+  }
+
+
+  .tatsu-mobile-navigation a:hover,
+  .tatsu-mobile-navigation li a:hover,
+  .tatsu-mobile-menu a:hover {
+    color: #FFFFFF !important;
+  }
+
+
+  .tatsu-mobile-navigation li {
+    border-bottom: 1px solid #27272A !important;
+  }
+
+
+  .tatsu-mobile-menu *,
+  .tatsu-mobile-navigation *,
+  .tatsu-mobile-menu-wrap * {
+    border-color: #27272A !important;
+  }
+
+
+  .tatsu-mobile-navigation li,
+  .tatsu-mobile-menu li,
+  .tatsu-mobile-navigation a,
+  .tatsu-mobile-menu a {
+    border-top-color: #27272A !important;
+    border-bottom-color: #27272A !important;
+  }
+
+}
