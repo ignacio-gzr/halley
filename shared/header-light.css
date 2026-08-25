@@ -1,1 +1,78 @@
-pepe
+/* ========================================
+   HEADER CLARO
+======================================== */
+
+.tatsu-header.menu-open,
+.tatsu-header.header-scrolled {
+  background-color: #F2F5F6 !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08) !important;
+}
+
+
+/* ========================================
+   TEXTOS HEADER + ÍCONOS
+======================================== */
+
+.tatsu-header.menu-open a,
+.tatsu-header.header-scrolled a,
+.tatsu-header.menu-open .tatsu-mobile-menu-icon,
+.tatsu-header.header-scrolled .tatsu-mobile-menu-icon,
+.tatsu-header.menu-open .tatsu-hamburger,
+.tatsu-header.header-scrolled .tatsu-hamburger,
+.tatsu-header.menu-open .mobile-menu-icon,
+.tatsu-header.header-scrolled .mobile-menu-icon {
+  color: #3D3D40 !important;
+}
+
+
+/* ========================================
+   MENÚ MOBILE CLARO
+======================================== */
+
+@media (max-width: 767px) {
+
+  .tatsu-mobile-menu,
+  .tatsu-mobile-menu-wrap,
+  .tatsu-mobile-menu-container,
+  .tatsu-mobile-navigation,
+  .tatsu-mobile-navigation ul,
+  .tatsu-mobile-navigation li {
+    background-color: #F2F5F6 !important;
+  }
+
+
+  .tatsu-mobile-navigation a,
+  .tatsu-mobile-navigation li a,
+  .tatsu-mobile-menu a {
+    color: #3D3D40 !important;
+  }
+
+
+  .tatsu-mobile-navigation a:hover,
+  .tatsu-mobile-navigation li a:hover,
+  .tatsu-mobile-menu a:hover {
+    color: #000000 !important;
+  }
+
+
+  .tatsu-mobile-navigation li {
+    border-bottom: 1px solid #DBE0E1 !important;
+  }
+
+
+  .tatsu-mobile-menu *,
+  .tatsu-mobile-navigation *,
+  .tatsu-mobile-menu-wrap * {
+    border-color: #DBE0E1 !important;
+  }
+
+
+  .tatsu-mobile-navigation li,
+  .tatsu-mobile-menu li,
+  .tatsu-mobile-navigation a,
+  .tatsu-mobile-menu a {
+    border-top-color: #DBE0E1 !important;
+    border-bottom-color: #DBE0E1 !important;
+  }
+
+}
