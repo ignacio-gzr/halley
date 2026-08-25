@@ -10,6 +10,9 @@
 #HeaderD {
     position: relative !important;
     overflow: hidden !important;
+
+    opacity: 0 !important;
+    visibility: hidden !important;
 }
 
 
@@ -17,9 +20,9 @@
    2. PRE-INTRO
    ========================================================= */
 
-html.halley-preintro #HeaderD {
-    opacity: 0 !important;
-    visibility: hidden !important;
+html.halley-hero-ready #HeaderD {
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 
@@ -54,7 +57,6 @@ html.halley-preintro
     opacity: 0 !important;
     visibility: hidden !important;
 }
-
 
 /* =========================================================
    3. MENÚ
