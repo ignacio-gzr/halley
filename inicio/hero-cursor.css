@@ -1,0 +1,190 @@
+/* =========================================================
+   HALLEY — CURSOR PERSONALIZADO HERO
+   ========================================================= */
+
+
+/* =========================================================
+   1. OCULTAR CURSOR NATIVO DENTRO DEL HERO
+   ========================================================= */
+
+@media (pointer: fine) {
+
+    #HeaderD,
+    #HeaderD * {
+        cursor: none !important;
+    }
+
+}
+
+
+/* =========================================================
+   2. CURSOR PRINCIPAL
+   ========================================================= */
+
+.halley-hero-cursor {
+
+    position: fixed;
+
+    left: 0;
+    top: 0;
+
+    width: 38px;
+    height: 38px;
+
+    border-radius: 50%;
+
+    background: #1C1F24;
+
+    box-shadow:
+        0 6px 18px rgba(28, 31, 36, 0.16),
+        0 2px 6px rgba(28, 31, 36, 0.10);
+
+    pointer-events: none;
+
+    z-index: 999999;
+
+    opacity: 0;
+
+    transform:
+        translate3d(-50%, -50%, 0)
+        scale(1);
+
+    transition:
+        width 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+        height 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+        background-color 0.42s ease,
+        opacity 0.20s ease;
+
+    will-change:
+        transform,
+        width,
+        height,
+        opacity;
+}
+
+
+/* =========================================================
+   3. CURSOR VISIBLE
+   ========================================================= */
+
+.halley-hero-cursor.halley-cursor-visible {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   4. ESTADO HOVER
+
+   Aproximadamente 3 cm visuales.
+   ========================================================= */
+
+.halley-hero-cursor.halley-cursor-hover {
+
+    width: 112px;
+    height: 112px;
+
+    background:
+        rgba(28, 31, 36, 0.82);
+
+    box-shadow:
+        0 12px 34px rgba(28, 31, 36, 0.18),
+        0 4px 12px rgba(28, 31, 36, 0.10);
+}
+
+
+/* =========================================================
+   5. ESTELA
+   ========================================================= */
+
+.halley-hero-cursor-trail {
+
+    position: fixed;
+
+    left: 0;
+    top: 0;
+
+    border-radius: 50%;
+
+    background:
+        rgba(28, 31, 36, 0.10);
+
+    filter: blur(4px);
+
+    pointer-events: none;
+
+    z-index: 999998;
+
+    opacity: 0;
+
+    transform:
+        translate3d(-50%, -50%, 0);
+
+    will-change:
+        transform,
+        opacity;
+}
+
+
+.halley-hero-cursor-trail-1 {
+
+    width: 30px;
+    height: 30px;
+
+}
+
+
+.halley-hero-cursor-trail-2 {
+
+    width: 22px;
+    height: 22px;
+
+    background:
+        rgba(28, 31, 36, 0.06);
+
+    filter: blur(6px);
+}
+
+
+/* =========================================================
+   6. ESTELA VISIBLE
+   ========================================================= */
+
+.halley-hero-cursor-trail.halley-cursor-visible {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   7. MOBILE / TOUCH
+
+   No aplicar cursor personalizado.
+   ========================================================= */
+
+@media (pointer: coarse) {
+
+    .halley-hero-cursor,
+    .halley-hero-cursor-trail {
+        display: none !important;
+    }
+
+}
+
+
+/* =========================================================
+   8. REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .halley-hero-cursor-trail {
+        display: none !important;
+    }
+
+    .halley-hero-cursor {
+        transition:
+            width 0.2s ease,
+            height 0.2s ease,
+            opacity 0.15s ease;
+    }
+
+}
