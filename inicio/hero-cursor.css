@@ -1,16 +1,19 @@
 /* =========================================================
-   HALLEY — CURSOR PERSONALIZADO HERO
+   HALLEY — CURSOR PERSONALIZADO HERO + HEADER
    ========================================================= */
 
 
 /* =========================================================
-   1. OCULTAR CURSOR NATIVO DENTRO DEL HERO
+   1. OCULTAR CURSOR NATIVO
+   Hero + menú superior
    ========================================================= */
 
 @media (pointer: fine) {
 
     #HeaderD,
-    #HeaderD * {
+    #HeaderD *,
+    .tatsu-header,
+    .tatsu-header * {
         cursor: none !important;
     }
 
@@ -53,6 +56,7 @@
         width 0.42s cubic-bezier(0.16, 1, 0.3, 1),
         height 0.42s cubic-bezier(0.16, 1, 0.3, 1),
         background-color 0.42s ease,
+        box-shadow 0.42s ease,
         opacity 0.20s ease;
 
     will-change:
@@ -75,7 +79,7 @@
 /* =========================================================
    4. ESTADO HOVER
 
-   Aproximadamente 3 cm visuales.
+   Grande + color Halley con leve transparencia
    ========================================================= */
 
 .halley-hero-cursor.halley-cursor-hover {
@@ -84,10 +88,10 @@
     height: 112px;
 
     background:
-        rgba(28, 31, 36, 0.82);
+        rgba(71, 157, 165, 0.88);
 
     box-shadow:
-        0 12px 34px rgba(28, 31, 36, 0.18),
+        0 12px 34px rgba(71, 157, 165, 0.18),
         0 4px 12px rgba(28, 31, 36, 0.10);
 }
 
@@ -156,8 +160,6 @@
 
 /* =========================================================
    7. MOBILE / TOUCH
-
-   No aplicar cursor personalizado.
    ========================================================= */
 
 @media (pointer: coarse) {
@@ -184,6 +186,7 @@
         transition:
             width 0.2s ease,
             height 0.2s ease,
+            background-color 0.2s ease,
             opacity 0.15s ease;
     }
 
