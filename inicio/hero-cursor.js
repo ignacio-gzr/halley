@@ -255,7 +255,7 @@ function obtenerLuminancia(
 
 
 /* =====================================================
-   DETECTAR TURQUESA HALLEY O SIMILAR
+   DETECTAR TURQUESA HALLEY
    ===================================================== */
 
 function colorEsTurquesa(
@@ -297,6 +297,218 @@ function colorEsTurquesa(
 
 
 /* =====================================================
+   DETECTAR IMAGEN / OVERLAY EN UNA SECCIÓN
+   ===================================================== */
+
+function analizarSeccionVisual(
+    seccion
+) {
+
+    if (!seccion) {
+        return null;
+    }
+
+
+    /* Override manual */
+
+    if (
+        seccion.classList.contains(
+            "halley-cursor-bg-dark"
+        )
+    ) {
+
+        return {
+            oscuro: true,
+            turquesa: false
+        };
+
+    }
+
+
+    if (
+        seccion.classList.contains(
+            "halley-cursor-bg-turquoise"
+        )
+    ) {
+
+        return {
+            oscuro: false,
+            turquesa: true
+        };
+
+    }
+
+
+    var elementos =
+        [
+            seccion
+        ].concat(
+            Array.from(
+                seccion.querySelectorAll(
+                    ":scope > div"
+                )
+            )
+        );
+
+
+    var hayImagen =
+        false;
+
+
+    var hayOverlayOscuro =
+        false;
+
+
+    for (
+        var i = 0;
+        i < elementos.length;
+        i++
+    ) {
+
+        var elemento =
+            elementos[i];
+
+
+        var estilo =
+            window.getComputedStyle(
+                elemento
+            );
+
+
+        var before =
+            window.getComputedStyle(
+                elemento,
+                "::before"
+            );
+
+
+        var after =
+            window.getComputedStyle(
+                elemento,
+                "::after"
+            );
+
+
+        if (
+            (
+                estilo.backgroundImage &&
+                estilo.backgroundImage !==
+                "none"
+            ) ||
+            (
+                before.backgroundImage &&
+                before.backgroundImage !==
+                "none"
+            ) ||
+            (
+                after.backgroundImage &&
+                after.backgroundImage !==
+                "none"
+            )
+        ) {
+
+            hayImagen =
+                true;
+
+        }
+
+
+        var coloresOverlay =
+            [
+                obtenerRGBA(
+                    before.backgroundColor
+                ),
+                obtenerRGBA(
+                    after.backgroundColor
+                )
+            ];
+
+
+        coloresOverlay.forEach(
+            function (color) {
+
+                if (
+                    color &&
+                    color.a >= 0.20 &&
+                    obtenerLuminancia(
+                        color
+                    ) <
+                    145
+                ) {
+
+                    hayOverlayOscuro =
+                        true;
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /*
+     * Imagen + overlay oscuro:
+     * tratamos toda la sección como fondo oscuro.
+     */
+
+    if (
+        hayImagen &&
+        hayOverlayOscuro
+    ) {
+
+        return {
+            oscuro: true,
+            turquesa: false
+        };
+
+    }
+
+
+    /*
+     * En esta landing las secciones con imagen
+     * grande de fondo están diseñadas con
+     * tratamiento oscuro para texto blanco.
+     */
+
+    if (
+        hayImagen
+    ) {
+
+        var colorTexto =
+            obtenerRGBA(
+                window
+                    .getComputedStyle(
+                        seccion
+                    )
+                    .color
+            );
+
+
+        if (
+            colorTexto &&
+            obtenerLuminancia(
+                colorTexto
+            ) >
+            180
+        ) {
+
+            return {
+                oscuro: true,
+                turquesa: false
+            };
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =====================================================
    ANALIZAR FONDO REAL
    ===================================================== */
 
@@ -314,44 +526,44 @@ function analizarFondo(
     }
 
 
-    var actual =
-        elemento;
+    /* =================================================
+       1. ANALIZAR SECCIÓN COMPLETA
+       ================================================= */
+
+    var seccion =
+        elemento.closest(
+            ".tatsu-section, section"
+        );
 
 
-    var encontroImagenFondo =
-        false;
+    var contextoSeccion =
+        analizarSeccionVisual(
+            seccion
+        );
 
 
-    var encontroOverlayOscuro =
-        false;
+    if (
+        contextoSeccion
+    ) {
 
+        return contextoSeccion;
 
-    var primerColorSolido =
-        null;
+    }
 
 
     /* =================================================
-       RECORRER TODOS LOS ANCESTROS
-
-       No devolvemos resultado demasiado pronto.
-       Primero recopilamos información del contexto.
+       2. ANALIZAR ELEMENTO Y ANCESTROS
        ================================================= */
+
+    var actual =
+        elemento;
+
 
     while (
         actual &&
         actual !==
         document.documentElement
     ) {
-
-        var estilo =
-            window.getComputedStyle(
-                actual
-            );
-
-
-        /* =================================================
-           OVERRIDES MANUALES
-           ================================================= */
 
         if (
             actual.classList &&
@@ -383,74 +595,11 @@ function analizarFondo(
         }
 
 
-        /* =================================================
-           BACKGROUND IMAGE
-           ================================================= */
-
-        if (
-            estilo.backgroundImage &&
-            estilo.backgroundImage !==
-            "none"
-        ) {
-
-            encontroImagenFondo =
-                true;
-
-        }
-
-
-        /* =================================================
-           PSEUDO-ELEMENTO ::BEFORE
-           ================================================= */
-
-        var before =
+        var estilo =
             window.getComputedStyle(
-                actual,
-                "::before"
+                actual
             );
 
-
-        if (
-            before.backgroundImage &&
-            before.backgroundImage !==
-            "none"
-        ) {
-
-            encontroImagenFondo =
-                true;
-
-        }
-
-
-        var fondoBefore =
-            obtenerRGBA(
-                before.backgroundColor
-            );
-
-
-        if (
-            fondoBefore &&
-            fondoBefore.a >=
-            0.30 &&
-            obtenerLuminancia(
-                fondoBefore
-            ) <
-            145
-        ) {
-
-            encontroOverlayOscuro =
-                true;
-
-        }
-
-
-        /* =================================================
-           BACKGROUND COLOR
-
-           Sólo guardamos colores realmente sólidos.
-           Ignoramos overlays muy transparentes porque
-           suelen provocar falsos positivos.
-           ================================================= */
 
         var fondo =
             obtenerRGBA(
@@ -459,14 +608,25 @@ function analizarFondo(
 
 
         if (
-            !primerColorSolido &&
             fondo &&
             fondo.a >=
             0.80
         ) {
 
-            primerColorSolido =
-                fondo;
+            return {
+
+                oscuro:
+                    obtenerLuminancia(
+                        fondo
+                    ) <
+                    145,
+
+                turquesa:
+                    colorEsTurquesa(
+                        fondo
+                    )
+
+            };
 
         }
 
@@ -477,79 +637,13 @@ function analizarFondo(
     }
 
 
-    /* =================================================
-       PRIORIDAD 1 — FONDO TURQUESA
-       ================================================= */
-
-    if (
-        primerColorSolido &&
-        colorEsTurquesa(
-            primerColorSolido
-        )
-    ) {
-
-        return {
-            oscuro: false,
-            turquesa: true
-        };
-
-    }
-
-
-    /* =================================================
-       PRIORIDAD 2 — IMAGEN + OVERLAY / CONTEXTO OSCURO
-
-       En esta landing las secciones con imágenes de fondo
-       utilizan imágenes oscurecidas para texto blanco.
-       ================================================= */
-
-    if (
-        encontroImagenFondo ||
-        encontroOverlayOscuro
-    ) {
-
-        return {
-            oscuro: true,
-            turquesa: false
-        };
-
-    }
-
-
-    /* =================================================
-       PRIORIDAD 3 — COLOR SÓLIDO
-       ================================================= */
-
-    if (
-        primerColorSolido
-    ) {
-
-        return {
-
-            oscuro:
-                obtenerLuminancia(
-                    primerColorSolido
-                ) <
-                145,
-
-            turquesa:
-                false
-
-        };
-
-    }
-
-
-    /* =================================================
-       DEFAULT
-       ================================================= */
-
     return {
         oscuro: false,
         turquesa: false
     };
 
 }
+   
     /* =====================================================
        8. MOSTRAR / OCULTAR
        ===================================================== */
@@ -757,9 +851,7 @@ function elementoEsInteractivo(
 
         /* =================================================
            ACCORDION / TOGGLE
-
-           Solamente encabezado clickeable.
-           NO el contenido desplegado.
+           Sólo encabezado clickeable
            ================================================= */
 
         "[aria-expanded], " +
@@ -776,13 +868,28 @@ function elementoEsInteractivo(
 
 
         /* =================================================
-           SLIDER / CAROUSEL
+           FLICKITY
+           Slider de testimonios
+           ================================================= */
+
+        ".flickity-page-dots .dot, " +
+        ".flickity-page-dots li, " +
+        ".flickity-button, " +
+        ".flickity-prev-next-button, " +
+
+
+        /* =================================================
+           OTROS SLIDERS
            ================================================= */
 
         ".slick-dots li, " +
         ".slick-dots button, " +
 
         ".swiper-pagination-bullet, " +
+
+        "[role='tab'], " +
+        "[data-slide], " +
+        "[data-slide-index], " +
 
         "[class*='pagination-bullet'], " +
         "[class*='pagination-dot'], " +
@@ -819,14 +926,12 @@ document.addEventListener(
             );
 
 
-        if (interactivo) {
+        if (
+            interactivo
+        ) {
 
             cursor.classList.add(
-                "halley-cursor-hover"
-            );
-
-
-            cursor.classList.add(
+                "halley-cursor-hover",
                 "halley-cursor-visible"
             );
 
