@@ -4,6 +4,7 @@
 
 (function () {
 
+
     /* =====================================================
        1. SOLO DISPOSITIVOS CON MOUSE
        ===================================================== */
@@ -58,43 +59,83 @@
 
 
     /* =====================================================
-       4. CREAR ESTELA
+       4. CREAR CANVAS PARA LA ESTELA
        ===================================================== */
 
-    var trail1 =
+    var canvas =
         document.createElement(
-            "div"
+            "canvas"
         );
 
 
-    trail1.className =
-        "halley-hero-cursor-trail " +
-        "halley-hero-cursor-trail-1";
+    canvas.className =
+        "halley-hero-cursor-canvas";
 
 
     document.body.appendChild(
-        trail1
+        canvas
     );
 
 
-    var trail2 =
-        document.createElement(
-            "div"
+    var ctx =
+        canvas.getContext(
+            "2d"
         );
 
 
-    trail2.className =
-        "halley-hero-cursor-trail " +
-        "halley-hero-cursor-trail-2";
+    /* =====================================================
+       5. AJUSTAR CANVAS A LA PANTALLA
+       ===================================================== */
+
+    function ajustarCanvas() {
+
+        var dpr =
+            window.devicePixelRatio || 1;
 
 
-    document.body.appendChild(
-        trail2
+        canvas.width =
+            window.innerWidth *
+            dpr;
+
+
+        canvas.height =
+            window.innerHeight *
+            dpr;
+
+
+        canvas.style.width =
+            window.innerWidth +
+            "px";
+
+
+        canvas.style.height =
+            window.innerHeight +
+            "px";
+
+
+        ctx.setTransform(
+            dpr,
+            0,
+            0,
+            dpr,
+            0,
+            0
+        );
+
+    }
+
+
+    ajustarCanvas();
+
+
+    window.addEventListener(
+        "resize",
+        ajustarCanvas
     );
 
 
     /* =====================================================
-       5. POSICIONES
+       6. POSICIONES
        ===================================================== */
 
     var mouseX = 0;
@@ -105,19 +146,20 @@
     var cursorY = 0;
 
 
-    var trail1X = 0;
-    var trail1Y = 0;
-
-
-    var trail2X = 0;
-    var trail2Y = 0;
-
-
     var iniciado = false;
+    var activo = false;
+
+
+    /* Historial de trayectoria */
+
+    var puntos = [];
+
+
+    var maxPuntos = 26;
 
 
     /* =====================================================
-       6. MOVIMIENTO DEL MOUSE
+       7. DETECTAR POSICIÓN Y ZONA ACTIVA
        ===================================================== */
 
     document.addEventListener(
@@ -127,22 +169,73 @@
             mouseX =
                 evento.clientX;
 
+
             mouseY =
                 evento.clientY;
 
 
             if (!iniciado) {
 
-                cursorX = mouseX;
-                cursorY = mouseY;
+                cursorX =
+                    mouseX;
 
-                trail1X = mouseX;
-                trail1Y = mouseY;
 
-                trail2X = mouseX;
-                trail2Y = mouseY;
+                cursorY =
+                    mouseY;
+
 
                 iniciado = true;
+
+            }
+
+
+            var elemento =
+                document.elementFromPoint(
+                    mouseX,
+                    mouseY
+                );
+
+
+            var dentroZona =
+                elemento &&
+                (
+                    elemento.closest(
+                        "#HeaderD"
+                    ) ||
+                    elemento.closest(
+                        ".tatsu-header"
+                    )
+                );
+
+
+            if (dentroZona) {
+
+                activo = true;
+
+
+                cursor.classList.add(
+                    "halley-cursor-visible"
+                );
+
+
+                canvas.classList.add(
+                    "halley-cursor-visible"
+                );
+
+            } else {
+
+                activo = false;
+
+
+                cursor.classList.remove(
+                    "halley-cursor-visible",
+                    "halley-cursor-hover"
+                );
+
+
+                canvas.classList.remove(
+                    "halley-cursor-visible"
+                );
 
             }
 
@@ -151,322 +244,317 @@
 
 
     /* =====================================================
-   7. ANIMACIÓN DE SEGUIMIENTO
-   ===================================================== */
+       8. HOVER SOBRE ELEMENTOS INTERACTIVOS
+       ===================================================== */
 
-function animarCursor() {
+    document.addEventListener(
+        "mousemove",
+        function (evento) {
 
-
-    /* Cursor principal */
-
-    cursorX +=
-        (
-            mouseX -
-            cursorX
-        ) *
-        0.32;
+            if (!activo) {
+                return;
+            }
 
 
-    cursorY +=
-        (
-            mouseY -
-            cursorY
-        ) *
-        0.32;
+            var interactivo =
+                evento.target.closest(
+                    "a, " +
+                    "button, " +
+                    "[role='button'], " +
+                    "input, " +
+                    "select, " +
+                    "textarea, " +
+                    "[data-cursor-hover]"
+                );
 
 
-    /* Primera estela */
+            if (interactivo) {
 
-    trail1X +=
-        (
-            cursorX -
-            trail1X
-        ) *
-        0.20;
+                cursor.classList.add(
+                    "halley-cursor-hover"
+                );
 
+            } else {
 
-    trail1Y +=
-        (
-            cursorY -
-            trail1Y
-        ) *
-        0.20;
+                cursor.classList.remove(
+                    "halley-cursor-hover"
+                );
 
+            }
 
-    /* Segunda estela */
-
-    trail2X +=
-        (
-            trail1X -
-            trail2X
-        ) *
-        0.14;
-
-
-    trail2Y +=
-        (
-            trail1Y -
-            trail2Y
-        ) *
-        0.14;
-
-
-    /* =================================================
-       DIRECCIÓN Y VELOCIDAD
-       ================================================= */
-
-    var deltaX =
-        mouseX -
-        cursorX;
-
-
-    var deltaY =
-        mouseY -
-        cursorY;
-
-
-    var velocidad =
-        Math.sqrt(
-            deltaX * deltaX +
-            deltaY * deltaY
-        );
-
-
-    var angulo =
-        Math.atan2(
-            deltaY,
-            deltaX
-        ) *
-        180 /
-        Math.PI;
-
-
-    /* =================================================
-       ESCALA DINÁMICA DE LA ESTELA
-       ================================================= */
-
-    var escalaTrail1 =
-        1 +
-        Math.min(
-            velocidad / 80,
-            0.45
-        );
-
-
-    var escalaTrail2 =
-        1 +
-        Math.min(
-            velocidad / 65,
-            0.65
-        );
-
-
-    /* =================================================
-       CURSOR PRINCIPAL
-       ================================================= */
-
-    cursor.style.transform =
-        "translate3d(" +
-        cursorX +
-        "px, " +
-        cursorY +
-        "px, 0) " +
-        "translate(-50%, -50%)";
-
-
-    /* =================================================
-       ESTELA PRINCIPAL
-       ================================================= */
-
-    trail1.style.transform =
-        "translate3d(" +
-        trail1X +
-        "px, " +
-        trail1Y +
-        "px, 0) " +
-        "translate(-100%, -50%) " +
-        "rotate(" +
-        angulo +
-        "deg) " +
-        "scaleX(" +
-        escalaTrail1 +
-        ")";
-
-
-    /* =================================================
-       ESTELA SECUNDARIA
-       ================================================= */
-
-    trail2.style.transform =
-        "translate3d(" +
-        trail2X +
-        "px, " +
-        trail2Y +
-        "px, 0) " +
-        "translate(-100%, -50%) " +
-        "rotate(" +
-        angulo +
-        "deg) " +
-        "scaleX(" +
-        escalaTrail2 +
-        ")";
-
-
-    requestAnimationFrame(
-        animarCursor
+        }
     );
 
-}
-
-
-animarCursor();
 
     /* =====================================================
-       8. MOSTRAR / OCULTAR CURSOR
+       9. DIBUJAR ESTELA CONTINUA
        ===================================================== */
 
-    function mostrarCursor() {
+    function dibujarEstela() {
 
-        cursor.classList.add(
-            "halley-cursor-visible"
+
+        ctx.clearRect(
+            0,
+            0,
+            window.innerWidth,
+            window.innerHeight
         );
 
-        trail1.classList.add(
-            "halley-cursor-visible"
-        );
-
-        trail2.classList.add(
-            "halley-cursor-visible"
-        );
-
-    }
-
-
-    function ocultarCursor() {
-
-        cursor.classList.remove(
-            "halley-cursor-visible",
-            "halley-cursor-hover"
-        );
-
-        trail1.classList.remove(
-            "halley-cursor-visible"
-        );
-
-        trail2.classList.remove(
-            "halley-cursor-visible"
-        );
-
-    }
-
-
-    if (hero) {
-
-        hero.addEventListener(
-            "mouseenter",
-            mostrarCursor
-        );
-
-
-        hero.addEventListener(
-            "mouseleave",
-            ocultarCursor
-        );
-
-    }
-
-
-    if (header) {
-
-        header.addEventListener(
-            "mouseenter",
-            mostrarCursor
-        );
-
-
-        header.addEventListener(
-            "mouseleave",
-            ocultarCursor
-        );
-
-    }
-
-
-    /* =====================================================
-       9. HOVER SOBRE ELEMENTOS INTERACTIVOS
-       HERO + HEADER
-       ===================================================== */
-
-    var selectoresHover =
-        "a, button, " +
-        "[role='button'], " +
-        "input, select, textarea, " +
-        "[data-cursor-hover]";
-
-
-    function activarHover(evento) {
 
         if (
-            evento.target.closest(
-                selectoresHover
-            )
+            puntos.length <
+            2
+        ) {
+            return;
+        }
+
+
+        /*
+         * Dibujamos pequeños segmentos continuos.
+         * Cada segmento es progresivamente:
+         *
+         * - más ancho cerca del cursor
+         * - más transparente hacia la cola
+         *
+         * Visualmente forman UNA sola estela.
+         */
+
+        for (
+            var i = 1;
+            i < puntos.length;
+            i++
         ) {
 
-            cursor.classList.add(
-                "halley-cursor-hover"
+            var anterior =
+                puntos[
+                    i - 1
+                ];
+
+
+            var actual =
+                puntos[
+                    i
+                ];
+
+
+            var progreso =
+                i /
+                (
+                    puntos.length -
+                    1
+                );
+
+
+            /*
+             * Curva suave:
+             * usamos el punto medio entre ambos.
+             */
+
+            var medioX =
+                (
+                    anterior.x +
+                    actual.x
+                ) /
+                2;
+
+
+            var medioY =
+                (
+                    anterior.y +
+                    actual.y
+                ) /
+                2;
+
+
+            /*
+             * Grosor:
+             * casi desaparece al final de la cola
+             * y se conecta con la esfera adelante.
+             */
+
+            var grosor =
+                1 +
+                progreso *
+                13;
+
+
+            /*
+             * Opacidad:
+             * aumenta progresivamente hacia el cursor.
+             */
+
+            var alpha =
+                0.015 +
+                progreso *
+                0.12;
+
+
+            ctx.beginPath();
+
+
+            ctx.moveTo(
+                anterior.x,
+                anterior.y
             );
+
+
+            ctx.quadraticCurveTo(
+                anterior.x,
+                anterior.y,
+                medioX,
+                medioY
+            );
+
+
+            ctx.lineTo(
+                actual.x,
+                actual.y
+            );
+
+
+            ctx.lineWidth =
+                grosor;
+
+
+            ctx.lineCap =
+                "round";
+
+
+            ctx.lineJoin =
+                "round";
+
+
+            ctx.strokeStyle =
+                "rgba(28, 31, 36, " +
+                alpha +
+                ")";
+
+
+            ctx.stroke();
 
         }
 
     }
 
 
-    function desactivarHover(evento) {
+    /* =====================================================
+       10. ANIMACIÓN DE SEGUIMIENTO
+       ===================================================== */
 
-        if (
-            evento.target.closest(
-                selectoresHover
-            )
-        ) {
+    function animarCursor() {
 
-            cursor.classList.remove(
-                "halley-cursor-hover"
-            );
+
+        /* Seguimiento suave del cursor */
+
+        cursorX +=
+            (
+                mouseX -
+                cursorX
+            ) *
+            0.34;
+
+
+        cursorY +=
+            (
+                mouseY -
+                cursorY
+            ) *
+            0.34;
+
+
+        cursor.style.transform =
+            "translate3d(" +
+            cursorX +
+            "px, " +
+            cursorY +
+            "px, 0) " +
+            "translate(-50%, -50%)";
+
+
+        /* =================================================
+           HISTORIAL DE LA TRAYECTORIA
+           ================================================= */
+
+        if (activo) {
+
+
+            var ultimo =
+                puntos[
+                    puntos.length -
+                    1
+                ];
+
+
+            var agregarPunto =
+                !ultimo ||
+                Math.hypot(
+                    cursorX -
+                    ultimo.x,
+                    cursorY -
+                    ultimo.y
+                ) >
+                1.5;
+
+
+            if (agregarPunto) {
+
+                puntos.push(
+                    {
+                        x:
+                            cursorX,
+
+                        y:
+                            cursorY
+                    }
+                );
+
+            }
+
+
+            /*
+             * Mantener una cola corta.
+             */
+
+            while (
+                puntos.length >
+                maxPuntos
+            ) {
+
+                puntos.shift();
+
+            }
+
+        } else {
+
+
+            /*
+             * Al salir del Hero,
+             * la cola desaparece progresivamente.
+             */
+
+            if (
+                puntos.length >
+                0
+            ) {
+
+                puntos.shift();
+
+            }
 
         }
 
-    }
+
+        dibujarEstela();
 
 
-    if (hero) {
-
-        hero.addEventListener(
-            "mouseover",
-            activarHover
-        );
-
-
-        hero.addEventListener(
-            "mouseout",
-            desactivarHover
+        requestAnimationFrame(
+            animarCursor
         );
 
     }
 
 
-    if (header) {
+    animarCursor();
 
-        header.addEventListener(
-            "mouseover",
-            activarHover
-        );
-
-
-        header.addEventListener(
-            "mouseout",
-            desactivarHover
-        );
-
-    }
 
 })();
