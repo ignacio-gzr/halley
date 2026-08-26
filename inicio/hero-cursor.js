@@ -611,9 +611,9 @@ function dibujarEstela(
      * visualmente conectada con ella.
      */
 
-    var anchoMaximo =
-        diametroActual +
-        1.20;
+var anchoMaximo =
+    diametroActual *
+    1.20;
 
 
     /* =================================================
@@ -637,6 +637,27 @@ function dibujarEstela(
                 1
             );
 
+       /* =================================================
+   DESVANECIMIENTO SEGÚN DISTANCIA
+   ================================================= */
+
+var distanciaAlCursor =
+    Math.hypot(
+        cursorX -
+        punto.x,
+        cursorY -
+        punto.y
+    );
+
+
+var factorDistancia =
+    Math.max(
+        0,
+        1 -
+        distanciaAlCursor /
+        distanciaMaximaEstela
+    );
+
 
         /*
          * La estela se afina hacia atrás.
@@ -655,13 +676,14 @@ function dibujarEstela(
             0.045;
 
 
-        var ancho =
-            anchoMaximo *
-            Math.pow(
-                progreso,
-                1.45
-            ) *
-            variacionNube;
+var ancho =
+    anchoMaximo *
+    Math.pow(
+        progreso,
+        1.45
+    ) *
+    variacionNube *
+    factorDistancia;
 
 
         /* =================================================
@@ -1029,7 +1051,7 @@ ctx.fillStyle =
                 mouseY -
                 cursorY
             ) *
-            0.34;
+            0.289;
 
 
         cursor.style.transform =
