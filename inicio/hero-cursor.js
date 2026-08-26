@@ -162,7 +162,7 @@ var puntos = [];
  */
 
 var duracionEstela =
-    850;
+    500;
 
 
 /*
@@ -454,6 +454,32 @@ function dibujarEstela(
     ahora
 ) {
 
+    /* =================================================
+       SIN ESTELA DURANTE HOVER
+       La esfera turquesa grande no deja rastro.
+       ================================================= */
+
+    if (
+        cursor.classList.contains(
+            "halley-cursor-hover"
+        )
+    ) {
+
+        puntos = [];
+
+
+        ctx.clearRect(
+            0,
+            0,
+            window.innerWidth,
+            window.innerHeight
+        );
+
+
+        return;
+
+    }
+   
     ctx.clearRect(
         0,
         0,
@@ -484,11 +510,7 @@ function dibujarEstela(
        ================================================= */
 
     var diametroActual =
-        cursor.classList.contains(
-            "halley-cursor-hover"
-        )
-            ? 70
-            : 30;
+    30;
 
 
     /*
@@ -499,7 +521,7 @@ function dibujarEstela(
 
     var anchoMaximo =
         diametroActual +
-        10;
+        1.20;
 
 
     /* =================================================
