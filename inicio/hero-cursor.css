@@ -84,8 +84,8 @@
 
 .halley-hero-cursor.halley-cursor-hover {
 
-    width: 73px;
-    height: 73px;
+    width: 70px;
+    height: 70px;
 
     background:
         rgba(71, 157, 165, 0.72);
@@ -97,7 +97,7 @@
 
 
 /* =========================================================
-   5. ESTELA
+   5. ESTELA — EFECTO METEORITO
    ========================================================= */
 
 .halley-hero-cursor-trail {
@@ -107,21 +107,13 @@
     left: 0;
     top: 0;
 
-    border-radius: 50%;
-
-    background:
-        rgba(28, 31, 36, 0.10);
-
-    filter: blur(4px);
-
     pointer-events: none;
 
     z-index: 999998;
 
     opacity: 0;
 
-    transform:
-        translate3d(-50%, -50%, 0);
+    transform-origin: right center;
 
     will-change:
         transform,
@@ -129,23 +121,59 @@
 }
 
 
+/* =========================================================
+   ESTELA PRINCIPAL
+
+   Cola alargada y translúcida
+   ========================================================= */
+
 .halley-hero-cursor-trail-1 {
 
-    width: 30px;
-    height: 30px;
+    width: 74px;
+    height: 18px;
 
+    border-radius:
+        100% 0 0 100%;
+
+    background:
+        linear-gradient(
+            to right,
+            rgba(28, 31, 36, 0),
+            rgba(28, 31, 36, 0.035) 28%,
+            rgba(28, 31, 36, 0.09) 68%,
+            rgba(28, 31, 36, 0.16) 100%
+        );
+
+    filter:
+        blur(3px);
 }
 
 
+/* =========================================================
+   ESTELA SECUNDARIA
+
+   Más larga, difusa y tenue
+   ========================================================= */
+
 .halley-hero-cursor-trail-2 {
 
-    width: 22px;
-    height: 22px;
+    width: 105px;
+    height: 10px;
+
+    border-radius:
+        100% 0 0 100%;
 
     background:
-        rgba(28, 31, 36, 0.06);
+        linear-gradient(
+            to right,
+            rgba(28, 31, 36, 0),
+            rgba(28, 31, 36, 0.025) 40%,
+            rgba(28, 31, 36, 0.07) 78%,
+            rgba(28, 31, 36, 0.10) 100%
+        );
 
-    filter: blur(6px);
+    filter:
+        blur(6px);
 }
 
 
