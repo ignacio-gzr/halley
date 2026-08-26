@@ -151,102 +151,175 @@
 
 
     /* =====================================================
-       7. ANIMACIÓN DE SEGUIMIENTO
-       ===================================================== */
+   7. ANIMACIÓN DE SEGUIMIENTO
+   ===================================================== */
 
-    function animarCursor() {
-
-
-        /* Cursor principal */
-
-        cursorX +=
-            (
-                mouseX -
-                cursorX
-            ) *
-            0.32;
+function animarCursor() {
 
 
-        cursorY +=
-            (
-                mouseY -
-                cursorY
-            ) *
-            0.32;
+    /* Cursor principal */
+
+    cursorX +=
+        (
+            mouseX -
+            cursorX
+        ) *
+        0.32;
 
 
-        /* Primera estela */
-
-        trail1X +=
-            (
-                cursorX -
-                trail1X
-            ) *
-            0.20;
+    cursorY +=
+        (
+            mouseY -
+            cursorY
+        ) *
+        0.32;
 
 
-        trail1Y +=
-            (
-                cursorY -
-                trail1Y
-            ) *
-            0.20;
+    /* Primera estela */
+
+    trail1X +=
+        (
+            cursorX -
+            trail1X
+        ) *
+        0.20;
 
 
-        /* Segunda estela */
-
-        trail2X +=
-            (
-                trail1X -
-                trail2X
-            ) *
-            0.14;
+    trail1Y +=
+        (
+            cursorY -
+            trail1Y
+        ) *
+        0.20;
 
 
-        trail2Y +=
-            (
-                trail1Y -
-                trail2Y
-            ) *
-            0.14;
+    /* Segunda estela */
+
+    trail2X +=
+        (
+            trail1X -
+            trail2X
+        ) *
+        0.14;
 
 
-        cursor.style.transform =
-            "translate3d(" +
-            cursorX +
-            "px, " +
-            cursorY +
-            "px, 0) " +
-            "translate(-50%, -50%)";
+    trail2Y +=
+        (
+            trail1Y -
+            trail2Y
+        ) *
+        0.14;
 
 
-        trail1.style.transform =
-            "translate3d(" +
-            trail1X +
-            "px, " +
-            trail1Y +
-            "px, 0) " +
-            "translate(-50%, -50%)";
+    /* =================================================
+       DIRECCIÓN Y VELOCIDAD
+       ================================================= */
+
+    var deltaX =
+        mouseX -
+        cursorX;
 
 
-        trail2.style.transform =
-            "translate3d(" +
-            trail2X +
-            "px, " +
-            trail2Y +
-            "px, 0) " +
-            "translate(-50%, -50%)";
+    var deltaY =
+        mouseY -
+        cursorY;
 
 
-        requestAnimationFrame(
-            animarCursor
+    var velocidad =
+        Math.sqrt(
+            deltaX * deltaX +
+            deltaY * deltaY
         );
 
-    }
+
+    var angulo =
+        Math.atan2(
+            deltaY,
+            deltaX
+        ) *
+        180 /
+        Math.PI;
 
 
-    animarCursor();
+    /* =================================================
+       ESCALA DINÁMICA DE LA ESTELA
+       ================================================= */
 
+    var escalaTrail1 =
+        1 +
+        Math.min(
+            velocidad / 80,
+            0.45
+        );
+
+
+    var escalaTrail2 =
+        1 +
+        Math.min(
+            velocidad / 65,
+            0.65
+        );
+
+
+    /* =================================================
+       CURSOR PRINCIPAL
+       ================================================= */
+
+    cursor.style.transform =
+        "translate3d(" +
+        cursorX +
+        "px, " +
+        cursorY +
+        "px, 0) " +
+        "translate(-50%, -50%)";
+
+
+    /* =================================================
+       ESTELA PRINCIPAL
+       ================================================= */
+
+    trail1.style.transform =
+        "translate3d(" +
+        trail1X +
+        "px, " +
+        trail1Y +
+        "px, 0) " +
+        "translate(-100%, -50%) " +
+        "rotate(" +
+        angulo +
+        "deg) " +
+        "scaleX(" +
+        escalaTrail1 +
+        ")";
+
+
+    /* =================================================
+       ESTELA SECUNDARIA
+       ================================================= */
+
+    trail2.style.transform =
+        "translate3d(" +
+        trail2X +
+        "px, " +
+        trail2Y +
+        "px, 0) " +
+        "translate(-100%, -50%) " +
+        "rotate(" +
+        angulo +
+        "deg) " +
+        "scaleX(" +
+        escalaTrail2 +
+        ")";
+
+
+    requestAnimationFrame(
+        animarCursor
+    );
+
+}
+
+
+animarCursor();
 
     /* =====================================================
        8. MOSTRAR / OCULTAR CURSOR
