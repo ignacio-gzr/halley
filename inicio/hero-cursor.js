@@ -134,31 +134,56 @@
     );
 
 
-    /* =====================================================
-       6. ESTADO Y POSICIONES
-       ===================================================== */
+   /* =====================================================
+   6. ESTADO Y POSICIONES
+   ===================================================== */
 
-    var mouseX = 0;
-    var mouseY = 0;
-
-
-    var cursorX = 0;
-    var cursorY = 0;
+var mouseX = 0;
+var mouseY = 0;
 
 
-    var iniciado = false;
-    var activo = false;
+var cursorX = 0;
+var cursorY = 0;
 
 
-    var puntos = [];
+var iniciado = false;
+var activo = false;
 
 
-    var duracionEstela =
-        350;
+var puntos = [];
 
 
-    var distanciaMinima =
-        2;
+/*
+ * Tiempo máximo que puede permanecer una parte
+ * de la estela cerca del cursor.
+ *
+ * Más largo que antes para darle una sensación
+ * más suave y persistente.
+ */
+
+var duracionEstela =
+    850;
+
+
+/*
+ * Longitud máxima de la estela.
+ *
+ * Aproximadamente equivalente visual a 7 cm.
+ * Si un punto se aleja más, desaparece
+ * independientemente de su antigüedad.
+ */
+
+var distanciaMaximaEstela =
+    265;
+
+
+/*
+ * Distancia mínima necesaria para guardar
+ * un nuevo punto de trayectoria.
+ */
+
+var distanciaMinima =
+    2.5;
 
 
     /* =====================================================
@@ -365,182 +390,257 @@
 
 
     /* =====================================================
-       12. LIMPIAR PUNTOS VIEJOS
-       ===================================================== */
+   12. LIMPIAR PUNTOS VIEJOS
+   ===================================================== */
 
-    function limpiarPuntosViejos(
+function limpiarPuntosViejos(
+    ahora
+) {
+
+    puntos =
+        puntos.filter(
+            function (punto) {
+
+
+                /* =========================================
+                   EDAD DEL PUNTO
+                   ========================================= */
+
+                var edad =
+                    ahora -
+                    punto.t;
+
+
+                /* =========================================
+                   DISTANCIA AL METEORITO
+                   ========================================= */
+
+                var distancia =
+                    Math.hypot(
+                        cursorX -
+                        punto.x,
+                        cursorY -
+                        punto.y
+                    );
+
+
+                /*
+                 * El punto permanece solamente mientras:
+                 *
+                 * 1. no haya superado su tiempo máximo
+                 * 2. siga dentro de la longitud máxima
+                 *    permitida de la estela
+                 */
+
+                return (
+                    edad <
+                    duracionEstela
+                ) &&
+                (
+                    distancia <
+                    distanciaMaximaEstela
+                );
+
+            }
+        );
+
+}
+
+/* =====================================================
+   13. DIBUJAR ESTELA CONTINUA
+   ===================================================== */
+
+function dibujarEstela(
+    ahora
+) {
+
+    ctx.clearRect(
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+    );
+
+
+    limpiarPuntosViejos(
         ahora
+    );
+
+
+    if (
+        puntos.length <
+        2
+    ) {
+        return;
+    }
+
+
+    var ladosIzquierdos = [];
+    var ladosDerechos = [];
+
+
+    /* =================================================
+       ANCHO EN LA CABEZA DE LA ESTELA
+       ================================================= */
+
+    var diametroActual =
+        cursor.classList.contains(
+            "halley-cursor-hover"
+        )
+            ? 70
+            : 30;
+
+
+    /*
+     * La nube nace un poco más ancha que
+     * la esfera para que siempre quede
+     * visualmente conectada con ella.
+     */
+
+    var anchoMaximo =
+        diametroActual +
+        10;
+
+
+    /* =================================================
+       CONSTRUIR CONTORNO
+       ================================================= */
+
+    for (
+        var i = 0;
+        i < puntos.length;
+        i++
     ) {
 
-        puntos =
-            puntos.filter(
-                function (punto) {
+        var punto =
+            puntos[i];
 
-                    return (
-                        ahora -
-                        punto.t
-                    ) <
-                    duracionEstela;
 
-                }
+        var progreso =
+            i /
+            (
+                puntos.length -
+                1
             );
+
+
+        /*
+         * La estela se afina hacia atrás.
+         *
+         * Agregamos una variación orgánica muy leve
+         * para evitar una silueta geométricamente
+         * perfecta.
+         */
+
+        var variacionNube =
+            1 +
+            Math.sin(
+                i * 1.7 +
+                ahora * 0.003
+            ) *
+            0.045;
+
+
+        var ancho =
+            anchoMaximo *
+            Math.pow(
+                progreso,
+                1.45
+            ) *
+            variacionNube;
+
+
+        /* =================================================
+           DIRECCIÓN LOCAL DE LA CURVA
+           ================================================= */
+
+        var anterior =
+            puntos[
+                Math.max(
+                    0,
+                    i - 1
+                )
+            ];
+
+
+        var siguiente =
+            puntos[
+                Math.min(
+                    puntos.length - 1,
+                    i + 1
+                )
+            ];
+
+
+        var dx =
+            siguiente.x -
+            anterior.x;
+
+
+        var dy =
+            siguiente.y -
+            anterior.y;
+
+
+        var longitud =
+            Math.sqrt(
+                dx * dx +
+                dy * dy
+            ) || 1;
+
+
+        var normalX =
+            -dy /
+            longitud;
+
+
+        var normalY =
+            dx /
+            longitud;
+
+
+        var mitad =
+            ancho /
+            2;
+
+
+        ladosIzquierdos.push(
+            {
+                x:
+                    punto.x +
+                    normalX *
+                    mitad,
+
+                y:
+                    punto.y +
+                    normalY *
+                    mitad
+            }
+        );
+
+
+        ladosDerechos.push(
+            {
+                x:
+                    punto.x -
+                    normalX *
+                    mitad,
+
+                y:
+                    punto.y -
+                    normalY *
+                    mitad
+            }
+        );
 
     }
 
 
-    /* =====================================================
-       13. DIBUJAR ESTELA CONTINUA
-       ===================================================== */
+    /* =================================================
+       CREAR FORMA SUAVE
+       ================================================= */
 
-    function dibujarEstela(
-        ahora
-    ) {
-
-        ctx.clearRect(
-            0,
-            0,
-            window.innerWidth,
-            window.innerHeight
-        );
-
-
-        limpiarPuntosViejos(
-            ahora
-        );
-
-
-        if (
-            puntos.length <
-            2
-        ) {
-            return;
-        }
-
-
-        var ladosIzquierdos = [];
-        var ladosDerechos = [];
-
-
-        var diametroActual =
-            cursor.classList.contains(
-                "halley-cursor-hover"
-            )
-                ? 70
-                : 30;
-
-
-        var anchoMaximo =
-            diametroActual +
-            6;
-
-
-        for (
-            var i = 0;
-            i < puntos.length;
-            i++
-        ) {
-
-            var punto =
-                puntos[i];
-
-
-            var progreso =
-                i /
-                (
-                    puntos.length -
-                    1
-                );
-
-
-            var ancho =
-                anchoMaximo *
-                Math.pow(
-                    progreso,
-                    1.55
-                );
-
-
-            var anterior =
-                puntos[
-                    Math.max(
-                        0,
-                        i - 1
-                    )
-                ];
-
-
-            var siguiente =
-                puntos[
-                    Math.min(
-                        puntos.length - 1,
-                        i + 1
-                    )
-                ];
-
-
-            var dx =
-                siguiente.x -
-                anterior.x;
-
-
-            var dy =
-                siguiente.y -
-                anterior.y;
-
-
-            var longitud =
-                Math.sqrt(
-                    dx * dx +
-                    dy * dy
-                ) || 1;
-
-
-            var normalX =
-                -dy /
-                longitud;
-
-
-            var normalY =
-                dx /
-                longitud;
-
-
-            var mitad =
-                ancho /
-                2;
-
-
-            ladosIzquierdos.push(
-                {
-                    x:
-                        punto.x +
-                        normalX *
-                        mitad,
-
-                    y:
-                        punto.y +
-                        normalY *
-                        mitad
-                }
-            );
-
-
-            ladosDerechos.push(
-                {
-                    x:
-                        punto.x -
-                        normalX *
-                        mitad,
-
-                    y:
-                        punto.y -
-                        normalY *
-                        mitad
-                }
-            );
-
-        }
-
+    function construirForma() {
 
         ctx.beginPath();
 
@@ -551,84 +651,232 @@
         );
 
 
+        /*
+         * Usamos curvas en lugar de unir todos
+         * los puntos mediante líneas rectas.
+         */
+
         for (
             var j = 1;
-            j < ladosIzquierdos.length;
+            j < ladosIzquierdos.length - 1;
             j++
         ) {
 
-            ctx.lineTo(
+            var siguienteIzq =
+                ladosIzquierdos[
+                    j + 1
+                ];
+
+
+            var medioIzqX =
+                (
+                    ladosIzquierdos[j].x +
+                    siguienteIzq.x
+                ) /
+                2;
+
+
+            var medioIzqY =
+                (
+                    ladosIzquierdos[j].y +
+                    siguienteIzq.y
+                ) /
+                2;
+
+
+            ctx.quadraticCurveTo(
                 ladosIzquierdos[j].x,
-                ladosIzquierdos[j].y
+                ladosIzquierdos[j].y,
+                medioIzqX,
+                medioIzqY
             );
 
         }
+
+
+        var ultimoIzq =
+            ladosIzquierdos[
+                ladosIzquierdos.length -
+                1
+            ];
+
+
+        ctx.lineTo(
+            ultimoIzq.x,
+            ultimoIzq.y
+        );
 
 
         for (
             var k =
                 ladosDerechos.length - 1;
-            k >= 0;
+            k > 0;
             k--
         ) {
 
-            ctx.lineTo(
+            var siguienteDer =
+                ladosDerechos[
+                    k - 1
+                ];
+
+
+            var medioDerX =
+                (
+                    ladosDerechos[k].x +
+                    siguienteDer.x
+                ) /
+                2;
+
+
+            var medioDerY =
+                (
+                    ladosDerechos[k].y +
+                    siguienteDer.y
+                ) /
+                2;
+
+
+            ctx.quadraticCurveTo(
                 ladosDerechos[k].x,
-                ladosDerechos[k].y
+                ladosDerechos[k].y,
+                medioDerX,
+                medioDerY
             );
 
         }
 
 
+        ctx.lineTo(
+            ladosDerechos[0].x,
+            ladosDerechos[0].y
+        );
+
+
         ctx.closePath();
-
-
-        var edadCabeza =
-            ahora -
-            puntos[
-                puntos.length - 1
-            ].t;
-
-
-        var opacidadGeneral =
-            Math.max(
-                0,
-                1 -
-                edadCabeza /
-                duracionEstela
-            );
-
-
-        ctx.globalAlpha =
-            0.14 *
-            opacidadGeneral;
-
-
-        ctx.fillStyle =
-            "#1C1F24";
-
-
-        ctx.shadowColor =
-            "rgba(28, 31, 36, 0.12)";
-
-
-        ctx.shadowBlur =
-            7;
-
-
-        ctx.fill();
-
-
-        ctx.globalAlpha =
-            1;
-
-
-        ctx.shadowBlur =
-            0;
 
     }
 
 
+    /* =================================================
+       DESVANECIMIENTO TEMPORAL
+       ================================================= */
+
+    var edadCabeza =
+        ahora -
+        puntos[
+            puntos.length -
+            1
+        ].t;
+
+
+    var opacidadTemporal =
+        Math.max(
+            0,
+            1 -
+            edadCabeza /
+            duracionEstela
+        );
+
+
+    /* =================================================
+       CAPA EXTERIOR — NUBE DIFUSA
+       ================================================= */
+
+    ctx.save();
+
+
+    construirForma();
+
+
+    ctx.globalAlpha =
+        0.035 *
+        opacidadTemporal;
+
+
+    ctx.fillStyle =
+        "#1C1F24";
+
+
+    ctx.filter =
+        "blur(14px)";
+
+
+    ctx.fill();
+
+
+    ctx.restore();
+
+
+    /* =================================================
+       CAPA MEDIA — CUERPO DE LA NUBE
+       ================================================= */
+
+    ctx.save();
+
+
+    construirForma();
+
+
+    ctx.globalAlpha =
+        0.045 *
+        opacidadTemporal;
+
+
+    ctx.fillStyle =
+        "#1C1F24";
+
+
+    ctx.filter =
+        "blur(7px)";
+
+
+    ctx.fill();
+
+
+    ctx.restore();
+
+
+    /* =================================================
+       CAPA INTERIOR — DENSIDAD SUTIL
+       ================================================= */
+
+    ctx.save();
+
+
+    construirForma();
+
+
+    ctx.globalAlpha =
+        0.025 *
+        opacidadTemporal;
+
+
+    ctx.fillStyle =
+        "#1C1F24";
+
+
+    ctx.filter =
+        "blur(3px)";
+
+
+    ctx.fill();
+
+
+    ctx.restore();
+
+
+    /* =================================================
+       RESTABLECER CANVAS
+       ================================================= */
+
+    ctx.globalAlpha =
+        1;
+
+
+    ctx.filter =
+        "none";
+
+}
     /* =====================================================
        14. ANIMACIÓN DEL CURSOR
        ===================================================== */
