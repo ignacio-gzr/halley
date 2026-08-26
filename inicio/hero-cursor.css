@@ -97,7 +97,7 @@
 
 
 /* =========================================================
-   5. ESTELA — EFECTO METEORITO
+   5. ESTELA — EFECTO METEORITO DINÁMICO
    ========================================================= */
 
 .halley-hero-cursor-trail {
@@ -117,31 +117,30 @@
 
     will-change:
         transform,
-        opacity;
+        opacity,
+        width;
 }
 
 
 /* =========================================================
    ESTELA PRINCIPAL
-
-   Cola alargada y translúcida
    ========================================================= */
 
 .halley-hero-cursor-trail-1 {
 
-    width: 74px;
-    height: 18px;
+    width: 60px;
+    height: 12px;
 
     border-radius:
-        100% 0 0 100%;
+        999px;
 
     background:
         linear-gradient(
-            to right,
-            rgba(28, 31, 36, 0),
-            rgba(28, 31, 36, 0.035) 28%,
-            rgba(28, 31, 36, 0.09) 68%,
-            rgba(28, 31, 36, 0.16) 100%
+            to left,
+            rgba(28, 31, 36, 0.16) 0%,
+            rgba(28, 31, 36, 0.10) 28%,
+            rgba(28, 31, 36, 0.045) 62%,
+            rgba(28, 31, 36, 0) 100%
         );
 
     filter:
@@ -151,29 +150,26 @@
 
 /* =========================================================
    ESTELA SECUNDARIA
-
-   Más larga, difusa y tenue
    ========================================================= */
 
 .halley-hero-cursor-trail-2 {
 
-    width: 105px;
-    height: 10px;
+    width: 85px;
+    height: 6px;
 
     border-radius:
-        100% 0 0 100%;
+        999px;
 
     background:
         linear-gradient(
-            to right,
-            rgba(28, 31, 36, 0),
-            rgba(28, 31, 36, 0.025) 40%,
-            rgba(28, 31, 36, 0.07) 78%,
-            rgba(28, 31, 36, 0.10) 100%
+            to left,
+            rgba(28, 31, 36, 0.08) 0%,
+            rgba(28, 31, 36, 0.04) 45%,
+            rgba(28, 31, 36, 0) 100%
         );
 
     filter:
-        blur(6px);
+        blur(5px);
 }
 
 
@@ -184,21 +180,6 @@
 .halley-hero-cursor-trail.halley-cursor-visible {
     opacity: 1;
 }
-
-
-/* =========================================================
-   7. MOBILE / TOUCH
-   ========================================================= */
-
-@media (pointer: coarse) {
-
-    .halley-hero-cursor,
-    .halley-hero-cursor-trail {
-        display: none !important;
-    }
-
-}
-
 
 /* =========================================================
    8. REDUCED MOTION
