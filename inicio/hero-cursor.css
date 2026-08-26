@@ -5,14 +5,13 @@
 
 /* =========================================================
    1. OCULTAR CURSOR NATIVO
+   Toda la landing
    ========================================================= */
 
 @media (pointer: fine) {
 
-    #HeaderD,
-    #HeaderD *,
-    .tatsu-header,
-    .tatsu-header * {
+    body,
+    body * {
         cursor: none !important;
     }
 
@@ -73,6 +72,19 @@
     opacity: 1;
 }
 
+/* =========================================================
+   3.1 CURSOR SOBRE FONDO OSCURO
+   ========================================================= */
+
+.halley-hero-cursor.halley-cursor-light:not(.halley-cursor-hover) {
+
+    background:
+        #FFFFFF;
+
+    box-shadow:
+        0 5px 16px rgba(255, 255, 255, 0.14),
+        0 2px 5px rgba(255, 255, 255, 0.08);
+}
 
 /* =========================================================
    4. ESTADO HOVER
