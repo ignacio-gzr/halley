@@ -267,14 +267,6 @@ function colorEsTurquesa(
     }
 
 
-    /*
-     * Color objetivo:
-     * #479DA5
-     *
-     * Usamos tolerancia para contemplar
-     * pequeñas variantes de la landing.
-     */
-
     var diferencia =
         Math.sqrt(
 
@@ -305,20 +297,45 @@ function colorEsTurquesa(
 
 
 /* =====================================================
-   ANALIZAR EL FONDO REAL
+   ANALIZAR FONDO REAL
    ===================================================== */
 
 function analizarFondo(
     elemento
 ) {
 
+    if (!elemento) {
+
+        return {
+            oscuro: false,
+            turquesa: false
+        };
+
+    }
+
+
     var actual =
         elemento;
 
 
-    var encontroImagen =
+    var encontroImagenFondo =
         false;
 
+
+    var encontroOverlayOscuro =
+        false;
+
+
+    var primerColorSolido =
+        null;
+
+
+    /* =================================================
+       RECORRER TODOS LOS ANCESTROS
+
+       No devolvemos resultado demasiado pronto.
+       Primero recopilamos información del contexto.
+       ================================================= */
 
     while (
         actual &&
@@ -367,44 +384,23 @@ function analizarFondo(
 
 
         /* =================================================
-           BACKGROUND COLOR
+           BACKGROUND IMAGE
            ================================================= */
 
-        var fondo =
-            obtenerRGBA(
-                estilo.backgroundColor
-            );
-
-
         if (
-            fondo &&
-            fondo.a >
-            0.08
+            estilo.backgroundImage &&
+            estilo.backgroundImage !==
+            "none"
         ) {
 
-            return {
-
-                oscuro:
-                    obtenerLuminancia(
-                        fondo
-                    ) <
-                    145,
-
-                turquesa:
-                    colorEsTurquesa(
-                        fondo
-                    )
-
-            };
+            encontroImagenFondo =
+                true;
 
         }
 
 
         /* =================================================
            PSEUDO-ELEMENTO ::BEFORE
-
-           Swipe Pages suele utilizar overlays mediante
-           pseudo-elementos.
            ================================================= */
 
         var before =
@@ -412,6 +408,18 @@ function analizarFondo(
                 actual,
                 "::before"
             );
+
+
+        if (
+            before.backgroundImage &&
+            before.backgroundImage !==
+            "none"
+        ) {
+
+            encontroImagenFondo =
+                true;
+
+        }
 
 
         var fondoBefore =
@@ -422,71 +430,43 @@ function analizarFondo(
 
         if (
             fondoBefore &&
-            fondoBefore.a >
-            0.15
+            fondoBefore.a >=
+            0.30 &&
+            obtenerLuminancia(
+                fondoBefore
+            ) <
+            145
         ) {
 
-            return {
-
-                oscuro:
-                    obtenerLuminancia(
-                        fondoBefore
-                    ) <
-                    145,
-
-                turquesa:
-                    colorEsTurquesa(
-                        fondoBefore
-                    )
-
-            };
+            encontroOverlayOscuro =
+                true;
 
         }
 
 
         /* =================================================
-           BACKGROUND IMAGE
+           BACKGROUND COLOR
+
+           Sólo guardamos colores realmente sólidos.
+           Ignoramos overlays muy transparentes porque
+           suelen provocar falsos positivos.
            ================================================= */
 
+        var fondo =
+            obtenerRGBA(
+                estilo.backgroundColor
+            );
+
+
         if (
-            estilo.backgroundImage &&
-            estilo.backgroundImage !==
-            "none"
+            !primerColorSolido &&
+            fondo &&
+            fondo.a >=
+            0.80
         ) {
 
-            encontroImagen =
-                true;
-
-
-            /*
-             * No podemos conocer de forma fiable el color
-             * de cada píxel de una imagen CSS.
-             *
-             * Como indicio adicional usamos el color del
-             * contenido de esa sección:
-             * texto claro suele significar imagen oscura.
-             */
-
-            var colorTexto =
-                obtenerRGBA(
-                    estilo.color
-                );
-
-
-            if (
-                colorTexto &&
-                obtenerLuminancia(
-                    colorTexto
-                ) >
-                185
-            ) {
-
-                return {
-                    oscuro: true,
-                    turquesa: false
-                };
-
-            }
+            primerColorSolido =
+                fondo;
 
         }
 
@@ -497,17 +477,35 @@ function analizarFondo(
     }
 
 
-    /*
-     * Si encontramos imagen pero ningún color de fondo
-     * concluyente, mantenemos como oscuro cuando el
-     * contexto visual no pudo determinarse.
-     *
-     * Esto evita el problema típico de una imagen oscura
-     * que termina heredando el fondo blanco del body.
-     */
+    /* =================================================
+       PRIORIDAD 1 — FONDO TURQUESA
+       ================================================= */
 
     if (
-        encontroImagen
+        primerColorSolido &&
+        colorEsTurquesa(
+            primerColorSolido
+        )
+    ) {
+
+        return {
+            oscuro: false,
+            turquesa: true
+        };
+
+    }
+
+
+    /* =================================================
+       PRIORIDAD 2 — IMAGEN + OVERLAY / CONTEXTO OSCURO
+
+       En esta landing las secciones con imágenes de fondo
+       utilizan imágenes oscurecidas para texto blanco.
+       ================================================= */
+
+    if (
+        encontroImagenFondo ||
+        encontroOverlayOscuro
     ) {
 
         return {
@@ -518,13 +516,40 @@ function analizarFondo(
     }
 
 
+    /* =================================================
+       PRIORIDAD 3 — COLOR SÓLIDO
+       ================================================= */
+
+    if (
+        primerColorSolido
+    ) {
+
+        return {
+
+            oscuro:
+                obtenerLuminancia(
+                    primerColorSolido
+                ) <
+                145,
+
+            turquesa:
+                false
+
+        };
+
+    }
+
+
+    /* =================================================
+       DEFAULT
+       ================================================= */
+
     return {
         oscuro: false,
         turquesa: false
     };
 
 }
-
     /* =====================================================
        8. MOSTRAR / OCULTAR
        ===================================================== */
@@ -715,7 +740,9 @@ function elementoEsInteractivo(
 
     return !!elemento.closest(
 
-        /* Elementos HTML interactivos normales */
+        /* =================================================
+           ELEMENTOS HTML NORMALES
+           ================================================= */
 
         "a, " +
         "button, " +
@@ -729,29 +756,36 @@ function elementoEsInteractivo(
 
 
         /* =================================================
-           ACCORDION / TOGGLE — SWIPE PAGES / TATSU
+           ACCORDION / TOGGLE
+
+           Solamente encabezado clickeable.
+           NO el contenido desplegado.
            ================================================= */
 
-        "[class*='accordion'], " +
-        "[class*='Accordion'], " +
-        "[class*='toggle'], " +
-        "[class*='Toggle'], " +
+        "[aria-expanded], " +
+        "[aria-controls], " +
+
+        "[class*='accordion-title'], " +
+        "[class*='accordion-header'], " +
+        "[class*='accordion-heading'], " +
+        "[class*='accordion-question'], " +
+
+        "[class*='toggle-title'], " +
+        "[class*='toggle-header'], " +
+        "[class*='toggle-heading'], " +
 
 
         /* =================================================
-           SLIDERS / CAROUSELS
+           SLIDER / CAROUSEL
            ================================================= */
 
-        ".slick-dots, " +
         ".slick-dots li, " +
         ".slick-dots button, " +
 
         ".swiper-pagination-bullet, " +
-        ".swiper-pagination-bullet-active, " +
 
-        "[class*='pagination'], " +
-        "[class*='Pagination'], " +
-
+        "[class*='pagination-bullet'], " +
+        "[class*='pagination-dot'], " +
         "[class*='carousel-dot'], " +
         "[class*='carousel-indicator'], " +
         "[class*='slider-dot'], " +
@@ -770,12 +804,6 @@ document.addEventListener(
             return;
         }
 
-
-        /*
-         * Usamos elementFromPoint además de evento.target
-         * para contemplar controles construidos por
-         * Swipe Pages mediante wrappers internos.
-         */
 
         var elemento =
             document.elementFromPoint(
@@ -797,12 +825,6 @@ document.addEventListener(
                 "halley-cursor-hover"
             );
 
-
-            /*
-             * Garantiza que el cursor personalizado
-             * permanezca visible sobre controles
-             * del slider.
-             */
 
             cursor.classList.add(
                 "halley-cursor-visible"
