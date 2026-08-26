@@ -699,59 +699,59 @@
     }
 
 
-    /* =====================================================
-       14. ANIMACIÓN DEL CURSOR
-       ===================================================== */
+/* =====================================================
+   14. ANIMACIÓN DEL CURSOR
+   ===================================================== */
 
-    function animarCursor(
-        ahora
-    ) {
-
-
-        /* =================================================
-           MOVIMIENTO SUAVE DE LA ESFERA
-           ================================================= */
-
-        cursorX +=
-            (
-                mouseX -
-                cursorX
-            ) *
-            0.34;
+function animarCursor(
+    ahora
+) {
 
 
-        cursorY +=
-            (
-                mouseY -
-                cursorY
-            ) *
-            0.34;
+    /* =================================================
+       MOVIMIENTO SUAVE DE LA ESFERA
+       ================================================= */
+
+    cursorX +=
+        (
+            mouseX -
+            cursorX
+        ) *
+        0.34;
 
 
-        cursor.style.transform =
-            "translate3d(" +
-            cursorX +
-            "px, " +
-            cursorY +
-            "px, 0) " +
-            "translate(-50%, -50%)";
+    cursorY +=
+        (
+            mouseY -
+            cursorY
+        ) *
+        0.34;
 
 
-        /* =================================================
-           GUARDAR TRAYECTORIA
-           ================================================= */
-
-        if (activo) {
-
-            var ultimo =
-                puntos[
-                    puntos.length -
-                    1
-                ];
+    cursor.style.transform =
+        "translate3d(" +
+        cursorX +
+        "px, " +
+        cursorY +
+        "px, 0) " +
+        "translate(-50%, -50%)";
 
 
-            var distancia =
-                ultimo
+    /* =================================================
+       GUARDAR TRAYECTORIA
+       ================================================= */
+
+    if (activo) {
+
+        var ultimo =
+            puntos[
+                puntos.length -
+                1
+            ];
+
+
+        var distancia =
+            ultimo
                 ?
                     Math.hypot(
                         cursorX -
@@ -763,50 +763,59 @@
                     Infinity;
 
 
-            if (
-                distancia >
-                distanciaMinima
-            ) {
+        if (
+            distancia >
+            distanciaMinima
+        ) {
 
-                puntos.push(
-                    {
-                        x:
-                            cursorX,
+            puntos.push(
+                {
+                    x:
+                        cursorX,
 
-                        y:
-                            cursorY,
+                    y:
+                        cursorY,
 
-                        t:
-                            ahora
-                    }
-                );
-
-            }
+                    t:
+                        ahora
+                }
+            );
 
         }
 
-
-        dibujarEstela(
-            ahora
-        );
-
-
-        requestAnimationFrame(
-            animarCursor
-        );
-
     }
 
+
+    /* =================================================
+       DIBUJAR ESTELA
+       ================================================= */
+
+    dibujarEstela(
+        ahora
+    );
+
+
+    /* =================================================
+       SIGUIENTE FRAME
+       ================================================= */
 
     requestAnimationFrame(
         animarCursor
     );
 
+}
 
-})();    if (!hero && !header) {
-        return;
-    }
 
+/* =====================================================
+   INICIAR ANIMACIÓN
+   ===================================================== */
+
+requestAnimationFrame(
+    animarCursor
+);
+
+
+})();
 
     /* =====================================================
        3. CREAR CURSOR
