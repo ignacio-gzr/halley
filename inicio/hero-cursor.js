@@ -700,49 +700,131 @@ document.addEventListener(
     );
 
 
-    /* =====================================================
-       11. HOVER SOBRE ELEMENTOS INTERACTIVOS
-       ===================================================== */
+/* =====================================================
+   11. HOVER SOBRE ELEMENTOS INTERACTIVOS
+   ===================================================== */
 
-    document.addEventListener(
-        "mousemove",
-        function (evento) {
+function elementoEsInteractivo(
+    elemento
+) {
 
-            if (!activo) {
-                return;
-            }
-
-
-            var interactivo =
-                evento.target.closest(
-                    "a, " +
-                    "button, " +
-                    "[role='button'], " +
-                    "input, " +
-                    "select, " +
-                    "textarea, " +
-                    "[data-cursor-hover]"
-                );
+    if (!elemento) {
+        return false;
+    }
 
 
-            if (interactivo) {
+    return !!elemento.closest(
 
-                cursor.classList.add(
-                    "halley-cursor-hover"
-                );
+        /* Elementos HTML interactivos normales */
 
-            } else {
+        "a, " +
+        "button, " +
+        "input, " +
+        "select, " +
+        "textarea, " +
+        "summary, " +
+        "[role='button'], " +
+        "[onclick], " +
+        "[data-cursor-hover], " +
 
-                cursor.classList.remove(
-                    "halley-cursor-hover"
-                );
 
-            }
+        /* =================================================
+           ACCORDION / TOGGLE — SWIPE PAGES / TATSU
+           ================================================= */
 
-        }
+        "[class*='accordion'], " +
+        "[class*='Accordion'], " +
+        "[class*='toggle'], " +
+        "[class*='Toggle'], " +
+
+
+        /* =================================================
+           SLIDERS / CAROUSELS
+           ================================================= */
+
+        ".slick-dots, " +
+        ".slick-dots li, " +
+        ".slick-dots button, " +
+
+        ".swiper-pagination-bullet, " +
+        ".swiper-pagination-bullet-active, " +
+
+        "[class*='pagination'], " +
+        "[class*='Pagination'], " +
+
+        "[class*='carousel-dot'], " +
+        "[class*='carousel-indicator'], " +
+        "[class*='slider-dot'], " +
+        "[class*='slider-indicator']"
+
     );
 
+}
 
+
+document.addEventListener(
+    "mousemove",
+    function (evento) {
+
+        if (!activo) {
+            return;
+        }
+
+
+        /*
+         * Usamos elementFromPoint además de evento.target
+         * para contemplar controles construidos por
+         * Swipe Pages mediante wrappers internos.
+         */
+
+        var elemento =
+            document.elementFromPoint(
+                evento.clientX,
+                evento.clientY
+            ) ||
+            evento.target;
+
+
+        var interactivo =
+            elementoEsInteractivo(
+                elemento
+            );
+
+
+        if (interactivo) {
+
+            cursor.classList.add(
+                "halley-cursor-hover"
+            );
+
+
+            /*
+             * Garantiza que el cursor personalizado
+             * permanezca visible sobre controles
+             * del slider.
+             */
+
+            cursor.classList.add(
+                "halley-cursor-visible"
+            );
+
+
+            canvas.classList.add(
+                "halley-cursor-visible"
+            );
+
+        } else {
+
+            cursor.classList.remove(
+                "halley-cursor-hover"
+            );
+
+        }
+
+    },
+    true
+);
+   
     /* =====================================================
    12. LIMPIAR PUNTOS VIEJOS
    ===================================================== */
