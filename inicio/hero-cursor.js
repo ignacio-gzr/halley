@@ -176,16 +176,148 @@ var distanciaMinima =
     2.5;
 
 
-    /* =====================================================
-   7. DETECTAR FONDO OSCURO
+/* =====================================================
+   7. DETECTAR CONTEXTO DEL FONDO
    ===================================================== */
 
-function obtenerColorFondo(
+function obtenerRGBA(
+    color
+) {
+
+    var valores =
+        String(
+            color || ""
+        ).match(
+            /[\d.]+/g
+        );
+
+
+    if (
+        !valores ||
+        valores.length <
+        3
+    ) {
+        return null;
+    }
+
+
+    return {
+
+        r:
+            Number(
+                valores[0]
+            ),
+
+        g:
+            Number(
+                valores[1]
+            ),
+
+        b:
+            Number(
+                valores[2]
+            ),
+
+        a:
+            valores.length >= 4
+                ?
+                    Number(
+                        valores[3]
+                    )
+                :
+                    1
+
+    };
+
+}
+
+
+/* =====================================================
+   LUMINANCIA
+   ===================================================== */
+
+function obtenerLuminancia(
+    color
+) {
+
+    if (!color) {
+        return 255;
+    }
+
+
+    return (
+        0.299 * color.r +
+        0.587 * color.g +
+        0.114 * color.b
+    );
+
+}
+
+
+/* =====================================================
+   DETECTAR TURQUESA HALLEY O SIMILAR
+   ===================================================== */
+
+function colorEsTurquesa(
+    color
+) {
+
+    if (!color) {
+        return false;
+    }
+
+
+    /*
+     * Color objetivo:
+     * #479DA5
+     *
+     * Usamos tolerancia para contemplar
+     * pequeñas variantes de la landing.
+     */
+
+    var diferencia =
+        Math.sqrt(
+
+            Math.pow(
+                color.r - 71,
+                2
+            ) +
+
+            Math.pow(
+                color.g - 157,
+                2
+            ) +
+
+            Math.pow(
+                color.b - 165,
+                2
+            )
+
+        );
+
+
+    return (
+        diferencia <
+        65
+    );
+
+}
+
+
+/* =====================================================
+   ANALIZAR EL FONDO REAL
+   ===================================================== */
+
+function analizarFondo(
     elemento
 ) {
 
     var actual =
         elemento;
+
+
+    var encontroImagen =
+        false;
 
 
     while (
@@ -200,19 +332,161 @@ function obtenerColorFondo(
             );
 
 
-        var color =
-            estilo.backgroundColor;
+        /* =================================================
+           OVERRIDES MANUALES
+           ================================================= */
+
+        if (
+            actual.classList &&
+            actual.classList.contains(
+                "halley-cursor-bg-dark"
+            )
+        ) {
+
+            return {
+                oscuro: true,
+                turquesa: false
+            };
+
+        }
 
 
         if (
-            color &&
-            color !==
-            "transparent" &&
-            color !==
-            "rgba(0, 0, 0, 0)"
+            actual.classList &&
+            actual.classList.contains(
+                "halley-cursor-bg-turquoise"
+            )
         ) {
 
-            return color;
+            return {
+                oscuro: false,
+                turquesa: true
+            };
+
+        }
+
+
+        /* =================================================
+           BACKGROUND COLOR
+           ================================================= */
+
+        var fondo =
+            obtenerRGBA(
+                estilo.backgroundColor
+            );
+
+
+        if (
+            fondo &&
+            fondo.a >
+            0.08
+        ) {
+
+            return {
+
+                oscuro:
+                    obtenerLuminancia(
+                        fondo
+                    ) <
+                    145,
+
+                turquesa:
+                    colorEsTurquesa(
+                        fondo
+                    )
+
+            };
+
+        }
+
+
+        /* =================================================
+           PSEUDO-ELEMENTO ::BEFORE
+
+           Swipe Pages suele utilizar overlays mediante
+           pseudo-elementos.
+           ================================================= */
+
+        var before =
+            window.getComputedStyle(
+                actual,
+                "::before"
+            );
+
+
+        var fondoBefore =
+            obtenerRGBA(
+                before.backgroundColor
+            );
+
+
+        if (
+            fondoBefore &&
+            fondoBefore.a >
+            0.15
+        ) {
+
+            return {
+
+                oscuro:
+                    obtenerLuminancia(
+                        fondoBefore
+                    ) <
+                    145,
+
+                turquesa:
+                    colorEsTurquesa(
+                        fondoBefore
+                    )
+
+            };
+
+        }
+
+
+        /* =================================================
+           BACKGROUND IMAGE
+           ================================================= */
+
+        if (
+            estilo.backgroundImage &&
+            estilo.backgroundImage !==
+            "none"
+        ) {
+
+            encontroImagen =
+                true;
+
+
+            /*
+             * No podemos conocer de forma fiable el color
+             * de cada píxel de una imagen CSS.
+             *
+             * Como indicio adicional usamos el color del
+             * contenido de esa sección:
+             * texto claro suele significar imagen oscura.
+             */
+
+            var colorTexto =
+                obtenerRGBA(
+                    estilo.color
+                );
+
+
+            if (
+                colorTexto &&
+                obtenerLuminancia(
+                    colorTexto
+                ) >
+                185
+            ) {
+
+                return {
+                    oscuro: true,
+                    turquesa: false
+                };
+
+            }
 
         }
 
@@ -223,72 +497,31 @@ function obtenerColorFondo(
     }
 
 
-    return "rgb(255, 255, 255)";
-
-}
-
-
-function fondoEsOscuro(
-    elemento
-) {
-
-    var color =
-        obtenerColorFondo(
-            elemento
-        );
-
-
-    var valores =
-        color.match(
-            /[\d.]+/g
-        );
-
+    /*
+     * Si encontramos imagen pero ningún color de fondo
+     * concluyente, mantenemos como oscuro cuando el
+     * contexto visual no pudo determinarse.
+     *
+     * Esto evita el problema típico de una imagen oscura
+     * que termina heredando el fondo blanco del body.
+     */
 
     if (
-        !valores ||
-        valores.length <
-        3
+        encontroImagen
     ) {
-        return false;
+
+        return {
+            oscuro: true,
+            turquesa: false
+        };
+
     }
 
 
-    var r =
-        Number(
-            valores[0]
-        );
-
-
-    var g =
-        Number(
-            valores[1]
-        );
-
-
-    var b =
-        Number(
-            valores[2]
-        );
-
-
-    /*
-     * Luminancia perceptual.
-     * Por debajo de este valor consideramos
-     * que el fondo es oscuro.
-     */
-
-    var luminancia =
-        (
-            0.299 * r +
-            0.587 * g +
-            0.114 * b
-        );
-
-
-    return (
-        luminancia <
-        145
-    );
+    return {
+        oscuro: false,
+        turquesa: false
+    };
 
 }
 
@@ -379,7 +612,7 @@ document.addEventListener(
 
 
         /* =================================================
-           DETECTAR COLOR DEL FONDO
+           ANALIZAR FONDO DEBAJO DEL CURSOR
            ================================================= */
 
         var elementoDebajo =
@@ -389,11 +622,20 @@ document.addEventListener(
             );
 
 
-        if (
-            elementoDebajo &&
-            fondoEsOscuro(
+        var contexto =
+            analizarFondo(
                 elementoDebajo
-            )
+            );
+
+
+        /* =================================================
+           ESFERA PEQUEÑA
+           Blanco sobre oscuro
+           Negro sobre claro
+           ================================================= */
+
+        if (
+            contexto.oscuro
         ) {
 
             cursor.classList.add(
@@ -408,9 +650,29 @@ document.addEventListener(
 
         }
 
+
+        /* =================================================
+           HOVER SOBRE TURQUESA
+           ================================================= */
+
+        if (
+            contexto.turquesa
+        ) {
+
+            cursor.classList.add(
+                "halley-cursor-accent-bg"
+            );
+
+        } else {
+
+            cursor.classList.remove(
+                "halley-cursor-accent-bg"
+            );
+
+        }
+
     }
 );
-
     /* =====================================================
        10. MOUSE FUERA DEL NAVEGADOR
        ===================================================== */
