@@ -105,6 +105,26 @@
 
 
 /* =========================================================
+   4.1 HOVER SOBRE FONDO TURQUESA
+   ========================================================= */
+
+/*
+   Cuando la esfera está en modo hover y el fondo
+   de la sección es turquesa, reemplaza el turquesa
+   del cursor por negro translúcido.
+*/
+
+.halley-hero-cursor.halley-cursor-hover.halley-cursor-accent-bg {
+
+    background:
+        rgba(28, 31, 36, 0.72);
+
+    box-shadow:
+        0 10px 30px rgba(28, 31, 36, 0.16),
+        0 4px 10px rgba(28, 31, 36, 0.08);
+}
+
+/* =========================================================
    5. ESTELA CONTINUA
    Canvas que dibuja la trayectoria real del cursor
    ========================================================= */
