@@ -1,5 +1,5 @@
 /* =========================================================
-   HALLEY — CURSOR PERSONALIZADO HERO
+   HALLEY — CURSOR PERSONALIZADO HERO + HEADER
    ========================================================= */
 
 (function () {
@@ -18,7 +18,7 @@
 
 
     /* =====================================================
-       2. LOCALIZAR HERO
+       2. LOCALIZAR ZONAS ACTIVAS
        ===================================================== */
 
     var hero =
@@ -27,7 +27,13 @@
         );
 
 
-    if (!hero) {
+    var header =
+        document.querySelector(
+            ".tatsu-header"
+        );
+
+
+    if (!hero && !header) {
         return;
     }
 
@@ -107,8 +113,7 @@
     var trail2Y = 0;
 
 
-    var iniciado =
-        false;
+    var iniciado = false;
 
 
     /* =====================================================
@@ -147,12 +152,6 @@
 
     /* =====================================================
        7. ANIMACIÓN DE SEGUIMIENTO
-
-       Cursor principal:
-       retraso extremadamente sutil.
-
-       Trail:
-       retraso progresivamente mayor.
        ===================================================== */
 
     function animarCursor() {
@@ -212,8 +211,6 @@
             0.14;
 
 
-        /* Aplicar posiciones */
-
         cursor.style.transform =
             "translate3d(" +
             cursorX +
@@ -252,52 +249,79 @@
 
 
     /* =====================================================
-       8. MOSTRAR / OCULTAR AL ENTRAR AL HERO
+       8. MOSTRAR / OCULTAR CURSOR
        ===================================================== */
 
-    hero.addEventListener(
-        "mouseenter",
-        function () {
+    function mostrarCursor() {
 
-            cursor.classList.add(
-                "halley-cursor-visible"
-            );
+        cursor.classList.add(
+            "halley-cursor-visible"
+        );
 
-            trail1.classList.add(
-                "halley-cursor-visible"
-            );
+        trail1.classList.add(
+            "halley-cursor-visible"
+        );
 
-            trail2.classList.add(
-                "halley-cursor-visible"
-            );
+        trail2.classList.add(
+            "halley-cursor-visible"
+        );
 
-        }
-    );
+    }
 
 
-    hero.addEventListener(
-        "mouseleave",
-        function () {
+    function ocultarCursor() {
 
-            cursor.classList.remove(
-                "halley-cursor-visible",
-                "halley-cursor-hover"
-            );
+        cursor.classList.remove(
+            "halley-cursor-visible",
+            "halley-cursor-hover"
+        );
 
-            trail1.classList.remove(
-                "halley-cursor-visible"
-            );
+        trail1.classList.remove(
+            "halley-cursor-visible"
+        );
 
-            trail2.classList.remove(
-                "halley-cursor-visible"
-            );
+        trail2.classList.remove(
+            "halley-cursor-visible"
+        );
 
-        }
-    );
+    }
+
+
+    if (hero) {
+
+        hero.addEventListener(
+            "mouseenter",
+            mostrarCursor
+        );
+
+
+        hero.addEventListener(
+            "mouseleave",
+            ocultarCursor
+        );
+
+    }
+
+
+    if (header) {
+
+        header.addEventListener(
+            "mouseenter",
+            mostrarCursor
+        );
+
+
+        header.addEventListener(
+            "mouseleave",
+            ocultarCursor
+        );
+
+    }
 
 
     /* =====================================================
        9. HOVER SOBRE ELEMENTOS INTERACTIVOS
+       HERO + HEADER
        ===================================================== */
 
     var selectoresHover =
@@ -307,43 +331,69 @@
         "[data-cursor-hover]";
 
 
-    hero.addEventListener(
-        "mouseover",
-        function (evento) {
+    function activarHover(evento) {
 
-            if (
-                evento.target.closest(
-                    selectoresHover
-                )
-            ) {
+        if (
+            evento.target.closest(
+                selectoresHover
+            )
+        ) {
 
-                cursor.classList.add(
-                    "halley-cursor-hover"
-                );
-
-            }
+            cursor.classList.add(
+                "halley-cursor-hover"
+            );
 
         }
-    );
+
+    }
 
 
-    hero.addEventListener(
-        "mouseout",
-        function (evento) {
+    function desactivarHover(evento) {
 
-            if (
-                evento.target.closest(
-                    selectoresHover
-                )
-            ) {
+        if (
+            evento.target.closest(
+                selectoresHover
+            )
+        ) {
 
-                cursor.classList.remove(
-                    "halley-cursor-hover"
-                );
-
-            }
+            cursor.classList.remove(
+                "halley-cursor-hover"
+            );
 
         }
-    );
+
+    }
+
+
+    if (hero) {
+
+        hero.addEventListener(
+            "mouseover",
+            activarHover
+        );
+
+
+        hero.addEventListener(
+            "mouseout",
+            desactivarHover
+        );
+
+    }
+
+
+    if (header) {
+
+        header.addEventListener(
+            "mouseover",
+            activarHover
+        );
+
+
+        header.addEventListener(
+            "mouseout",
+            desactivarHover
+        );
+
+    }
 
 })();
