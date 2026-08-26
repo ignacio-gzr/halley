@@ -19,26 +19,16 @@
 
 
     /* =====================================================
-       2. LOCALIZAR ZONAS ACTIVAS
-       ===================================================== */
+   2. LOCALIZAR LANDING
+   ===================================================== */
 
-    var hero =
-        document.querySelector(
-            "#HeaderD"
-        );
+var landing =
+    document.body;
 
 
-    var header =
-        document.querySelector(
-            ".tatsu-header"
-        );
-
-
-    if (!hero && !header) {
-        return;
-    }
-
-
+if (!landing) {
+    return;
+}
     /* =====================================================
        3. CREAR CURSOR
        ===================================================== */
@@ -187,37 +177,120 @@ var distanciaMinima =
 
 
     /* =====================================================
-       7. SABER SI EL MOUSE ESTÁ EN HERO / HEADER
-       ===================================================== */
+   7. DETECTAR FONDO OSCURO
+   ===================================================== */
 
-    function estaEnZonaActiva(
-        x,
-        y
+function obtenerColorFondo(
+    elemento
+) {
+
+    var actual =
+        elemento;
+
+
+    while (
+        actual &&
+        actual !==
+        document.documentElement
     ) {
 
-        var elemento =
-            document.elementFromPoint(
-                x,
-                y
+        var estilo =
+            window.getComputedStyle(
+                actual
             );
 
 
-        if (!elemento) {
-            return false;
+        var color =
+            estilo.backgroundColor;
+
+
+        if (
+            color &&
+            color !==
+            "transparent" &&
+            color !==
+            "rgba(0, 0, 0, 0)"
+        ) {
+
+            return color;
+
         }
 
 
-        return !!(
-            elemento.closest(
-                "#HeaderD"
-            ) ||
-            elemento.closest(
-                ".tatsu-header"
-            )
-        );
+        actual =
+            actual.parentElement;
 
     }
 
+
+    return "rgb(255, 255, 255)";
+
+}
+
+
+function fondoEsOscuro(
+    elemento
+) {
+
+    var color =
+        obtenerColorFondo(
+            elemento
+        );
+
+
+    var valores =
+        color.match(
+            /[\d.]+/g
+        );
+
+
+    if (
+        !valores ||
+        valores.length <
+        3
+    ) {
+        return false;
+    }
+
+
+    var r =
+        Number(
+            valores[0]
+        );
+
+
+    var g =
+        Number(
+            valores[1]
+        );
+
+
+    var b =
+        Number(
+            valores[2]
+        );
+
+
+    /*
+     * Luminancia perceptual.
+     * Por debajo de este valor consideramos
+     * que el fondo es oscuro.
+     */
+
+    var luminancia =
+        (
+            0.299 * r +
+            0.587 * g +
+            0.114 * b
+        );
+
+
+    return (
+        luminancia <
+        145
+    );
+
+}
 
     /* =====================================================
        8. MOSTRAR / OCULTAR
@@ -266,58 +339,77 @@ var distanciaMinima =
     }
 
 
-    /* =====================================================
-       9. MOVIMIENTO DEL MOUSE
-       ===================================================== */
+/* =====================================================
+   9. MOVIMIENTO DEL MOUSE
+   ===================================================== */
 
-    document.addEventListener(
-        "mousemove",
-        function (evento) {
+document.addEventListener(
+    "mousemove",
+    function (evento) {
 
-            mouseX =
-                evento.clientX;
-
-
-            mouseY =
-                evento.clientY;
+        mouseX =
+            evento.clientX;
 
 
-            if (!iniciado) {
-
-                cursorX =
-                    mouseX;
+        mouseY =
+            evento.clientY;
 
 
-                cursorY =
-                    mouseY;
+        if (!iniciado) {
+
+            cursorX =
+                mouseX;
 
 
-                iniciado =
-                    true;
-
-            }
+            cursorY =
+                mouseY;
 
 
-            activo =
-                estaEnZonaActiva(
-                    mouseX,
-                    mouseY
-                );
-
-
-            if (activo) {
-
-                mostrarCursor();
-
-            } else {
-
-                ocultarTodo();
-
-            }
+            iniciado =
+                true;
 
         }
-    );
 
+
+        activo =
+            true;
+
+
+        mostrarCursor();
+
+
+        /* =================================================
+           DETECTAR COLOR DEL FONDO
+           ================================================= */
+
+        var elementoDebajo =
+            document.elementFromPoint(
+                mouseX,
+                mouseY
+            );
+
+
+        if (
+            elementoDebajo &&
+            fondoEsOscuro(
+                elementoDebajo
+            )
+        ) {
+
+            cursor.classList.add(
+                "halley-cursor-light"
+            );
+
+        } else {
+
+            cursor.classList.remove(
+                "halley-cursor-light"
+            );
+
+        }
+
+    }
+);
 
     /* =====================================================
        10. MOUSE FUERA DEL NAVEGADOR
@@ -815,8 +907,12 @@ function dibujarEstela(
         opacidadTemporal;
 
 
-    ctx.fillStyle =
-        "#1C1F24";
+ctx.fillStyle =
+    cursor.classList.contains(
+        "halley-cursor-light"
+    )
+        ? "#FFFFFF"
+        : "#1C1F24";
 
 
     ctx.filter =
@@ -844,8 +940,12 @@ function dibujarEstela(
         opacidadTemporal;
 
 
-    ctx.fillStyle =
-        "#1C1F24";
+ctx.fillStyle =
+    cursor.classList.contains(
+        "halley-cursor-light"
+    )
+        ? "#FFFFFF"
+        : "#1C1F24";
 
 
     ctx.filter =
@@ -873,8 +973,12 @@ function dibujarEstela(
         opacidadTemporal;
 
 
-    ctx.fillStyle =
-        "#1C1F24";
+ctx.fillStyle =
+    cursor.classList.contains(
+        "halley-cursor-light"
+    )
+        ? "#FFFFFF"
+        : "#1C1F24";
 
 
     ctx.filter =
@@ -917,7 +1021,7 @@ function dibujarEstela(
                 mouseX -
                 cursorX
             ) *
-            0.34;
+            0.289;
 
 
         cursorY +=
