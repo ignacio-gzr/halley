@@ -547,10 +547,13 @@ function analizarFondo(
        1. ANALIZAR SECCIÓN COMPLETA
        ================================================= */
 
-    var seccion =
-        elemento.closest(
-            ".tatsu-section, section"
-        );
+var seccion =
+    elemento.closest(
+        ".tatsu-section, " +
+        ".tatsu-section-offset, " +
+        ".tatsu-parallax, " +
+        "section"
+    );
 
 
     var contextoSeccion =
