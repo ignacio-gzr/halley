@@ -296,10 +296,6 @@ function colorEsTurquesa(
 }
 
 
-/* =====================================================
-   DETECTAR IMAGEN / OVERLAY EN UNA SECCIÓN
-   ===================================================== */
-
 function analizarSeccionVisual(
     seccion
 ) {
@@ -309,7 +305,9 @@ function analizarSeccionVisual(
     }
 
 
-    /* Override manual */
+    /* =================================================
+       OVERRIDES MANUALES
+       ================================================= */
 
     if (
         seccion.classList.contains(
@@ -339,158 +337,151 @@ function analizarSeccionVisual(
     }
 
 
-    var elementos =
-        [
+    /* =================================================
+       COLOR SÓLIDO DE LA SECCIÓN
+       ================================================= */
+
+    var estiloSeccion =
+        window.getComputedStyle(
             seccion
-        ].concat(
-            Array.from(
-                seccion.querySelectorAll(
-                    ":scope > div"
-                )
-            )
         );
 
 
-    var hayImagen =
-        false;
+    var fondoSeccion =
+        obtenerRGBA(
+            estiloSeccion.backgroundColor
+        );
 
 
-    var hayOverlayOscuro =
-        false;
-
-
-    for (
-        var i = 0;
-        i < elementos.length;
-        i++
+    if (
+        fondoSeccion &&
+        fondoSeccion.a >= 0.80
     ) {
 
-        var elemento =
-            elementos[i];
-
-
-        var estilo =
-            window.getComputedStyle(
-                elemento
-            );
-
-
-        var before =
-            window.getComputedStyle(
-                elemento,
-                "::before"
-            );
-
-
-        var after =
-            window.getComputedStyle(
-                elemento,
-                "::after"
-            );
-
-
         if (
-            (
-                estilo.backgroundImage &&
-                estilo.backgroundImage !==
-                "none"
-            ) ||
-            (
-                before.backgroundImage &&
-                before.backgroundImage !==
-                "none"
-            ) ||
-            (
-                after.backgroundImage &&
-                after.backgroundImage !==
-                "none"
+            colorEsTurquesa(
+                fondoSeccion
             )
         ) {
 
-            hayImagen =
-                true;
+            return {
+                oscuro: false,
+                turquesa: true
+            };
+
+        }
+
+    }
+
+
+    /* =================================================
+       SECCIÓN PARALLAX / VISUAL
+       ================================================= */
+
+    var esParallax =
+        seccion.classList.contains(
+            "tatsu-parallax"
+        ) ||
+        seccion.classList.contains(
+            "tatsu-parallaxed"
+        );
+
+
+    if (
+        esParallax
+    ) {
+
+        var candidatos =
+            seccion.querySelectorAll(
+                "h1, h2, h3, h4, h5, h6, p, span, a"
+            );
+
+
+        var claros = 0;
+        var oscuros = 0;
+
+
+        var limite =
+            Math.min(
+                candidatos.length,
+                80
+            );
+
+
+        for (
+            var i = 0;
+            i < limite;
+            i++
+        ) {
+
+            var elemento =
+                candidatos[i];
+
+
+            var rect =
+                elemento.getBoundingClientRect();
+
+
+            if (
+                rect.width <= 0 ||
+                rect.height <= 0
+            ) {
+                continue;
+            }
+
+
+            var estilo =
+                window.getComputedStyle(
+                    elemento
+                );
+
+
+            if (
+                estilo.visibility === "hidden" ||
+                Number(estilo.opacity) < 0.2
+            ) {
+                continue;
+            }
+
+
+            var colorTexto =
+                obtenerRGBA(
+                    estilo.color
+                );
+
+
+            if (!colorTexto) {
+                continue;
+            }
+
+
+            var luminancia =
+                obtenerLuminancia(
+                    colorTexto
+                );
+
+
+            if (
+                luminancia > 180
+            ) {
+
+                claros++;
+
+            } else if (
+                luminancia < 120
+            ) {
+
+                oscuros++;
+
+            }
 
         }
 
 
-        var coloresOverlay =
-            [
-                obtenerRGBA(
-                    before.backgroundColor
-                ),
-                obtenerRGBA(
-                    after.backgroundColor
-                )
-            ];
-
-
-        coloresOverlay.forEach(
-            function (color) {
-
-                if (
-                    color &&
-                    color.a >= 0.20 &&
-                    obtenerLuminancia(
-                        color
-                    ) <
-                    145
-                ) {
-
-                    hayOverlayOscuro =
-                        true;
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /*
-     * Imagen + overlay oscuro:
-     * tratamos toda la sección como fondo oscuro.
-     */
-
-    if (
-        hayImagen &&
-        hayOverlayOscuro
-    ) {
-
-        return {
-            oscuro: true,
-            turquesa: false
-        };
-
-    }
-
-
-    /*
-     * En esta landing las secciones con imagen
-     * grande de fondo están diseñadas con
-     * tratamiento oscuro para texto blanco.
-     */
-
-    if (
-        hayImagen
-    ) {
-
-        var colorTexto =
-            obtenerRGBA(
-                window
-                    .getComputedStyle(
-                        seccion
-                    )
-                    .color
-            );
-
+        /* Texto claro predominante → fondo oscuro */
 
         if (
-            colorTexto &&
-            obtenerLuminancia(
-                colorTexto
-            ) >
-            180
+            claros > oscuros
         ) {
 
             return {
@@ -499,6 +490,32 @@ function analizarSeccionVisual(
             };
 
         }
+
+
+        /* Texto oscuro predominante → fondo claro */
+
+        if (
+            oscuros > claros
+        ) {
+
+            return {
+                oscuro: false,
+                turquesa: false
+            };
+
+        }
+
+
+        /*
+         * Fallback:
+         * si es parallax y no pudimos decidir,
+         * lo tratamos como fondo oscuro.
+         */
+
+        return {
+            oscuro: true,
+            turquesa: false
+        };
 
     }
 
