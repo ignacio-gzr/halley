@@ -587,6 +587,30 @@ document.documentElement
             );
 
 
+            /* Medir el ancho real de cada línea sin permitir cortes.
+               La escala inicial debe respetar el ancho del texto,
+               no solamente el rectángulo del H1 original. */
+            var gruposMedidos =
+                copia.querySelectorAll(".halley-hero-grupo-titulo");
+
+            var anchoLineaMaximo = 0;
+
+            gruposMedidos.forEach(function (grupo) {
+                anchoLineaMaximo = Math.max(
+                    anchoLineaMaximo,
+                    grupo.scrollWidth,
+                    grupo.getBoundingClientRect().width
+                );
+            });
+
+            var anchoBaseAnimado = Math.max(
+                tituloRect.width,
+                anchoLineaMaximo
+            );
+
+            copia.style.width = anchoBaseAnimado + "px";
+
+
             /* =================================================
                ESCALA INICIAL
                69,375%
@@ -599,7 +623,7 @@ document.documentElement
 
             var escala =
                 anchoObjetivo /
-                tituloRect.width;
+                anchoBaseAnimado;
 
 
             escala =
@@ -624,7 +648,7 @@ document.documentElement
 
 
             var anchoVisualInicial =
-                tituloRect.width *
+                anchoBaseAnimado *
                 escala;
 
 
@@ -633,6 +657,12 @@ document.documentElement
                 margenDerecho -
                 anchoVisualInicial +
                 desplazamientoExtraDerecha;
+
+            /* Mantener el título completo dentro del hero. */
+            leftInicial = Math.min(
+                leftInicial,
+                heroRect.width - anchoVisualInicial - 20
+            );
 
 
             var altoVisualInicial =
