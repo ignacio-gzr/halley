@@ -190,6 +190,7 @@ html.halley-hero-intro-running
 .halley-hero-grupo-titulo {
 
     display: block;
+    white-space: nowrap;
 
     opacity: 0;
 
