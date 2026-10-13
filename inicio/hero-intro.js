@@ -513,17 +513,15 @@ document.documentElement
 
             copia.innerHTML =
                 '<span class="halley-hero-grupo-titulo halley-hero-grupo-1">' +
-                    'TOMÁ EL' +
+                    'TOMÁ EL <span style="color:#43A6B2;">CONTROL</span>' +
                 '</span>' +
 
-                ' ' +
-
                 '<span class="halley-hero-grupo-titulo halley-hero-grupo-2">' +
-                    '<span style="color:#43A6B2;">CONTROL</span> DE TU' +
+                    'DE TU ESTACIÓN' +
                 '</span>' +
 
                 '<span class="halley-hero-grupo-titulo halley-hero-grupo-3 halley-hero-grupo-linea-final">' +
-                    'ESTACIÓN DE SERVICIO' +
+                    'DE SERVICIO' +
                 '</span>';
 
 
