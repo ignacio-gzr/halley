@@ -1009,10 +1009,32 @@ document.documentElement
                             );
 
 
-                        copia.remove();
+                        /* El H1 original ya está visible. Mantener la copia
+                           brevemente y desvanecerla evita un reemplazo
+                           instantáneo de las cajas de línea al aterrizar. */
+                        var salidaCopia = copia.animate(
+                            [
+                                { opacity: 1 },
+                                { opacity: 0 }
+                            ],
+                            {
+                                duration: 220,
+                                easing: "ease-out",
+                                fill: "forwards"
+                            }
+                        );
 
-
-                        overlay.remove();
+                        salidaCopia.finished.then(
+                            function () {
+                                copia.remove();
+                                overlay.remove();
+                            }
+                        ).catch(
+                            function () {
+                                copia.remove();
+                                overlay.remove();
+                            }
+                        );
 
 
                         document.documentElement
