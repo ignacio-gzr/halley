@@ -513,7 +513,7 @@ document.documentElement
 
             copia.innerHTML =
                 '<span class="halley-hero-grupo-titulo halley-hero-grupo-1">' +
-                    'TOMÁ EL <span style="color:#43A6B2;">CONTROL</span>' +
+                    'TOMÁ EL <span style="color:#479da5;">CONTROL</span>' +
                 '</span><br>' +
 
                 '<span class="halley-hero-grupo-titulo halley-hero-grupo-2">' +
@@ -609,6 +609,41 @@ document.documentElement
             );
 
             copia.style.width = anchoBaseAnimado + "px";
+
+            /* Alinear las líneas animadas con la geometría real
+               del H1 de Swipe Pages, incluso con zoom fraccionario.
+               Los inline-block pueden cambiar la línea base aunque
+               el font-size y el line-height sean idénticos. */
+            function alinearRenglon(texto, selector) {
+                var nodoOriginal = Array.from(titulo.childNodes).find(
+                    function (nodo) {
+                        return nodo.nodeType === 3 &&
+                            normalizarTexto(nodo.textContent) === texto;
+                    }
+                );
+
+                var grupo = copia.querySelector(selector);
+                if (!nodoOriginal || !grupo) return;
+
+                var rangoOriginal = document.createRange();
+                rangoOriginal.selectNodeContents(nodoOriginal);
+
+                var rangoAnimado = document.createRange();
+                rangoAnimado.selectNodeContents(grupo);
+
+                var diferencia =
+                    rangoOriginal.getBoundingClientRect().top -
+                    rangoAnimado.getBoundingClientRect().top;
+
+                if (Number.isFinite(diferencia)) {
+                    grupo.style.position = "relative";
+                    grupo.style.top = diferencia + "px";
+                }
+            }
+
+            alinearRenglon("de tu estacion", ".halley-hero-grupo-2");
+            alinearRenglon("de servicio", ".halley-hero-grupo-3");
+
 
 
             /* =================================================
