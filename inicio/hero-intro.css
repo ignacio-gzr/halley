@@ -189,7 +189,7 @@ html.halley-hero-intro-running
 #HeaderD
 .halley-hero-grupo-titulo {
 
-    display: block;
+    display: inline-block;
     white-space: nowrap;
 
     opacity: 0;
@@ -202,7 +202,7 @@ html.halley-hero-intro-running
 
 #HeaderD
 .halley-hero-grupo-linea-final {
-    display: block;
+    display: inline-block;
 }
 
 
