@@ -450,34 +450,151 @@ document.documentElement
 
 
             /* =================================================
-               ANIMAR EL H1 REAL, SIN COPIA NI REEMPLAZO FINAL
-               ================================================= */
+               OVERLAY
+            ================================================= */
 
-            var overlay = null;
-            var heroRect = hero.getBoundingClientRect();
-            var tituloRect = titulo.getBoundingClientRect();
-            var copia = titulo;
+            var overlay =
+                document.createElement(
+                    "div"
+                );
 
-            /* Conservamos el H1 en su posición y contexto originales.
-               Los spans permiten mantener la entrada escalonada. */
+
+            overlay.className =
+                "halley-hero-overlay";
+
+
+            hero.appendChild(
+                overlay
+            );
+
+
+            /* =================================================
+               MEDICIONES
+            ================================================= */
+
+            var heroRect =
+                hero.getBoundingClientRect();
+
+
+            var tituloRect =
+                titulo.getBoundingClientRect();
+
+
+            var estilo =
+                window.getComputedStyle(
+                    titulo
+                );
+
+
+            /* =================================================
+               COPIA DEL TÍTULO
+            ================================================= */
+
+            var copia =
+                titulo.cloneNode(
+                    true
+                );
+
+
+            copia.removeAttribute(
+                "id"
+            );
+
+
+            copia.classList.remove(
+                "halley-hero-titulo-original"
+            );
+
+
+            copia.classList.add(
+                "halley-hero-titulo-intro"
+            );
+
+
             copia.innerHTML =
                 '<span class="halley-hero-grupo-titulo halley-hero-grupo-1">' +
                     'TOMÁ EL <span style="color:#479da5;">CONTROL</span>' +
                 '</span><br>' +
+
                 '<span class="halley-hero-grupo-titulo halley-hero-grupo-2">' +
                     'DE TU ESTACIÓN' +
                 '</span><br>' +
+
                 '<span class="halley-hero-grupo-titulo halley-hero-grupo-3 halley-hero-grupo-linea-final">' +
                     'DE SERVICIO' +
                 '</span>';
 
-            var leftFinal = tituloRect.left - heroRect.left;
-            var topFinal = tituloRect.top - heroRect.top;
 
-            /* El H1 permanece en su flujo normal. Nunca se sustituye
-               por otro elemento al finalizar la animación. */
-            var gruposMedidos = copia.querySelectorAll(".halley-hero-grupo-titulo");
+            /* =================================================
+               POSICIÓN FINAL REAL DEL TÍTULO
+            ================================================= */
+
+            var leftFinal =
+                tituloRect.left -
+                heroRect.left;
+
+
+            var topFinal =
+                tituloRect.top -
+                heroRect.top;
+
+
+            copia.style.left =
+                leftFinal +
+                "px";
+
+
+            copia.style.top =
+                topFinal +
+                "px";
+
+
+            copia.style.width =
+                tituloRect.width +
+                "px";
+
+
+            copia.style.fontFamily =
+                estilo.fontFamily;
+
+
+            copia.style.fontSize =
+                estilo.fontSize;
+
+
+            copia.style.fontWeight =
+                estilo.fontWeight;
+
+
+            copia.style.lineHeight =
+                estilo.lineHeight;
+
+
+            copia.style.letterSpacing =
+                estilo.letterSpacing;
+
+
+            copia.style.textAlign =
+                estilo.textAlign;
+
+
+            copia.style.opacity =
+                "1";
+
+
+            overlay.appendChild(
+                copia
+            );
+
+
+            /* Medir el ancho real de cada línea sin permitir cortes.
+               La escala inicial debe respetar el ancho del texto,
+               no solamente el rectángulo del H1 original. */
+            var gruposMedidos =
+                copia.querySelectorAll(".halley-hero-grupo-titulo");
+
             var anchoLineaMaximo = 0;
+
             gruposMedidos.forEach(function (grupo) {
                 anchoLineaMaximo = Math.max(
                     anchoLineaMaximo,
@@ -485,7 +602,49 @@ document.documentElement
                     grupo.getBoundingClientRect().width
                 );
             });
-            var anchoBaseAnimado = Math.max(tituloRect.width, anchoLineaMaximo);
+
+            var anchoBaseAnimado = Math.max(
+                tituloRect.width,
+                anchoLineaMaximo
+            );
+
+            copia.style.width = anchoBaseAnimado + "px";
+
+            /* Alinear las líneas animadas con la geometría real
+               del H1 de Swipe Pages, incluso con zoom fraccionario.
+               Los inline-block pueden cambiar la línea base aunque
+               el font-size y el line-height sean idénticos. */
+            function alinearRenglon(texto, selector) {
+                var nodoOriginal = Array.from(titulo.childNodes).find(
+                    function (nodo) {
+                        return nodo.nodeType === 3 &&
+                            normalizarTexto(nodo.textContent) === texto;
+                    }
+                );
+
+                var grupo = copia.querySelector(selector);
+                if (!nodoOriginal || !grupo) return;
+
+                var rangoOriginal = document.createRange();
+                rangoOriginal.selectNodeContents(nodoOriginal);
+
+                var rangoAnimado = document.createRange();
+                rangoAnimado.selectNodeContents(grupo);
+
+                var diferencia =
+                    rangoOriginal.getBoundingClientRect().top -
+                    rangoAnimado.getBoundingClientRect().top;
+
+                if (Number.isFinite(diferencia)) {
+                    grupo.style.position = "relative";
+                    grupo.style.top = diferencia + "px";
+                }
+            }
+
+            alinearRenglon("de tu estacion", ".halley-hero-grupo-2");
+            alinearRenglon("de servicio", ".halley-hero-grupo-3");
+
+
 
             /* =================================================
                ESCALA INICIAL
@@ -581,10 +740,8 @@ document.documentElement
                 ")";
 
 
-            copia.style.transform = transformGrande;
-
-            /* Mostrar el H1 original ya preparado antes de la entrada. */
-            titulo.classList.remove("halley-hero-titulo-original");
+            copia.style.transform =
+                transformGrande;
 
 
             /* =================================================
@@ -841,8 +998,22 @@ document.documentElement
                 .then(
                     function () {
 
-                        /* El H1 animado es el definitivo: no hay intercambio
-                           ni desvanecimiento al aterrizar. */
+                        /* =================================================
+                           CLON → TÍTULO ORIGINAL
+                        ================================================= */
+
+                        titulo
+                            .classList
+                            .remove(
+                                "halley-hero-titulo-original"
+                            );
+
+
+                        copia.remove();
+
+
+                        overlay.remove();
+
 
                         document.documentElement
                             .classList
@@ -897,6 +1068,13 @@ document.documentElement
                                                 "halley-hero-flecha-aparecer",
                                                 "halley-hero-gif-aparecer"
                                             );
+
+                                            /* Liberar las capas de composición
+                                               una vez terminada la entrada:
+                                               el texto vuelve a renderizar nítido. */
+                                            interno.style.transform = "none";
+                                            interno.style.filter = "none";
+                                            interno.style.willChange = "auto";
 
                                         }
                                     );
@@ -962,7 +1140,9 @@ document.documentElement
                             );
 
 
-                        /* El título es el H1 real: nunca eliminarlo. */
+                        if (copia) {
+                            copia.remove();
+                        }
 
 
                         if (overlay) {
