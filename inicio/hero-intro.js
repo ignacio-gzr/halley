@@ -1076,6 +1076,14 @@ document.documentElement
                                             interno.style.filter = "none";
                                             interno.style.willChange = "auto";
 
+                                            /* Evitar que el GIF permanezca en
+                                               una capa de composición 3D tras
+                                               finalizar su animación. */
+                                            if (contenidosGif.indexOf(interno) !== -1) {
+                                                interno.style.backfaceVisibility = "visible";
+                                                interno.style.webkitBackfaceVisibility = "visible";
+                                            }
+
                                         }
                                     );
 
