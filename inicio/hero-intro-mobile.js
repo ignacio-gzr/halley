@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v8
+/* HALLEY — INTRO HERO MOBILE/TABLET v9
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -157,12 +157,13 @@
             var moves = words.map(function (word, i) {
               var from = wordStarts[i];
               var to = wordTargets[i];
-              var sx = to.width / from.width;
-              var sy = to.height / from.height;
+              /* Escala isotrópica: nunca deformar horizontalmente las letras.
+                 La altura del texto nativo define el tamaño final. */
+              var uniformScale = to.height / from.height;
               return word.animate([
-                { transform: "translate(0px,0px) scale(1,1)" },
+                { transform: "translate(0px,0px) scale(1)" },
                 { transform: "translate(" + (to.left - from.left) + "px," +
-                    (to.top - from.top) + "px) scale(" + sx + "," + sy + ")" }
+                    (to.top - from.top) + "px) scale(" + uniformScale + ")" }
               ], { duration: 1662, easing: easeMove, fill: "forwards" });
             });
             landing = { finished: Promise.all(moves.map(function (m) { return m.finished; })) };
