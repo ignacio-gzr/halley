@@ -1,4 +1,12 @@
-/* HALLEY — HERO INTRO MOBILE/TABLET v3 | Solo #HeaderM */
+/* Preocultamiento desde HEAD: evita flash antes de DOMContentLoaded.
+   Se activa con la línea inline que debe ir ANTES de esta hoja. */
+html.halley-m-boot #HeaderM .tatsu-title-wrap-h1,
+html.halley-m-boot #HeaderM .tatsu-T0qnUyWkLdR,
+html.halley-m-boot #HeaderM .tatsu-ZasZ9LIhVfN,
+html.halley-m-boot #HeaderM .tatsu-LA23h_D2J_i {
+  opacity: 0 !important; visibility: hidden !important;
+}
+/* HALLEY — HERO INTRO MOBILE/TABLET v4 | Solo #HeaderM */
 /* El GIF real está en tatsu-ZasZ9LIhVfN, no en IC9qly8EPmS. */
 #HeaderM .tatsu-ZasZ9LIhVfN { opacity: 0 !important; visibility: hidden !important; }
 #HeaderM.halley-m-running .tatsu-ZasZ9LIhVfN:not(.halley-m-item-hidden) { opacity: 1 !important; visibility: visible !important; }
