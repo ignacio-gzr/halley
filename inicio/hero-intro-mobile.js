@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v10
+/* HALLEY — INTRO HERO MOBILE/TABLET v11
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -159,11 +159,22 @@
               var to = wordTargets[i];
               /* Escala isotrópica calculada con el ancho real de cada palabra
                  del H1 nativo: evita solapamientos y el ajuste brusco final. */
-              var uniformScale = to.width / from.width;
+              /* Medir el texto interno, no solo la caja inline-block:
+                 el Range del H1 nativo usa métricas de línea diferentes. */
+              var textRange = document.createRange();
+              textRange.selectNodeContents(word);
+              var glyph = textRange.getBoundingClientRect();
+              var uniformScale = to.width / (glyph.width || from.width);
+              /* transform-origin: top left. Compensar el offset del texto
+                 dentro de la caja para que no haya salto vertical al cambiar al H1 real. */
+              var offsetX = glyph.left - from.left;
+              var offsetY = glyph.top - from.top;
+              var moveX = to.left - glyph.left - offsetX * (uniformScale - 1);
+              var moveY = to.top - glyph.top - offsetY * (uniformScale - 1);
               return word.animate([
                 { transform: "translate(0px,0px) scale(1)" },
-                { transform: "translate(" + (to.left - from.left) + "px," +
-                    (to.top - from.top) + "px) scale(" + uniformScale + ")" }
+                { transform: "translate(" + moveX + "px," +
+                    moveY + "px) scale(" + uniformScale + ")" }
               ], { duration: 1662, easing: easeMove, fill: "forwards" });
             });
             landing = { finished: Promise.all(moves.map(function (m) { return m.finished; })) };
