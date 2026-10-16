@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v4
+/* HALLEY — INTRO HERO MOBILE/TABLET v5
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
