@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v2
+/* HALLEY — INTRO HERO MOBILE/TABLET v3
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -24,8 +24,8 @@
     };
     var paragraph = byClass("T0qnUyWkLdR") ||
       modules.find(function (m) { return m !== titleModule && /transform[aá].*estaci[oó]n/i.test(m.textContent || ""); });
-    var gif = byClass("IC9qly8EPmS") ||
-      modules.find(function (m) { return m !== titleModule && m.querySelector('img[src*=".gif"], video'); });
+    var gif = byClass("ZasZ9LIhVfN") ||
+      modules.find(function (m) { return m !== titleModule && m.querySelector('img[data-src*=".gif"], img[data-srcset*=".gif"], img[src*=".gif"], video'); });
     var arrow = byClass("LA23h_D2J_i") ||
       modules.slice().reverse().find(function (m) { return m !== gif && m !== titleModule && m.querySelector("svg, img"); });
     var items = [paragraph, gif, arrow].filter(function (m, i, a) { return m && a.indexOf(m) === i; });
@@ -91,13 +91,15 @@
       rect.height / Math.max(opening.height, 1));
     function reveal(module, duration, distance) {
       if (!module || !running) return;
-      module.classList.remove("halley-m-item-hidden");
       var child = module.firstElementChild || module;
+      /* La animación arranca oculta, antes de mostrar el módulo. */
       var a = child.animate([
         { opacity: 0, transform: "translateY(" + distance + "px)" },
         { opacity: 1, transform: "translateY(0px)" }
-      ], { duration: duration, easing: easeIn, fill: "none" });
+      ], { duration: duration, easing: easeIn, fill: "both" });
+      module.classList.remove("halley-m-item-hidden");
       a.finished.then(function () {
+        a.cancel();
         child.style.willChange = "auto";
         child.style.backfaceVisibility = "visible";
         child.style.webkitBackfaceVisibility = "visible";
