@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v11
+/* HALLEY — INTRO HERO MOBILE/TABLET v12
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -30,6 +30,7 @@
       modules.slice().reverse().find(function (m) { return m !== gif && m !== titleModule && m.querySelector("svg, img"); });
     var items = [paragraph, gif, arrow].filter(function (m, i, a) { return m && a.indexOf(m) === i; });
     var running = true, overlay, intro, watchdog;
+    var preserveMorph = false;
     var timers = [];
     function later(fn, ms) { timers.push(window.setTimeout(fn, ms)); }
     function cleanup() {
@@ -37,10 +38,11 @@
       running = false;
       timers.forEach(clearTimeout);
       title.classList.remove("halley-m-real-hidden", "halley-m-real-show");
+      if (preserveMorph) title.classList.add("halley-m-native-retained");
       items.forEach(function (m) { m.classList.remove("halley-m-item-hidden"); });
       hero.classList.remove("halley-m-running");
       document.documentElement.classList.remove("halley-m-boot");
-      if (overlay) overlay.remove();
+      if (overlay && !preserveMorph) overlay.remove();
     }
     /* Ocultar antes de comenzar: el GIF NO debe aparecer con el H1. */
     hero.classList.add("halley-m-running");
@@ -192,19 +194,35 @@
              con una transición breve al finalizar el recorrido. */
           landing.finished.then(function () {
             if (!running) return;
-            title.classList.add("halley-m-real-show");
-            intro.animate([{ opacity: 1 }, { opacity: 0 }],
-              { duration: 180, easing: "ease-out", fill: "forwards" });
-            later(function () {
-              title.classList.remove("halley-m-real-hidden", "halley-m-real-show");
-              if (overlay) overlay.remove();
-              /* Dejar que termine la entrada del GIF antes de limpiar. */
-              later(cleanup, 1250);
-            }, 190);
+            if (canMorph) {
+              /* Evitar el salto al sustituir dos textos con métricas diferentes.
+                 Conservar el overlay transformado como representación visible final. */
+              preserveMorph = true;
+              title.classList.add("halley-m-native-retained");
+              later(cleanup, 1440);
+            } else {
+              title.classList.add("halley-m-real-show");
+              intro.animate([{ opacity: 1 }, { opacity: 0 }],
+                { duration: 180, easing: "ease-out", fill: "forwards" });
+              later(function () {
+                title.classList.remove("halley-m-real-hidden", "halley-m-real-show");
+                if (overlay) overlay.remove();
+                later(cleanup, 1250);
+              }, 190);
+            }
           }).catch(cleanup);
         }, 135);
       }).catch(cleanup);
     }, 650);
+    /* Ante un cambio de ancho, restaurar el H1 nativo para respetar
+       la maquetación responsive real de Swipe Pages. */
+    var initialWidth = window.innerWidth;
+    window.addEventListener("resize", function () {
+      if (!preserveMorph || window.innerWidth === initialWidth) return;
+      preserveMorph = false;
+      title.classList.remove("halley-m-native-retained");
+      if (overlay) overlay.remove();
+    });
     watchdog = window.setTimeout(cleanup, 6500);
     timers.push(watchdog);
   }
