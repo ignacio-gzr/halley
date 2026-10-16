@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v15
+/* HALLEY — INTRO HERO MOBILE/TABLET v16
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -154,43 +154,95 @@
           if (!running) return;
           var landing;
           if (canMorph) {
-            /* FLIP por palabra: movimiento, escala y cambio de renglón
-               suceden juntos, sin esperar al final de la traslación. */
-            var moves = words.map(function (word, i) {
-              var from = wordStarts[i];
-              var to = wordTargets[i];
-              /* Escala isotrópica calculada con el ancho real de cada palabra
-                 del H1 nativo: evita solapamientos y el ajuste brusco final. */
-              /* Medir el texto interno, no solo la caja inline-block:
-                 el Range del H1 nativo usa métricas de línea diferentes. */
-              var textRange = document.createRange();
-              textRange.selectNodeContents(word);
-              var glyph = textRange.getBoundingClientRect();
-              var uniformScale = to.width / (glyph.width || from.width);
-              /* transform-origin: top left. Compensar el offset del texto
-                 dentro de la caja para que no haya salto vertical al cambiar al H1 real. */
-              var offsetX = glyph.left - from.left;
-              var offsetY = glyph.top - from.top;
-              var moveX = to.left - glyph.left - offsetX * (uniformScale - 1);
-              var moveY = to.top - glyph.top - offsetY * (uniformScale - 1);
-              /* Coreografía por renglón: el bloque superior libera espacio
-                 primero, el central lo sigue y el inferior cierra el recorrido.
-                 Cada palabra conserva su escala isotrópica y el destino exacto.
-                 Curva única, sin acelerón artificial al final. */
-              var lineIndex = i < 3 ? 0 : (i < 6 ? 1 : 2);
-              var startOffset = [0, 0.055, 0.11][lineIndex];
-              var endOffset = [0.89, 0.945, 1][lineIndex];
-              var finalTransform = "translate(" + moveX + "px," +
-                moveY + "px) scale(" + uniformScale + ")";
-              return word.animate([
-                { offset: 0, transform: "translate(0px,0px) scale(1)" },
-                { offset: startOffset || 0.001, transform: "translate(0px,0px) scale(1)",
-                  easing: "cubic-bezier(.42,0,.2,1)" },
-                { offset: endOffset, transform: finalTransform },
-                { offset: 1, transform: finalTransform }
-              ], { duration: 1662, easing: "linear", fill: "forwards" });
+            /* Control de tráfico geométrico:
+               todas las palabras siguen un solo recorrido continuo.
+               Si dos cajas de texto se acercan, la de menor prioridad
+               cede espacio antes de que puedan superponerse. */
+            var tracks = words.map(function (word, i) {
+              var from = wordStarts[i], to = wordTargets[i];
+              var range = document.createRange();
+              range.selectNodeContents(word);
+              var glyph = range.getBoundingClientRect();
+              var scaleEnd = to.width / (glyph.width || from.width);
+              var ox = glyph.left - from.left;
+              var oy = glyph.top - from.top;
+              return {
+                word: word, i: i, glyph: glyph, from: from, to: to,
+                scaleEnd: scaleEnd, ox: ox, oy: oy,
+                line: i < 3 ? 0 : (i < 6 ? 1 : 2)
+              };
             });
-            landing = { finished: Promise.all(moves.map(function (m) { return m.finished; })) };
+            function smooth(t) {
+              t = Math.max(0, Math.min(1, t));
+              return t * t * (3 - 2 * t);
+            }
+            function intersects(a, b) {
+              var gap = 1.5;
+              return a.x < b.x + b.w + gap && a.x + a.w + gap > b.x &&
+                a.y < b.y + b.h + gap && a.y + a.h + gap > b.y;
+            }
+            function desired(t, tr) {
+              /* La primera línea tiene prioridad; las siguientes ceden
+                 apenas unas centésimas, sin detenerse bruscamente. */
+              var delay = tr.line * 0.045;
+              var p = smooth((t - delay) / (1 - delay));
+              var k = 1 + (tr.scaleEnd - 1) * p;
+              return {
+                x: tr.glyph.left + (tr.to.left - tr.glyph.left) * p,
+                y: tr.glyph.top + (tr.to.top - tr.glyph.top) * p,
+                w: tr.glyph.width * k, h: tr.glyph.height * k,
+                k: k, tr: tr
+              };
+            }
+            function renderFrame(t) {
+              var boxes = tracks.map(function (tr) { return desired(t, tr); });
+              /* Separación iterativa: cada conflicto desplaza únicamente
+                 el bloque de menor prioridad, en el eje de menor coste.
+                 La corrección desaparece suavemente al acercarse al destino. */
+              for (var pass = 0; pass < 18; pass++) {
+                var any = false;
+                for (var i = 0; i < boxes.length; i++) {
+                  for (var j = i + 1; j < boxes.length; j++) {
+                    var a = boxes[i], b = boxes[j];
+                    if (!intersects(a, b)) continue;
+                    any = true;
+                    var gap = 2;
+                    var left = a.x + a.w + gap - b.x;
+                    var right = b.x + b.w + gap - a.x;
+                    var up = a.y + a.h + gap - b.y;
+                    var down = b.y + b.h + gap - a.y;
+                    /* Respetar la prioridad: las primeras palabras conservan
+                       la trayectoria y las siguientes les dan paso. */
+                    if (Math.min(left, right) < Math.min(up, down) * 0.85) {
+                      b.x += left <= right ? left : -right;
+                    } else {
+                      b.y += up <= down ? up : -down;
+                    }
+                  }
+                }
+                if (!any) break;
+              }
+              boxes.forEach(function (box) {
+                var tr = box.tr;
+                var tx = box.x - tr.glyph.left - tr.ox * (box.k - 1);
+                var ty = box.y - tr.glyph.top - tr.oy * (box.k - 1);
+                tr.word.style.transform = "translate(" + tx + "px," +
+                  ty + "px) scale(" + box.k + ")";
+              });
+            }
+            landing = {};
+            landing.finished = new Promise(function (resolve) {
+              var began = null;
+              function frame(now) {
+                if (!running) { resolve(); return; }
+                if (began === null) began = now;
+                var t = Math.min(1, (now - began) / 1662);
+                renderFrame(t);
+                if (t < 1) window.requestAnimationFrame(frame);
+                else resolve();
+              }
+              window.requestAnimationFrame(frame);
+            });
           } else {
             /* Fallback si Swipe Pages cambia la estructura del H1. */
             landing = intro.animate([
