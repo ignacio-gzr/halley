@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v6
+/* HALLEY — INTRO HERO MOBILE/TABLET v7
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -58,10 +58,11 @@
     intro.style.letterSpacing = style.letterSpacing;
     intro.style.color = style.color;
     intro.style.textTransform = style.textTransform;
+    /* Cada palabra es independiente: puede migrar de renglón durante el vuelo. */
     intro.innerHTML =
-      '<span class="halley-m-line">TOMÁ EL <span class="halley-m-teal">CONTROL</span></span>' +
-      '<span class="halley-m-line">DE TU ESTACIÓN</span>' +
-      '<span class="halley-m-line">DE SERVICIO</span>';
+      '<span class="halley-m-line"><span class="halley-m-word">TOMÁ</span> <span class="halley-m-word">EL</span> <span class="halley-m-word halley-m-teal">CONTROL</span></span>' +
+      '<span class="halley-m-line"><span class="halley-m-word">DE</span> <span class="halley-m-word">TU</span> <span class="halley-m-word">ESTACIÓN</span></span>' +
+      '<span class="halley-m-line"><span class="halley-m-word">DE</span> <span class="halley-m-word">SERVICIO</span></span>';
     overlay.appendChild(intro);
     hero.appendChild(overlay);
 
@@ -91,6 +92,31 @@
     var dy = destY - startY;
     var scale = Math.min(1, rect.width / Math.max(opening.width, 1),
       rect.height / Math.max(opening.height, 1));
+    /* Medir las ocho palabras en el H1 original de Swipe Pages.
+       Range conserva los saltos de línea reales en cada ancho de pantalla. */
+    function getFinalWordRects() {
+      var found = [];
+      var walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT);
+      var node;
+      while ((node = walker.nextNode())) {
+        var re = /\\S+/g;
+        var match;
+        while ((match = re.exec(node.textContent))) {
+          var range = document.createRange();
+          range.setStart(node, match.index);
+          range.setEnd(node, match.index + match[0].length);
+          var box = range.getBoundingClientRect();
+          if (box.width && box.height) found.push(box);
+        }
+      }
+      return found;
+    }
+    var words = Array.prototype.slice.call(intro.querySelectorAll(".halley-m-word"));
+    var wordStarts = words.map(function (word) { return word.getBoundingClientRect(); });
+    var wordTargets = getFinalWordRects();
+    var canMorph = wordTargets.length === words.length &&
+      wordTargets.every(function (r) { return r.width > 0 && r.height > 0; });
+
     function reveal(module, duration, distance) {
       if (!module || !running) return;
       var child = module.firstElementChild || module;
@@ -124,10 +150,29 @@
         if (!running) return;
         later(function () {
           if (!running) return;
-          var landing = intro.animate([
-            { transform: "translate(0px,0px) scale(1)", opacity: 1 },
-            { transform: "translate(" + dx + "px," + dy + "px) scale(" + scale + ")", opacity: 1 }
-          ], { duration: 1662, easing: easeMove, fill: "forwards" });
+          var landing;
+          if (canMorph) {
+            /* FLIP por palabra: movimiento, escala y cambio de renglón
+               suceden juntos, sin esperar al final de la traslación. */
+            var moves = words.map(function (word, i) {
+              var from = wordStarts[i];
+              var to = wordTargets[i];
+              var sx = to.width / from.width;
+              var sy = to.height / from.height;
+              return word.animate([
+                { transform: "translate(0px,0px) scale(1,1)" },
+                { transform: "translate(" + (to.left - from.left) + "px," +
+                    (to.top - from.top) + "px) scale(" + sx + "," + sy + ")" }
+              ], { duration: 1662, easing: easeMove, fill: "forwards" });
+            });
+            landing = { finished: Promise.all(moves.map(function (m) { return m.finished; })) };
+          } else {
+            /* Fallback si Swipe Pages cambia la estructura del H1. */
+            landing = intro.animate([
+              { transform: "translate(0px,0px) scale(1)", opacity: 1 },
+              { transform: "translate(" + dx + "px," + dy + "px) scale(" + scale + ")", opacity: 1 }
+            ], { duration: 1662, easing: easeMove, fill: "forwards" });
+          }
           later(function () { reveal(paragraph, 825, 10); }, 780);
           later(function () { reveal(arrow, 825, 10); }, 984);
           later(function () { reveal(gif, 1403, 14); }, 1188);
