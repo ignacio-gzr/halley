@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v7
+/* HALLEY — INTRO HERO MOBILE/TABLET v8
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -99,7 +99,7 @@
       var walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT);
       var node;
       while ((node = walker.nextNode())) {
-        var re = /\\S+/g;
+        var re = /\S+/g;
         var match;
         while ((match = re.exec(node.textContent))) {
           var range = document.createRange();
