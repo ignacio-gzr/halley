@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v14
+/* HALLEY — INTRO HERO MOBILE/TABLET v15
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -173,14 +173,22 @@
               var offsetY = glyph.top - from.top;
               var moveX = to.left - glyph.left - offsetX * (uniformScale - 1);
               var moveY = to.top - glyph.top - offsetY * (uniformScale - 1);
-              /* Una única curva S continua: aceleración decidida,
-                 máxima agilidad en el centro y frenada amortiguada.
-                 Sin quiebres de velocidad entre segmentos. */
+              /* Coreografía por renglón: el bloque superior libera espacio
+                 primero, el central lo sigue y el inferior cierra el recorrido.
+                 Cada palabra conserva su escala isotrópica y el destino exacto.
+                 Curva única, sin acelerón artificial al final. */
+              var lineIndex = i < 3 ? 0 : (i < 6 ? 1 : 2);
+              var startOffset = [0, 0.055, 0.11][lineIndex];
+              var endOffset = [0.89, 0.945, 1][lineIndex];
+              var finalTransform = "translate(" + moveX + "px," +
+                moveY + "px) scale(" + uniformScale + ")";
               return word.animate([
-                { transform: "translate(0px,0px) scale(1)" },
-                { transform: "translate(" + moveX + "px," +
-                    moveY + "px) scale(" + uniformScale + ")" }
-              ], { duration: 1662, easing: "cubic-bezier(.72,0,.16,1)", fill: "forwards" });
+                { offset: 0, transform: "translate(0px,0px) scale(1)" },
+                { offset: startOffset || 0.001, transform: "translate(0px,0px) scale(1)",
+                  easing: "cubic-bezier(.42,0,.2,1)" },
+                { offset: endOffset, transform: finalTransform },
+                { offset: 1, transform: finalTransform }
+              ], { duration: 1662, easing: "linear", fill: "forwards" });
             });
             landing = { finished: Promise.all(moves.map(function (m) { return m.finished; })) };
           } else {
