@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v3
+/* HALLEY — INTRO HERO MOBILE/TABLET v4
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -8,13 +8,13 @@
   function init() {
     if (started) return;
     var hero = document.querySelector("#HeaderM");
-    if (!hero || !hero.getClientRects().length || getComputedStyle(hero).display === "none") return;
+    if (!hero || !hero.getClientRects().length || getComputedStyle(hero).display === "none") { document.documentElement.classList.remove("halley-m-boot"); return; }
     var title = hero.querySelector(".tatsu-title-wrap h1, .tatsu-title-wrap h2, .tatsu-title-wrap h3, h1, h2, h3");
-    if (!title) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !title.animate) return;
+    if (!title) { document.documentElement.classList.remove("halley-m-boot"); return; }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !title.animate) { document.documentElement.classList.remove("halley-m-boot"); return; }
     var rect = title.getBoundingClientRect();
     var hr = hero.getBoundingClientRect();
-    if (!rect.width || !rect.height || !hr.width) return;
+    if (!rect.width || !rect.height || !hr.width) { document.documentElement.classList.remove("halley-m-boot"); return; }
     started = true;
 
     var modules = Array.prototype.slice.call(hero.querySelectorAll(".tatsu-module"));
@@ -39,10 +39,12 @@
       title.classList.remove("halley-m-real-hidden", "halley-m-real-show");
       items.forEach(function (m) { m.classList.remove("halley-m-item-hidden"); });
       hero.classList.remove("halley-m-running");
+      document.documentElement.classList.remove("halley-m-boot");
       if (overlay) overlay.remove();
     }
     /* Ocultar antes de comenzar: el GIF NO debe aparecer con el H1. */
     hero.classList.add("halley-m-running");
+    document.documentElement.classList.remove("halley-m-boot");
     title.classList.add("halley-m-real-hidden");
     items.forEach(function (m) { m.classList.add("halley-m-item-hidden"); });
 
