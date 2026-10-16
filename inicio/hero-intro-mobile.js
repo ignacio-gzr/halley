@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v13
+/* HALLEY — INTRO HERO MOBILE/TABLET v14
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -173,21 +173,14 @@
               var offsetY = glyph.top - from.top;
               var moveX = to.left - glyph.left - offsetX * (uniformScale - 1);
               var moveY = to.top - glyph.top - offsetY * (uniformScale - 1);
-              /* Trayectoria con inercia: arranque suave, aceleración
-                 adicional en el último tramo y frenado progresivo.
-                 Todos los puntos usan el mismo progreso para cada palabra. */
-              function pose(progress) {
-                var size = 1 + (uniformScale - 1) * progress;
-                return "translate(" + (moveX * progress) + "px," +
-                  (moveY * progress) + "px) scale(" + size + ")";
-              }
+              /* Una única curva S continua: aceleración decidida,
+                 máxima agilidad en el centro y frenada amortiguada.
+                 Sin quiebres de velocidad entre segmentos. */
               return word.animate([
-                { offset: 0,    transform: pose(0),    easing: "cubic-bezier(.42,0,.64,1)" },
-                { offset: 0.68, transform: pose(0.62), easing: "cubic-bezier(.28,0,.18,1)" },
-                { offset: 0.84, transform: pose(0.79), easing: "cubic-bezier(.25,0,.62,1)" },
-                { offset: 0.94, transform: pose(0.97), easing: "cubic-bezier(.12,0,.2,1)" },
-                { offset: 1,    transform: pose(1) }
-              ], { duration: 1662, easing: "linear", fill: "forwards" });
+                { transform: "translate(0px,0px) scale(1)" },
+                { transform: "translate(" + moveX + "px," +
+                    moveY + "px) scale(" + uniformScale + ")" }
+              ], { duration: 1662, easing: "cubic-bezier(.72,0,.16,1)", fill: "forwards" });
             });
             landing = { finished: Promise.all(moves.map(function (m) { return m.finished; })) };
           } else {
