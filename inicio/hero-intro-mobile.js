@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v17
+/* HALLEY — INTRO HERO MOBILE/TABLET v18
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -119,18 +119,14 @@
     var groupIndices = [[0, 1, 2], [3, 4], [5, 6, 7]];
     /* El destino de cada grupo se obtiene del primer vocablo y del
        ancho tipográfico de la frase completa. No se parte el grupo. */
-    var nativeFont = getComputedStyle(title);
-    var measure = document.createElement("canvas").getContext("2d");
-    measure.font = nativeFont.font;
-    var labels = ["TOMÁ EL CONTROL", "DE TU", "ESTACIÓN DE SERVICIO"];
-    var wordTargets = groupIndices.map(function (indices, i) {
+    /* Cada grupo conserva sus distancias tipográficas internas:
+       el ancho final se calcula escalando la frase completa, no
+       estimando por separado cada palabra con Canvas. */
+    var wordTargets = groupIndices.map(function (indices) {
       var first = nativeWords[indices[0]];
-      if (!first) return null;
-      var width = measure.measureText(labels[i]).width;
-      /* La anchura del texto medido se calibra con el primer vocablo. */
-      var firstWidth = measure.measureText(labels[i].split(" ")[0]).width;
-      if (firstWidth) width *= first.width / firstWidth;
-      return { left: first.left, top: first.top, width: width, height: first.height };
+      return first ? { left: first.left, top: first.top,
+        width: first.width, height: first.height,
+        firstIndex: indices[0] } : null;
     });
     var canMorph = nativeWords.length === 8 && wordTargets.every(function (r) {
       return r && r.width > 0 && r.height > 0;
@@ -171,95 +167,39 @@
           if (!running) return;
           var landing;
           if (canMorph) {
-            /* Control de tráfico geométrico:
-               los tres grupos indivisibles siguen un recorrido continuo.
-               Si dos cajas de texto se acercan, la de menor prioridad
-               cede espacio antes de que puedan superponerse. */
-            var tracks = words.map(function (word, i) {
-              var from = wordStarts[i], to = wordTargets[i];
+            /* Tres bloques horizontales rígidos. No hay correcciones
+               por fotograma ni desplazamientos individuales de palabras.
+               El primer vocablo determina la escala exacta de cada bloque. */
+            var groupMoves = words.map(function (word, i) {
+              var from = wordStarts[i];
+              var to = wordTargets[i];
               var range = document.createRange();
-              range.selectNodeContents(word);
-              var glyph = range.getBoundingClientRect();
-              var scaleEnd = to.width / (glyph.width || from.width);
-              var ox = glyph.left - from.left;
-              var oy = glyph.top - from.top;
-              return {
-                word: word, i: i, glyph: glyph, from: from, to: to,
-                scaleEnd: scaleEnd, ox: ox, oy: oy,
-                line: i
-              };
-            });
-            function smooth(t) {
-              t = Math.max(0, Math.min(1, t));
-              return t * t * (3 - 2 * t);
-            }
-            function intersects(a, b) {
-              var gap = 1.5;
-              return a.x < b.x + b.w + gap && a.x + a.w + gap > b.x &&
-                a.y < b.y + b.h + gap && a.y + a.h + gap > b.y;
-            }
-            function desired(t, tr) {
-              /* La primera línea tiene prioridad; las siguientes ceden
-                 apenas unas centésimas, sin detenerse bruscamente. */
-              var delay = tr.line * 0.055;
-              var p = smooth((t - delay) / (1 - delay));
-              var k = 1 + (tr.scaleEnd - 1) * p;
-              return {
-                x: tr.glyph.left + (tr.to.left - tr.glyph.left) * p,
-                y: tr.glyph.top + (tr.to.top - tr.glyph.top) * p,
-                w: tr.glyph.width * k, h: tr.glyph.height * k,
-                k: k, tr: tr
-              };
-            }
-            function renderFrame(t) {
-              var boxes = tracks.map(function (tr) { return desired(t, tr); });
-              /* Separación iterativa: cada conflicto desplaza únicamente
-                 el bloque de menor prioridad, en el eje de menor coste.
-                 La corrección desaparece suavemente al acercarse al destino. */
-              for (var pass = 0; pass < 18; pass++) {
-                var any = false;
-                for (var i = 0; i < boxes.length; i++) {
-                  for (var j = i + 1; j < boxes.length; j++) {
-                    var a = boxes[i], b = boxes[j];
-                    if (!intersects(a, b)) continue;
-                    any = true;
-                    var gap = 2;
-                    var left = a.x + a.w + gap - b.x;
-                    var right = b.x + b.w + gap - a.x;
-                    var up = a.y + a.h + gap - b.y;
-                    var down = b.y + b.h + gap - a.y;
-                    /* Respetar la prioridad: las primeras palabras conservan
-                       la trayectoria y las siguientes les dan paso. */
-                    if (Math.min(left, right) < Math.min(up, down) * 0.85) {
-                      b.x += left <= right ? left : -right;
-                    } else {
-                      b.y += up <= down ? up : -down;
-                    }
-                  }
-                }
-                if (!any) break;
-              }
-              boxes.forEach(function (box) {
-                var tr = box.tr;
-                var tx = box.x - tr.glyph.left - tr.ox * (box.k - 1);
-                var ty = box.y - tr.glyph.top - tr.oy * (box.k - 1);
-                tr.word.style.transform = "translate(" + tx + "px," +
-                  ty + "px) scale(" + box.k + ")";
-              });
-            }
-            landing = {};
-            landing.finished = new Promise(function (resolve) {
-              var began = null;
-              function frame(now) {
-                if (!running) { resolve(); return; }
-                if (began === null) began = now;
-                var t = Math.min(1, (now - began) / 1662);
-                renderFrame(t);
-                if (t < 1) window.requestAnimationFrame(frame);
-                else resolve();
-              }
-              window.requestAnimationFrame(frame);
-            });
+              var firstText = word.firstChild;
+              if (!firstText || firstText.nodeType !== Node.TEXT_NODE) return null;
+              var firstMatch = /\\S+/.exec(firstText.textContent);
+              if (!firstMatch) return null;
+              range.setStart(firstText, firstMatch.index);
+              range.setEnd(firstText, firstMatch.index + firstMatch[0].length);
+              var firstGlyph = range.getBoundingClientRect();
+              var scaleEnd = to.width / firstGlyph.width;
+              var offsetX = firstGlyph.left - from.left;
+              var offsetY = firstGlyph.top - from.top;
+              var tx = to.left - from.left - scaleEnd * offsetX;
+              var ty = to.top - from.top - scaleEnd * offsetY;
+              var finalTransform = "translate(" + tx + "px," + ty +
+                "px) scale(" + scaleEnd + ")";
+              /* Ceder paso por bloques con un desfase mínimo, sin
+                 cambios repentinos de carril ni saltos de posición. */
+              var delay = [0, 75, 150][i];
+              return word.animate([
+                { transform: "translate(0px,0px) scale(1)" },
+                { transform: finalTransform }
+              ], { duration: 1662 - delay, delay: delay,
+                   easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" });
+            }).filter(Boolean);
+            landing = { finished: Promise.all(groupMoves.map(function (a) {
+              return a.finished;
+            })) };
           } else {
             /* Fallback si Swipe Pages cambia la estructura del H1. */
             landing = intro.animate([
