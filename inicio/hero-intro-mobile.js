@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v9
+/* HALLEY — INTRO HERO MOBILE/TABLET v10
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -157,9 +157,9 @@
             var moves = words.map(function (word, i) {
               var from = wordStarts[i];
               var to = wordTargets[i];
-              /* Escala isotrópica: nunca deformar horizontalmente las letras.
-                 La altura del texto nativo define el tamaño final. */
-              var uniformScale = to.height / from.height;
+              /* Escala isotrópica calculada con el ancho real de cada palabra
+                 del H1 nativo: evita solapamientos y el ajuste brusco final. */
+              var uniformScale = to.width / from.width;
               return word.animate([
                 { transform: "translate(0px,0px) scale(1)" },
                 { transform: "translate(" + (to.left - from.left) + "px," +
