@@ -1,4 +1,9 @@
-/* HALLEY — HERO INTRO MOBILE/TABLET v2 | Solo #HeaderM */
+/* HALLEY — HERO INTRO MOBILE/TABLET v3 | Solo #HeaderM */
+/* El GIF real está en tatsu-ZasZ9LIhVfN, no en IC9qly8EPmS. */
+#HeaderM .tatsu-ZasZ9LIhVfN { opacity: 0 !important; visibility: hidden !important; }
+#HeaderM.halley-m-running .tatsu-ZasZ9LIhVfN:not(.halley-m-item-hidden) { opacity: 1 !important; visibility: visible !important; }
+#HeaderM:not(.halley-m-running) .tatsu-ZasZ9LIhVfN { opacity: 1 !important; visibility: visible !important; }
+
 #HeaderM { position: relative; }
 #HeaderM.halley-m-running { isolation: isolate; }
 #HeaderM .halley-m-overlay {
