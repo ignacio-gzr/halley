@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v5
+/* HALLEY — INTRO HERO MOBILE/TABLET v6
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -109,8 +109,9 @@
     }
 
     /* Desktop: 650ms de espera; líneas a 0/140/280ms durante 504ms;
-       pausa 135ms; aterrizaje 1385ms;
-       párrafo +650ms, flecha +820ms, GIF +990ms desde aterrizaje. */
+       pausa 135ms; aterrizaje 1662ms (+20%);
+       párrafo +780ms, flecha +984ms, GIF +1188ms desde aterrizaje.
+       Las entradas mantienen la misma posición relativa en el recorrido. */
     later(function () {
       if (!running) return;
       var animations = lines.map(function (line, i) {
@@ -126,10 +127,10 @@
           var landing = intro.animate([
             { transform: "translate(0px,0px) scale(1)", opacity: 1 },
             { transform: "translate(" + dx + "px," + dy + "px) scale(" + scale + ")", opacity: 1 }
-          ], { duration: 1385, easing: easeMove, fill: "forwards" });
-          later(function () { reveal(paragraph, 825, 10); }, 650);
-          later(function () { reveal(arrow, 825, 10); }, 820);
-          later(function () { reveal(gif, 1403, 14); }, 990);
+          ], { duration: 1662, easing: easeMove, fill: "forwards" });
+          later(function () { reveal(paragraph, 825, 10); }, 780);
+          later(function () { reveal(arrow, 825, 10); }, 984);
+          later(function () { reveal(gif, 1403, 14); }, 1188);
           /* Reorganizar de tres líneas a la disposición nativa de dos
              con una transición breve al finalizar el recorrido. */
           landing.finished.then(function () {
