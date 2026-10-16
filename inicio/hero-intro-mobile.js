@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v16
+/* HALLEY — INTRO HERO MOBILE/TABLET v17
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -60,11 +60,11 @@
     intro.style.letterSpacing = style.letterSpacing;
     intro.style.color = style.color;
     intro.style.textTransform = style.textTransform;
-    /* Cada palabra es independiente: puede migrar de renglón durante el vuelo. */
+    /* Tres grupos indivisibles: sus palabras jamás se separan. */
     intro.innerHTML =
-      '<span class="halley-m-line"><span class="halley-m-word">TOMÁ</span> <span class="halley-m-word">EL</span> <span class="halley-m-word halley-m-teal">CONTROL</span></span>' +
-      '<span class="halley-m-line"><span class="halley-m-word">DE</span> <span class="halley-m-word">TU</span> <span class="halley-m-word">ESTACIÓN</span></span>' +
-      '<span class="halley-m-line"><span class="halley-m-word">DE</span> <span class="halley-m-word">SERVICIO</span></span>';
+      '<span class="halley-m-line"><span class="halley-m-word">TOMÁ EL <span class="halley-m-teal">CONTROL</span></span></span>' +
+      '<span class="halley-m-line"><span class="halley-m-word">DE TU</span></span>' +
+      '<span class="halley-m-line"><span class="halley-m-word">ESTACIÓN DE SERVICIO</span></span>';
     overlay.appendChild(intro);
     hero.appendChild(overlay);
 
@@ -115,9 +115,26 @@
     }
     var words = Array.prototype.slice.call(intro.querySelectorAll(".halley-m-word"));
     var wordStarts = words.map(function (word) { return word.getBoundingClientRect(); });
-    var wordTargets = getFinalWordRects();
-    var canMorph = wordTargets.length === words.length &&
-      wordTargets.every(function (r) { return r.width > 0 && r.height > 0; });
+    var nativeWords = getFinalWordRects();
+    var groupIndices = [[0, 1, 2], [3, 4], [5, 6, 7]];
+    /* El destino de cada grupo se obtiene del primer vocablo y del
+       ancho tipográfico de la frase completa. No se parte el grupo. */
+    var nativeFont = getComputedStyle(title);
+    var measure = document.createElement("canvas").getContext("2d");
+    measure.font = nativeFont.font;
+    var labels = ["TOMÁ EL CONTROL", "DE TU", "ESTACIÓN DE SERVICIO"];
+    var wordTargets = groupIndices.map(function (indices, i) {
+      var first = nativeWords[indices[0]];
+      if (!first) return null;
+      var width = measure.measureText(labels[i]).width;
+      /* La anchura del texto medido se calibra con el primer vocablo. */
+      var firstWidth = measure.measureText(labels[i].split(" ")[0]).width;
+      if (firstWidth) width *= first.width / firstWidth;
+      return { left: first.left, top: first.top, width: width, height: first.height };
+    });
+    var canMorph = nativeWords.length === 8 && wordTargets.every(function (r) {
+      return r && r.width > 0 && r.height > 0;
+    });
 
     function reveal(module, duration, distance) {
       if (!module || !running) return;
@@ -155,7 +172,7 @@
           var landing;
           if (canMorph) {
             /* Control de tráfico geométrico:
-               todas las palabras siguen un solo recorrido continuo.
+               los tres grupos indivisibles siguen un recorrido continuo.
                Si dos cajas de texto se acercan, la de menor prioridad
                cede espacio antes de que puedan superponerse. */
             var tracks = words.map(function (word, i) {
@@ -169,7 +186,7 @@
               return {
                 word: word, i: i, glyph: glyph, from: from, to: to,
                 scaleEnd: scaleEnd, ox: ox, oy: oy,
-                line: i < 3 ? 0 : (i < 6 ? 1 : 2)
+                line: i
               };
             });
             function smooth(t) {
@@ -184,7 +201,7 @@
             function desired(t, tr) {
               /* La primera línea tiene prioridad; las siguientes ceden
                  apenas unas centésimas, sin detenerse bruscamente. */
-              var delay = tr.line * 0.045;
+              var delay = tr.line * 0.055;
               var p = smooth((t - delay) / (1 - delay));
               var k = 1 + (tr.scaleEnd - 1) * p;
               return {
