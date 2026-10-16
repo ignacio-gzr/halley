@@ -1,42 +1,34 @@
-/* =========================================================
-   HALLEY — HERO INTRO MOBILE / TABLET (#HeaderM)
-   Aislada de la animación desktop (#HeaderD).
-   ========================================================= */
+/* HALLEY — HERO INTRO MOBILE/TABLET v2 | Solo #HeaderM */
 #HeaderM { position: relative; }
 #HeaderM.halley-m-running { isolation: isolate; }
-#HeaderM .halley-m-layer {
+#HeaderM .halley-m-overlay {
   position: absolute; inset: 0; z-index: 90;
-  pointer-events: none; overflow: visible;
+  overflow: visible; pointer-events: none;
 }
-#HeaderM .halley-m-intro-title {
-  position: absolute; width: max-content; max-width: none;
-  margin: 0; padding: 0; text-align: left !important;
-  white-space: nowrap; line-height: 1.03;
+#HeaderM .halley-m-title {
+  position: absolute; margin: 0; padding: 0;
+  width: max-content; max-width: none;
+  text-align: left !important; white-space: nowrap;
   transform-origin: top left; will-change: transform, opacity;
 }
 #HeaderM .halley-m-line {
-  display: block; white-space: nowrap; text-align: left !important;
+  display: block; width: max-content;
+  white-space: nowrap; opacity: 0;
 }
-#HeaderM .halley-m-accent { color: #479da5; }
-#HeaderM.halley-m-running .halley-m-original-hidden {
-  opacity: 0 !important;
+#HeaderM .halley-m-teal { color: #479da5; }
+#HeaderM.halley-m-running .halley-m-real-hidden {
+  opacity: 0 !important; visibility: hidden !important;
 }
-#HeaderM.halley-m-running .halley-m-original-hidden.halley-m-original-reveal {
-  opacity: 1 !important;
-  transition: opacity .25s ease-out !important;
+#HeaderM.halley-m-running .halley-m-real-hidden.halley-m-real-show {
+  opacity: 1 !important; visibility: visible !important;
+  transition: opacity 180ms ease-out !important;
 }
-#HeaderM .halley-m-intro-title.halley-m-intro-fade {
-  opacity: 0 !important;
-  transition: opacity .25s ease-out !important;
-}
-#HeaderM.halley-m-running .halley-m-hidden {
-  opacity: 0 !important;
-  visibility: hidden !important;
+#HeaderM.halley-m-running .halley-m-item-hidden {
+  opacity: 0 !important; visibility: hidden !important;
 }
 @media (prefers-reduced-motion: reduce) {
-  #HeaderM .halley-m-layer { display: none !important; }
-  #HeaderM .halley-m-original-hidden,
-  #HeaderM .halley-m-hidden {
+  #HeaderM .halley-m-overlay { display: none !important; }
+  #HeaderM .halley-m-real-hidden, #HeaderM .halley-m-item-hidden {
     opacity: 1 !important; visibility: visible !important;
     transition: none !important;
   }
