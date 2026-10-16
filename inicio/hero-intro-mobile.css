@@ -1,31 +1,42 @@
-/* Halley | Hero intro mobile/tablet: solo #HeaderM. */
+/* =========================================================
+   HALLEY — HERO INTRO MOBILE / TABLET (#HeaderM)
+   Aislada de la animación desktop (#HeaderD).
+   ========================================================= */
 #HeaderM { position: relative; }
-#HeaderM.halley-m-intro-running { isolation: isolate; }
-#HeaderM .halley-m-intro-layer {
+#HeaderM.halley-m-running { isolation: isolate; }
+#HeaderM .halley-m-layer {
   position: absolute; inset: 0; z-index: 90;
   pointer-events: none; overflow: visible;
 }
 #HeaderM .halley-m-intro-title {
   position: absolute; width: max-content; max-width: none;
-  margin: 0; padding: 0; text-align: center;
-  white-space: nowrap; transform-origin: top left;
-  will-change: transform, opacity;
+  margin: 0; padding: 0; text-align: left !important;
+  white-space: nowrap; line-height: 1.03;
+  transform-origin: top left; will-change: transform, opacity;
 }
-#HeaderM .halley-m-line { display: block; white-space: nowrap; }
+#HeaderM .halley-m-line {
+  display: block; white-space: nowrap; text-align: left !important;
+}
 #HeaderM .halley-m-accent { color: #479da5; }
-#HeaderM.halley-m-intro-running .halley-m-title-real {
+#HeaderM.halley-m-running .halley-m-original-hidden {
   opacity: 0 !important;
 }
-#HeaderM.halley-m-intro-running .halley-m-title-real.halley-m-title-reveal {
+#HeaderM.halley-m-running .halley-m-original-hidden.halley-m-original-reveal {
   opacity: 1 !important;
-  transition: opacity .34s ease-out !important;
+  transition: opacity .25s ease-out !important;
 }
-#HeaderM.halley-m-intro-running .halley-m-pending {
-  opacity: 0 !important; visibility: hidden !important;
+#HeaderM .halley-m-intro-title.halley-m-intro-fade {
+  opacity: 0 !important;
+  transition: opacity .25s ease-out !important;
+}
+#HeaderM.halley-m-running .halley-m-hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
 }
 @media (prefers-reduced-motion: reduce) {
-  #HeaderM .halley-m-intro-layer { display: none !important; }
-  #HeaderM .halley-m-title-real, #HeaderM .halley-m-pending {
+  #HeaderM .halley-m-layer { display: none !important; }
+  #HeaderM .halley-m-original-hidden,
+  #HeaderM .halley-m-hidden {
     opacity: 1 !important; visibility: visible !important;
     transition: none !important;
   }
