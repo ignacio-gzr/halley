@@ -1,0 +1,32 @@
+/* Halley | Hero intro mobile/tablet: solo #HeaderM. */
+#HeaderM { position: relative; }
+#HeaderM.halley-m-intro-running { isolation: isolate; }
+#HeaderM .halley-m-intro-layer {
+  position: absolute; inset: 0; z-index: 90;
+  pointer-events: none; overflow: visible;
+}
+#HeaderM .halley-m-intro-title {
+  position: absolute; width: max-content; max-width: none;
+  margin: 0; padding: 0; text-align: center;
+  white-space: nowrap; transform-origin: top left;
+  will-change: transform, opacity;
+}
+#HeaderM .halley-m-line { display: block; white-space: nowrap; }
+#HeaderM .halley-m-accent { color: #479da5; }
+#HeaderM.halley-m-intro-running .halley-m-title-real {
+  opacity: 0 !important;
+}
+#HeaderM.halley-m-intro-running .halley-m-title-real.halley-m-title-reveal {
+  opacity: 1 !important;
+  transition: opacity .34s ease-out !important;
+}
+#HeaderM.halley-m-intro-running .halley-m-pending {
+  opacity: 0 !important; visibility: hidden !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  #HeaderM .halley-m-intro-layer { display: none !important; }
+  #HeaderM .halley-m-title-real, #HeaderM .halley-m-pending {
+    opacity: 1 !important; visibility: visible !important;
+    transition: none !important;
+  }
+}
