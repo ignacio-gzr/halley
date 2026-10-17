@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v21
+/* HALLEY — INTRO HERO MOBILE/TABLET v22
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -184,33 +184,96 @@
             /* Tres bloques horizontales rígidos. No hay correcciones
                por fotograma ni desplazamientos individuales de palabras.
                El primer vocablo determina la escala exacta de cada bloque. */
-            var groupMoves = words.map(function (word, i) {
-              var from = wordStarts[i];
-              var to = wordTargets[i];
+            /* Medir primero los tres bloques completos, sin dividir palabras. */
+            var plans = words.map(function (word, i) {
+              var from = wordStarts[i], to = wordTargets[i];
               var range = document.createRange();
               var firstText = word.firstChild;
               if (!firstText || firstText.nodeType !== Node.TEXT_NODE) return null;
-              var firstMatch = /\S+/.exec(firstText.textContent);
-              if (!firstMatch) return null;
-              range.setStart(firstText, firstMatch.index);
-              range.setEnd(firstText, firstMatch.index + firstMatch[0].length);
-              var firstGlyph = range.getBoundingClientRect();
-              var scaleEnd = to.width / firstGlyph.width;
-              var offsetX = firstGlyph.left - from.left;
-              var offsetY = firstGlyph.top - from.top;
-              var tx = to.left - from.left - scaleEnd * offsetX;
-              var ty = to.top - from.top - scaleEnd * offsetY;
-              var finalTransform = "translate(" + tx + "px," + ty +
-                "px) scale(" + scaleEnd + ")";
-              /* Ceder paso por bloques con un desfase mínimo, sin
-                 cambios repentinos de carril ni saltos de posición. */
-              var delay = [0, 75, 150][i];
-              return word.animate([
-                { transform: "translate(0px,0px) scale(1)" },
-                { transform: finalTransform }
-              ], { duration: 1662 - delay, delay: delay,
-                   easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" });
-            }).filter(Boolean);
+              var match = /\\S+/.exec(firstText.textContent);
+              if (!match) return null;
+              range.setStart(firstText, match.index);
+              range.setEnd(firstText, match.index + match[0].length);
+              var glyph = range.getBoundingClientRect();
+              var k = to.width / glyph.width;
+              var ox = glyph.left - from.left, oy = glyph.top - from.top;
+              return { word: word, from: from, k: k,
+                tx: to.left - from.left - k * ox,
+                ty: to.top - from.top - k * oy };
+            });
+            /* Planificar la prioridad ANTES de animar. Las trayectorias
+               resultantes son continuas, sin empujones en pleno vuelo. */
+            function ease(p) {
+              p = Math.max(0, Math.min(1, p));
+              return p * p * (3 - 2 * p);
+            }
+            function position(plan, progress) {
+              var k = 1 + (plan.k - 1) * progress;
+              return { x: plan.from.left + plan.tx * progress,
+                y: plan.from.top + plan.ty * progress,
+                w: plan.from.width * k, h: plan.from.height * k };
+            }
+            function overlap(a, b) {
+              var gap = 2;
+              return a.x < b.x + b.w + gap && b.x < a.x + a.w + gap &&
+                a.y < b.y + b.h + gap && b.y < a.y + a.h + gap;
+            }
+            function check(delays) {
+              for (var tick = 0; tick <= 100; tick++) {
+                var ms = tick * 16.62;
+                var boxes = plans.map(function (plan, i) {
+                  var p = ease((ms - delays[i]) / (1662 - delays[i]));
+                  return position(plan, p);
+                });
+                if (overlap(boxes[0], boxes[1]) ||
+                    overlap(boxes[0], boxes[2]) ||
+                    overlap(boxes[1], boxes[2])) return false;
+              }
+              return true;
+            }
+            /* Buscar desfases que respeten el paso de los tres bloques.
+               Se priorizan los menores para conservar la agilidad. */
+            var delays = [0, 75, 150], found = false;
+            var candidates = [0, 60, 120, 180, 240, 300, 360, 420, 480, 540, 600, 680];
+            outer: for (var c = 0; c < candidates.length; c++) {
+              for (var d = 0; d < candidates.length; d++) {
+                var trial = [0, candidates[c], candidates[d]];
+                if (check(trial)) { delays = trial; found = true; break outer; }
+              }
+            }
+            /* Si no hay un desfase libre, priorizar la separación del
+               primer y segundo bloque, que es el conflicto visible. */
+            if (!found) {
+              for (var e = 0; e < candidates.length; e++) {
+                var trial2 = [0, candidates[e], 150];
+                var safe = true;
+                for (var tick2 = 0; tick2 <= 100; tick2++) {
+                  var ms2 = tick2 * 16.62;
+                  if (overlap(
+                    position(plans[0], ease(ms2 / 1662)),
+                    position(plans[1], ease((ms2 - trial2[1]) / (1662 - trial2[1])))
+                  )) { safe = false; break; }
+                }
+                if (safe) { delays = trial2; break; }
+              }
+            }
+            var groupMoves = plans.map(function (plan, i) {
+              var delay = delays[i];
+              /* Fotogramas intermedios calculados con la misma curva que
+                 se utilizó para comprobar las colisiones. */
+              var frames = [];
+              for (var step = 0; step <= 60; step++) {
+                var p = ease(step / 60);
+                var k = 1 + (plan.k - 1) * p;
+                frames.push({ offset: step / 60,
+                  transform: "translate(" + (plan.tx * p) + "px," +
+                    (plan.ty * p) + "px) scale(" + k + ")" });
+              }
+              return plan.word.animate(frames, {
+                duration: 1662 - delay, delay: delay,
+                easing: "linear", fill: "forwards"
+              });
+            });
             landing = { finished: Promise.all(groupMoves.map(function (a) {
               return a.finished;
             })) };
