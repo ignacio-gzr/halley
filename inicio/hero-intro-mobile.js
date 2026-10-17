@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v19
+/* HALLEY — INTRO HERO MOBILE/TABLET v20
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -73,6 +73,8 @@
     var usable = Math.max(200, hr.width - leftStart - 14);
     var fontSize = Math.min(72, Math.max(34, hr.width * 0.125));
     intro.style.fontSize = fontSize + "px";
+    /* Interlineado de apertura, independiente de las coordenadas
+       tipográficas originales usadas para el aterrizaje. */
     intro.style.lineHeight = "1.03";
     var lines = Array.prototype.slice.call(intro.querySelectorAll(".halley-m-line"));
     var widest = Math.max.apply(Math, lines.map(function (line) { return line.getBoundingClientRect().width; }));
@@ -157,20 +159,18 @@
       if (!running) return;
       var animations = lines.map(function (line, i) {
         return line.animate([
-          { opacity: 0, transform: "translateY(20px)" },
-          { opacity: 1, transform: "translateY(0px)" }
+          { opacity: 0 },
+          { opacity: 1 }
         ], { duration: 504, delay: i * 140, easing: easeIn, fill: "forwards" });
       });
       Promise.all(animations.map(function (a) { return a.finished; })).then(function () {
         if (!running) return;
         later(function () {
           if (!running) return;
-          /* Congelar la fase de aparición exactamente donde terminó.
-             Evita que el cambio de animación modifique la posición de los
-             renglones antes de que comience la traslación. */
+          /* La aparición solo cambia opacidad: las tres frases mantienen
+             idénticas coordenadas antes y después de esta fase. */
           animations.forEach(function (a, i) {
             lines[i].style.opacity = "1";
-            lines[i].style.transform = "translateY(0px)";
             a.cancel();
           });
           /* Medir el origen DESPUÉS de cerrar la primera animación,
