@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v25
+/* HALLEY — INTRO HERO MOBILE/TABLET v26
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -96,44 +96,6 @@
     var dy = destY - startY;
     var scale = Math.min(1, rect.width / Math.max(opening.width, 1),
       rect.height / Math.max(opening.height, 1));
-    /* Medir las ocho palabras en el H1 original de Swipe Pages.
-       Range conserva los saltos de línea reales en cada ancho de pantalla. */
-    function getFinalWordRects() {
-      var found = [];
-      var walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT);
-      var node;
-      while ((node = walker.nextNode())) {
-        var re = /\S+/g;
-        var match;
-        while ((match = re.exec(node.textContent))) {
-          var range = document.createRange();
-          range.setStart(node, match.index);
-          range.setEnd(node, match.index + match[0].length);
-          var box = range.getBoundingClientRect();
-          if (box.width && box.height) found.push(box);
-        }
-      }
-      return found;
-    }
-    var words = Array.prototype.slice.call(intro.querySelectorAll(".halley-m-word"));
-    var wordStarts = words.map(function (word) { return word.getBoundingClientRect(); });
-    var nativeWords = getFinalWordRects();
-    var groupIndices = [[0, 1, 2], [3, 4, 5], [6, 7]];
-    /* El destino de cada grupo se obtiene del primer vocablo y del
-       ancho tipográfico de la frase completa. No se parte el grupo. */
-    /* Cada grupo conserva sus distancias tipográficas internas:
-       el ancho final se calcula escalando la frase completa, no
-       estimando por separado cada palabra con Canvas. */
-    var wordTargets = groupIndices.map(function (indices) {
-      var first = nativeWords[indices[0]];
-      return first ? { left: first.left, top: first.top,
-        width: first.width, height: first.height,
-        firstIndex: indices[0] } : null;
-    });
-    var canMorph = nativeWords.length === 8 && wordTargets.every(function (r) {
-      return r && r.width > 0 && r.height > 0;
-    });
-
     function reveal(module, duration, distance) {
       if (!module || !running) return;
       var child = module.firstElementChild || module;
@@ -179,32 +141,26 @@
           wordStarts = words.map(function (word) {
             return word.getBoundingClientRect();
           });
-          /* Segunda fase estable: trasladar y reducir el título completo.
-             El H1 nativo conserva siempre su propio layout responsive. */
-          var endScale = Math.min(1,
-            rect.width / Math.max(opening.width, 1),
-            rect.height / Math.max(opening.height, 1));
-          var landing = intro.animate([
-            { transform: "translate(0px,0px) scale(1)", opacity: 1 },
+          /* Fase dos resistente: el título nativo aparece suavemente
+             mientras el título de apertura se retira. No se simulan
+             saltos de línea ni se depende de cálculos por palabra. */
+          title.classList.add("halley-m-real-show");
+          intro.animate([
+            { transform: "translate(0px,0px) scale(1)", opacity: 1, offset: 0 },
+            { transform: "translate(" + (dx * 0.5) + "px," +
+                (dy * 0.5) + "px) scale(0.85)", opacity: 0, offset: 0.6 },
             { transform: "translate(" + dx + "px," + dy +
-                "px) scale(" + endScale + ")", opacity: 1 }
+                "px) scale(0.7)", opacity: 0, offset: 1 }
           ], { duration: 1662, easing: easeMove, fill: "forwards" });
           later(function () { reveal(paragraph, 825, 10); }, 780);
           later(function () { reveal(arrow, 825, 10); }, 984);
           later(function () { reveal(gif, 1403, 14); }, 1188);
-          /* Entregar el resultado al H1 verdadero: sus saltos de línea,
-             ancho e interlineado nunca se simulan con spans sueltos. */
-          landing.finished.then(function () {
+          later(function () {
             if (!running) return;
-            title.classList.add("halley-m-real-show");
-            intro.animate([{ opacity: 1 }, { opacity: 0 }],
-              { duration: 220, easing: "ease-out", fill: "forwards" });
-            later(function () {
-              title.classList.remove("halley-m-real-hidden", "halley-m-real-show");
-              if (overlay) overlay.remove();
-              later(cleanup, 1200);
-            }, 240);
-          }).catch(cleanup);
+            title.classList.remove("halley-m-real-hidden", "halley-m-real-show");
+            if (overlay) overlay.remove();
+          }, 1662);
+          later(cleanup, 3100);
         }, 135);
       }).catch(cleanup);
     }, 650);
