@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v24
+/* HALLEY — INTRO HERO MOBILE/TABLET v25
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -179,134 +179,31 @@
           wordStarts = words.map(function (word) {
             return word.getBoundingClientRect();
           });
-          var landing;
-          if (canMorph) {
-            /* Tres bloques horizontales rígidos. No hay correcciones
-               por fotograma ni desplazamientos individuales de palabras.
-               El primer vocablo determina la escala exacta de cada bloque. */
-            /* Medir primero los tres bloques completos, sin dividir palabras. */
-            var plans = words.map(function (word, i) {
-              var from = wordStarts[i], to = wordTargets[i];
-              var range = document.createRange();
-              var firstText = word.firstChild;
-              if (!firstText || firstText.nodeType !== Node.TEXT_NODE) return null;
-              var match = /\S+/.exec(firstText.textContent);
-              if (!match) return null;
-              range.setStart(firstText, match.index);
-              range.setEnd(firstText, match.index + match[0].length);
-              var glyph = range.getBoundingClientRect();
-              var k = to.width / glyph.width;
-              var ox = glyph.left - from.left, oy = glyph.top - from.top;
-              return { word: word, from: from, k: k,
-                tx: to.left - from.left - k * ox,
-                ty: to.top - from.top - k * oy };
-            });
-            /* Planificar la prioridad ANTES de animar. Las trayectorias
-               resultantes son continuas, sin empujones en pleno vuelo. */
-            function ease(p) {
-              p = Math.max(0, Math.min(1, p));
-              return p * p * (3 - 2 * p);
-            }
-            function position(plan, progress) {
-              var k = 1 + (plan.k - 1) * progress;
-              return { x: plan.from.left + plan.tx * progress,
-                y: plan.from.top + plan.ty * progress,
-                w: plan.from.width * k, h: plan.from.height * k };
-            }
-            function overlap(a, b) {
-              var gap = 2;
-              return a.x < b.x + b.w + gap && b.x < a.x + a.w + gap &&
-                a.y < b.y + b.h + gap && b.y < a.y + a.h + gap;
-            }
-            function check(delays) {
-              for (var tick = 0; tick <= 100; tick++) {
-                var ms = tick * 16.62;
-                var boxes = plans.map(function (plan, i) {
-                  var p = ease((ms - delays[i]) / (1662 - delays[i]));
-                  return position(plan, p);
-                });
-                if (overlap(boxes[0], boxes[1]) ||
-                    overlap(boxes[0], boxes[2]) ||
-                    overlap(boxes[1], boxes[2])) return false;
-              }
-              return true;
-            }
-            /* Buscar desfases que respeten el paso de los tres bloques.
-               Se priorizan los menores para conservar la agilidad. */
-            var delays = [0, 75, 150], found = false;
-            var candidates = [0, 60, 120, 180, 240, 300, 360, 420, 480, 540, 600, 680];
-            outer: for (var c = 0; c < candidates.length; c++) {
-              for (var d = 0; d < candidates.length; d++) {
-                var trial = [0, candidates[c], candidates[d]];
-                if (check(trial)) { delays = trial; found = true; break outer; }
-              }
-            }
-            /* Si no hay un desfase libre, priorizar la separación del
-               primer y segundo bloque, que es el conflicto visible. */
-            if (!found) {
-              for (var e = 0; e < candidates.length; e++) {
-                var trial2 = [0, candidates[e], 150];
-                var safe = true;
-                for (var tick2 = 0; tick2 <= 100; tick2++) {
-                  var ms2 = tick2 * 16.62;
-                  if (overlap(
-                    position(plans[0], ease(ms2 / 1662)),
-                    position(plans[1], ease((ms2 - trial2[1]) / (1662 - trial2[1])))
-                  )) { safe = false; break; }
-                }
-                if (safe) { delays = trial2; break; }
-              }
-            }
-            var groupMoves = plans.map(function (plan, i) {
-              var delay = delays[i];
-              /* Fotogramas intermedios calculados con la misma curva que
-                 se utilizó para comprobar las colisiones. */
-              var frames = [];
-              for (var step = 0; step <= 60; step++) {
-                var p = ease(step / 60);
-                var k = 1 + (plan.k - 1) * p;
-                frames.push({ offset: step / 60,
-                  transform: "translate(" + (plan.tx * p) + "px," +
-                    (plan.ty * p) + "px) scale(" + k + ")" });
-              }
-              return plan.word.animate(frames, {
-                duration: 1662 - delay, delay: delay,
-                easing: "linear", fill: "forwards"
-              });
-            });
-            landing = { finished: Promise.all(groupMoves.map(function (a) {
-              return a.finished;
-            })) };
-          } else {
-            /* Fallback si Swipe Pages cambia la estructura del H1. */
-            landing = intro.animate([
-              { transform: "translate(0px,0px) scale(1)", opacity: 1 },
-              { transform: "translate(" + dx + "px," + dy + "px) scale(" + scale + ")", opacity: 1 }
-            ], { duration: 1662, easing: easeMove, fill: "forwards" });
-          }
+          /* Segunda fase estable: trasladar y reducir el título completo.
+             El H1 nativo conserva siempre su propio layout responsive. */
+          var endScale = Math.min(1,
+            rect.width / Math.max(opening.width, 1),
+            rect.height / Math.max(opening.height, 1));
+          var landing = intro.animate([
+            { transform: "translate(0px,0px) scale(1)", opacity: 1 },
+            { transform: "translate(" + dx + "px," + dy +
+                "px) scale(" + endScale + ")", opacity: 1 }
+          ], { duration: 1662, easing: easeMove, fill: "forwards" });
           later(function () { reveal(paragraph, 825, 10); }, 780);
           later(function () { reveal(arrow, 825, 10); }, 984);
           later(function () { reveal(gif, 1403, 14); }, 1188);
-          /* Reorganizar de tres líneas a la disposición nativa de dos
-             con una transición breve al finalizar el recorrido. */
+          /* Entregar el resultado al H1 verdadero: sus saltos de línea,
+             ancho e interlineado nunca se simulan con spans sueltos. */
           landing.finished.then(function () {
             if (!running) return;
-            if (canMorph) {
-              /* Evitar el salto al sustituir dos textos con métricas diferentes.
-                 Conservar el overlay transformado como representación visible final. */
-              preserveMorph = true;
-              title.classList.add("halley-m-native-retained");
-              later(cleanup, 1440);
-            } else {
-              title.classList.add("halley-m-real-show");
-              intro.animate([{ opacity: 1 }, { opacity: 0 }],
-                { duration: 180, easing: "ease-out", fill: "forwards" });
-              later(function () {
-                title.classList.remove("halley-m-real-hidden", "halley-m-real-show");
-                if (overlay) overlay.remove();
-                later(cleanup, 1250);
-              }, 190);
-            }
+            title.classList.add("halley-m-real-show");
+            intro.animate([{ opacity: 1 }, { opacity: 0 }],
+              { duration: 220, easing: "ease-out", fill: "forwards" });
+            later(function () {
+              title.classList.remove("halley-m-real-hidden", "halley-m-real-show");
+              if (overlay) overlay.remove();
+              later(cleanup, 1200);
+            }, 240);
           }).catch(cleanup);
         }, 135);
       }).catch(cleanup);
