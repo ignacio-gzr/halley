@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v20
+/* HALLEY — INTRO HERO MOBILE/TABLET v21
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -159,18 +159,19 @@
       if (!running) return;
       var animations = lines.map(function (line, i) {
         return line.animate([
-          { opacity: 0 },
-          { opacity: 1 }
+          { opacity: 0, transform: "translateY(20px)" },
+          { opacity: 1, transform: "translateY(0px)" }
         ], { duration: 504, delay: i * 140, easing: easeIn, fill: "forwards" });
       });
       Promise.all(animations.map(function (a) { return a.finished; })).then(function () {
         if (!running) return;
         later(function () {
           if (!running) return;
-          /* La aparición solo cambia opacidad: las tres frases mantienen
-             idénticas coordenadas antes y después de esta fase. */
+          /* Restaurar la aparición original, con subida suave.
+             La fase dos empieza desde el mismo translateY(0px) final. */
           animations.forEach(function (a, i) {
             lines[i].style.opacity = "1";
+            lines[i].style.transform = "translateY(0px)";
             a.cancel();
           });
           /* Medir el origen DESPUÉS de cerrar la primera animación,
