@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v18
+/* HALLEY — INTRO HERO MOBILE/TABLET v19
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -165,6 +165,19 @@
         if (!running) return;
         later(function () {
           if (!running) return;
+          /* Congelar la fase de aparición exactamente donde terminó.
+             Evita que el cambio de animación modifique la posición de los
+             renglones antes de que comience la traslación. */
+          animations.forEach(function (a, i) {
+            lines[i].style.opacity = "1";
+            lines[i].style.transform = "translateY(0px)";
+            a.cancel();
+          });
+          /* Medir el origen DESPUÉS de cerrar la primera animación,
+             no antes: así ambos movimientos comparten coordenadas. */
+          wordStarts = words.map(function (word) {
+            return word.getBoundingClientRect();
+          });
           var landing;
           if (canMorph) {
             /* Tres bloques horizontales rígidos. No hay correcciones
@@ -176,7 +189,7 @@
               var range = document.createRange();
               var firstText = word.firstChild;
               if (!firstText || firstText.nodeType !== Node.TEXT_NODE) return null;
-              var firstMatch = /\\S+/.exec(firstText.textContent);
+              var firstMatch = /\S+/.exec(firstText.textContent);
               if (!firstMatch) return null;
               range.setStart(firstText, firstMatch.index);
               range.setEnd(firstText, firstMatch.index + firstMatch[0].length);
