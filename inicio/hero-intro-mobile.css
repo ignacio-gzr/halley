@@ -8,7 +8,7 @@ html.halley-m-boot #HeaderM .tatsu-ZasZ9LIhVfN,
 html.halley-m-boot #HeaderM .tatsu-LA23h_D2J_i {
   opacity: 0 !important; visibility: hidden !important;
 }
-/* HALLEY — HERO INTRO MOBILE/TABLET v12 | Solo #HeaderM */
+/* HALLEY — HERO INTRO MOBILE/TABLET v13 | Solo #HeaderM */
 /* El GIF real está en tatsu-ZasZ9LIhVfN, no en IC9qly8EPmS. */
 #HeaderM .tatsu-ZasZ9LIhVfN { opacity: 0 !important; visibility: hidden !important; }
 #HeaderM.halley-m-running .tatsu-ZasZ9LIhVfN:not(.halley-m-item-hidden) { opacity: 1 !important; visibility: visible !important; }
@@ -36,7 +36,7 @@ html.halley-m-boot #HeaderM .tatsu-LA23h_D2J_i {
 }
 #HeaderM.halley-m-running .halley-m-real-hidden.halley-m-real-show {
   opacity: 1 !important; visibility: visible !important;
-  transition: opacity 180ms ease-out !important;
+  transition: opacity 650ms ease-out !important;
 }
 #HeaderM.halley-m-running .halley-m-item-hidden {
   opacity: 0 !important; visibility: hidden !important;
