@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v22
+/* HALLEY — INTRO HERO MOBILE/TABLET v23
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -63,8 +63,8 @@
     /* Tres grupos indivisibles: sus palabras jamás se separan. */
     intro.innerHTML =
       '<span class="halley-m-line"><span class="halley-m-word">TOMÁ EL <span class="halley-m-teal">CONTROL</span></span></span>' +
-      '<span class="halley-m-line"><span class="halley-m-word">DE TU</span></span>' +
-      '<span class="halley-m-line"><span class="halley-m-word">ESTACIÓN DE SERVICIO</span></span>';
+      '<span class="halley-m-line"><span class="halley-m-word">DE TU ESTACIÓN</span></span>' +
+      '<span class="halley-m-line"><span class="halley-m-word">DE SERVICIO</span></span>';
     overlay.appendChild(intro);
     hero.appendChild(overlay);
 
@@ -118,7 +118,7 @@
     var words = Array.prototype.slice.call(intro.querySelectorAll(".halley-m-word"));
     var wordStarts = words.map(function (word) { return word.getBoundingClientRect(); });
     var nativeWords = getFinalWordRects();
-    var groupIndices = [[0, 1, 2], [3, 4], [5, 6, 7]];
+    var groupIndices = [[0, 1, 2], [3, 4, 5], [6, 7]];
     /* El destino de cada grupo se obtiene del primer vocablo y del
        ancho tipográfico de la frase completa. No se parte el grupo. */
     /* Cada grupo conserva sus distancias tipográficas internas:
