@@ -1,4 +1,4 @@
-/* HALLEY — INTRO HERO MOBILE/TABLET v23
+/* HALLEY — INTRO HERO MOBILE/TABLET v24
    Replica la secuencia desktop. Solo afecta a #HeaderM. */
 (function () {
   "use strict";
@@ -190,7 +190,7 @@
               var range = document.createRange();
               var firstText = word.firstChild;
               if (!firstText || firstText.nodeType !== Node.TEXT_NODE) return null;
-              var match = /\\S+/.exec(firstText.textContent);
+              var match = /\S+/.exec(firstText.textContent);
               if (!match) return null;
               range.setStart(firstText, match.index);
               range.setEnd(firstText, match.index + match[0].length);
