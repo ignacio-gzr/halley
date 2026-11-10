@@ -174,11 +174,17 @@ html.halley-hero-intro-running
         transform,
         opacity !important;
 
+    /* Usar la misma rasterización tipográfica que el H1 nativo.
+       Evita un cambio de suavizado al entregar el clon, especialmente
+       con escalado fraccionario de Windows (225%). */
     backface-visibility:
-        hidden !important;
+        visible !important;
+
+    -webkit-backface-visibility:
+        visible !important;
 
     -webkit-font-smoothing:
-        antialiased;
+        inherit;
 }
 
 
