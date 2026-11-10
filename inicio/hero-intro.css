@@ -225,6 +225,14 @@ html.halley-hero-intro-running
 }
 
 
+/* La descripción se anima únicamente con opacidad. Evitar promoverla
+   a una capa transformada: con DPI fraccionario (Windows 225%) esa
+   capa puede rasterizarse con una alineación distinta al liberarse. */
+#HeaderD .halley-hero-contenido-interno.halley-hero-texto-interno {
+    will-change: opacity;
+    backface-visibility: visible;
+}
+
 /* =========================================================
    11. TEXTO
 
