@@ -1022,14 +1022,11 @@ document.documentElement
                             );
 
 
-                        /* Liberar cuanto antes la capa GPU del párrafo.
-                           Su entrada arranca a +650 ms y dura 825 ms:
-                           termina 90 ms después del aterrizaje (1385 ms).
-                           No alterar la animación del GIF ni de la flecha. */
+                        /* Finalizar la entrada del párrafo sin modificar sus estilos
+                           geométricos nativos ni forzar transform: none. */
                         window.setTimeout(function () {
                             contenidosTexto.forEach(function (interno) {
                                 interno.classList.remove("halley-hero-texto-aparecer");
-                                interno.style.transform = "none";
                                 interno.style.filter = "none";
                                 interno.style.willChange = "auto";
                                 interno.style.backfaceVisibility = "visible";
@@ -1087,7 +1084,9 @@ document.documentElement
                                             /* Liberar las capas de composición
                                                una vez terminada la entrada:
                                                el texto vuelve a renderizar nítido. */
-                                            interno.style.transform = "none";
+                                            if (contenidosTexto.indexOf(interno) === -1) {
+                                                interno.style.transform = "none";
+                                            }
                                             interno.style.filter = "none";
                                             interno.style.willChange = "auto";
 
