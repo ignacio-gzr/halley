@@ -1022,6 +1022,21 @@ document.documentElement
                             );
 
 
+                        /* Liberar cuanto antes la capa GPU del párrafo.
+                           Su entrada arranca a +650 ms y dura 825 ms:
+                           termina 90 ms después del aterrizaje (1385 ms).
+                           No alterar la animación del GIF ni de la flecha. */
+                        window.setTimeout(function () {
+                            contenidosTexto.forEach(function (interno) {
+                                interno.classList.remove("halley-hero-texto-aparecer");
+                                interno.style.transform = "none";
+                                interno.style.filter = "none";
+                                interno.style.willChange = "auto";
+                                interno.style.backfaceVisibility = "visible";
+                                interno.style.webkitBackfaceVisibility = "visible";
+                            });
+                        }, 110);
+
                         window.setTimeout(
                             function () {
 
