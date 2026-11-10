@@ -65,7 +65,7 @@ document.documentElement.classList.add(
 
 
         /* =================================================
-           EVITAR DOBLE EJECUCIÓN
+           EVITAR DOBLE EJECUCIÓN.
         ================================================= */
 
         if (
