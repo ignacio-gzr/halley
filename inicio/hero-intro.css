@@ -155,7 +155,7 @@ html.halley-hero-intro-running
 
 
 /* =========================================================
-   8. TÍTULO INTRO.
+   8. TÍTULO INTRO
    ========================================================= */
 
 #HeaderD
@@ -190,7 +190,6 @@ html.halley-hero-intro-running
 .halley-hero-grupo-titulo {
 
     display: inline-block;
-    white-space: nowrap;
 
     opacity: 0;
 
@@ -202,7 +201,7 @@ html.halley-hero-intro-running
 
 #HeaderD
 .halley-hero-grupo-linea-final {
-    display: inline-block;
+    display: block;
 }
 
 
