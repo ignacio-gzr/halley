@@ -1037,11 +1037,18 @@ document.documentElement
                         window.setTimeout(
                             function () {
 
+                                /* La descripción ya terminó y se liberó antes.
+                                   No volver a tocar su wrapper ni su contenido:
+                                   evita un reajuste tardío de líneas y subpíxeles. */
+                                var modulosTexto = elementosTexto.concat(elementosOtros);
+
                                 elementosOcultos
                                     .forEach(
                                         function (
                                             elemento
                                         ) {
+
+                                            if (modulosTexto.indexOf(elemento) !== -1) return;
 
                                             elemento
                                                 .classList
@@ -1074,6 +1081,8 @@ document.documentElement
                                     )
                                     .forEach(
                                         function (interno) {
+
+                                            if (contenidosTexto.indexOf(interno) !== -1) return;
 
                                             interno.classList.remove(
                                                 "halley-hero-texto-aparecer",
