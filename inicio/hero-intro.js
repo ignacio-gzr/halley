@@ -65,7 +65,7 @@ document.documentElement.classList.add(
 
 
         /* =================================================
-           EVITAR DOBLE EJECUCIÓN
+           EVITAR DOBLE EJECUCIÓN.
         ================================================= */
 
         if (
@@ -513,17 +513,15 @@ document.documentElement
 
             copia.innerHTML =
                 '<span class="halley-hero-grupo-titulo halley-hero-grupo-1">' +
-                    'TOMÁ EL' +
-                '</span>' +
-
-                ' ' +
+                    'TOMÁ EL <span style="color:#479da5;">CONTROL</span>' +
+                '</span><br>' +
 
                 '<span class="halley-hero-grupo-titulo halley-hero-grupo-2">' +
-                    '<span style="color:#43A6B2;">CONTROL</span> DE TU' +
-                '</span>' +
+                    'DE TU ESTACIÓN' +
+                '</span><br>' +
 
                 '<span class="halley-hero-grupo-titulo halley-hero-grupo-3 halley-hero-grupo-linea-final">' +
-                    'ESTACIÓN DE SERVICIO' +
+                    'DE SERVICIO' +
                 '</span>';
 
 
@@ -589,6 +587,65 @@ document.documentElement
             );
 
 
+            /* Medir el ancho real de cada línea sin permitir cortes.
+               La escala inicial debe respetar el ancho del texto,
+               no solamente el rectángulo del H1 original. */
+            var gruposMedidos =
+                copia.querySelectorAll(".halley-hero-grupo-titulo");
+
+            var anchoLineaMaximo = 0;
+
+            gruposMedidos.forEach(function (grupo) {
+                anchoLineaMaximo = Math.max(
+                    anchoLineaMaximo,
+                    grupo.scrollWidth,
+                    grupo.getBoundingClientRect().width
+                );
+            });
+
+            var anchoBaseAnimado = Math.max(
+                tituloRect.width,
+                anchoLineaMaximo
+            );
+
+            copia.style.width = anchoBaseAnimado + "px";
+
+            /* Alinear las líneas animadas con la geometría real
+               del H1 de Swipe Pages, incluso con zoom fraccionario.
+               Los inline-block pueden cambiar la línea base aunque
+               el font-size y el line-height sean idénticos. */
+            function alinearRenglon(texto, selector) {
+                var nodoOriginal = Array.from(titulo.childNodes).find(
+                    function (nodo) {
+                        return nodo.nodeType === 3 &&
+                            normalizarTexto(nodo.textContent) === texto;
+                    }
+                );
+
+                var grupo = copia.querySelector(selector);
+                if (!nodoOriginal || !grupo) return;
+
+                var rangoOriginal = document.createRange();
+                rangoOriginal.selectNodeContents(nodoOriginal);
+
+                var rangoAnimado = document.createRange();
+                rangoAnimado.selectNodeContents(grupo);
+
+                var diferencia =
+                    rangoOriginal.getBoundingClientRect().top -
+                    rangoAnimado.getBoundingClientRect().top;
+
+                if (Number.isFinite(diferencia)) {
+                    grupo.style.position = "relative";
+                    grupo.style.top = diferencia + "px";
+                }
+            }
+
+            alinearRenglon("de tu estacion", ".halley-hero-grupo-2");
+            alinearRenglon("de servicio", ".halley-hero-grupo-3");
+
+
+
             /* =================================================
                ESCALA INICIAL
                69,375%
@@ -601,7 +658,7 @@ document.documentElement
 
             var escala =
                 anchoObjetivo /
-                tituloRect.width;
+                anchoBaseAnimado;
 
 
             escala =
@@ -626,7 +683,7 @@ document.documentElement
 
 
             var anchoVisualInicial =
-                tituloRect.width *
+                anchoBaseAnimado *
                 escala;
 
 
@@ -635,6 +692,12 @@ document.documentElement
                 margenDerecho -
                 anchoVisualInicial +
                 desplazamientoExtraDerecha;
+
+            /* Mantener el título completo dentro del hero. */
+            leftInicial = Math.min(
+                leftInicial,
+                heroRect.width - anchoVisualInicial - 20
+            );
 
 
             var altoVisualInicial =
@@ -1005,6 +1068,21 @@ document.documentElement
                                                 "halley-hero-flecha-aparecer",
                                                 "halley-hero-gif-aparecer"
                                             );
+
+                                            /* Liberar las capas de composición
+                                               una vez terminada la entrada:
+                                               el texto vuelve a renderizar nítido. */
+                                            interno.style.transform = "none";
+                                            interno.style.filter = "none";
+                                            interno.style.willChange = "auto";
+
+                                            /* Evitar que el GIF permanezca en
+                                               una capa de composición 3D tras
+                                               finalizar su animación. */
+                                            if (contenidosGif.indexOf(interno) !== -1) {
+                                                interno.style.backfaceVisibility = "visible";
+                                                interno.style.webkitBackfaceVisibility = "visible";
+                                            }
 
                                         }
                                     );
