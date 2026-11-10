@@ -234,6 +234,8 @@ html.halley-hero-intro-running
 #HeaderD
 .halley-hero-texto-aparecer {
 
+    position: relative;
+
     animation:
         halleyHeroTextoEntrada
         0.825s
@@ -246,12 +248,12 @@ html.halley-hero-intro-running
 
     from {
         opacity: 0;
-        transform: translateY(10px);
+        top: 10px;
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        top: 0px;
     }
 
 }
