@@ -359,3 +359,10 @@ html.halley-hero-intro-running
     }
 
 }
+
+/* Mantener oculto el H1 original mientras el clon estable permanece visible.
+   Evita el salto de línea por rasterización y DPI al finalizar. */
+#HeaderD .halley-hero-titulo-retained {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
