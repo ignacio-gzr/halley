@@ -1002,24 +1002,31 @@ document.documentElement
                            CLON → TÍTULO ORIGINAL
                         ================================================= */
 
-                        titulo
-                            .classList
-                            .remove(
-                                "halley-hero-titulo-original"
-                            );
-
-
-                        copia.remove();
-
-
-                        overlay.remove();
-
+                        /* Conservar el clon exactamente donde aterrizó.
+                           El intercambio con el H1 nativo provoca saltos
+                           subpíxel en algunos DPI y resoluciones. */
+                        titulo.classList.add("halley-hero-titulo-retained");
 
                         document.documentElement
                             .classList
                             .remove(
                                 "halley-hero-intro-running"
                             );
+
+                        /* Si cambia el ancho de la ventana, recuperar el H1
+                           nativo para respetar el layout responsive. */
+                        var anchoAlFinalizar = window.innerWidth;
+                        function restaurarTituloAlRedimensionar() {
+                            if (Math.abs(window.innerWidth - anchoAlFinalizar) < 2) return;
+                            window.removeEventListener("resize", restaurarTituloAlRedimensionar);
+                            titulo.classList.remove(
+                                "halley-hero-titulo-original",
+                                "halley-hero-titulo-retained"
+                            );
+                            copia.remove();
+                            overlay.remove();
+                        }
+                        window.addEventListener("resize", restaurarTituloAlRedimensionar);
 
 
                         /* Finalizar la entrada del párrafo sin modificar sus estilos
