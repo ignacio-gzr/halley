@@ -644,6 +644,39 @@ document.documentElement
             alinearRenglon("de tu estacion", ".halley-hero-grupo-2");
             alinearRenglon("de servicio", ".halley-hero-grupo-3");
 
+            /* Ajustar las tres líneas a píxeles físicos antes de animar.
+               Con DPI fraccionario, alturas como 59px producen posiciones
+               diferentes dentro del píxel en cada renglón. Al liberar la
+               capa escalada, el redondeo del texto puede cambiar.
+               Se conserva este ajuste durante toda la intro y después. */
+            var densidadPixel = window.devicePixelRatio || 1;
+            var rectCopia = copia.getBoundingClientRect();
+            var ajusteX = Math.round(rectCopia.left * densidadPixel) /
+                densidadPixel - rectCopia.left;
+            var ajusteY = Math.round(rectCopia.top * densidadPixel) /
+                densidadPixel - rectCopia.top;
+
+            leftFinal += ajusteX;
+            topFinal += ajusteY;
+            copia.style.left = leftFinal + "px";
+            copia.style.top = topFinal + "px";
+
+            /* Leer todas las posiciones antes de escribir los ajustes. */
+            var ajustesRenglones = Array.from(gruposMedidos).map(function (grupo) {
+                var rect = grupo.getBoundingClientRect();
+                var topActual = parseFloat(grupo.style.top) || 0;
+                return {
+                    grupo: grupo,
+                    top: topActual + Math.round(rect.top * densidadPixel) /
+                        densidadPixel - rect.top
+                };
+            });
+            ajustesRenglones.forEach(function (ajuste) {
+                ajuste.grupo.style.position = "relative";
+                ajuste.grupo.style.top = ajuste.top + "px";
+            });
+
+
 
 
             /* =================================================
