@@ -1007,6 +1007,30 @@ document.documentElement
                            subpíxel en algunos DPI y resoluciones. */
                         titulo.classList.add("halley-hero-titulo-retained");
 
+                       /* Mantener el clon y su geometría, pero finalizar
+   los efectos de animación y habilitar la selección. */
+copia.classList.add("halley-hero-titulo-estatico");
+
+/* Sustituir el transform inicial que quedó inline.
+   Así no reaparece al cancelar la animación. */
+copia.style.transform = "none";
+copia.style.opacity = "1";
+
+var elementosTitulo = [copia].concat(
+    Array.from(
+        copia.querySelectorAll(".halley-hero-grupo-titulo")
+    )
+);
+
+elementosTitulo.forEach(function (elemento) {
+    elemento.style.transform = "none";
+    elemento.style.opacity = "1";
+
+    elemento.getAnimations().forEach(function (animacion) {
+        animacion.cancel();
+    });
+});
+
                         document.documentElement
                             .classList
                             .remove(
