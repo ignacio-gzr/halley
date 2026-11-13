@@ -155,14 +155,34 @@ document.documentElement.classList.add(
            DELAY INICIAL
         ================================================= */
 
-        window.setTimeout(
-            function () {
+        /* Contar la espera inicial solamente con la pestaña visible.
+           Si se oculta antes de arrancar, reiniciar los 650 ms al volver.
+           Después del inicio se retira el listener: la intro no se repite. */
+        var temporizadorIntro = null;
+        var introIniciada = false;
 
+        function programarIntroVisible() {
+            if (introIniciada) return;
+
+            if (temporizadorIntro !== null) {
+                window.clearTimeout(temporizadorIntro);
+                temporizadorIntro = null;
+            }
+
+            if (document.visibilityState !== "visible") return;
+
+            temporizadorIntro = window.setTimeout(function () {
+                temporizadorIntro = null;
+                if (document.visibilityState !== "visible" || introIniciada) return;
+
+                introIniciada = true;
+                document.removeEventListener("visibilitychange", programarIntroVisible);
                 comenzarIntro();
+            }, 650);
+        }
 
-            },
-            650
-        );
+        document.addEventListener("visibilitychange", programarIntroVisible);
+        programarIntroVisible();
 
 
         function comenzarIntro() {
