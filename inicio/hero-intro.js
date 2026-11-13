@@ -766,47 +766,31 @@ document.documentElement
                 );
 
 
-            function animarGrupo(
-                elemento,
-                delay
-            ) {
+            function animarGrupo(elemento, delay) {
+                /* Conservar la corrección calculada por alinearRenglon. */
+                var topFinalGrupo =
+                    parseFloat(window.getComputedStyle(elemento).top) || 0;
 
-                return elemento.animate(
-
+                var animacion = elemento.animate(
                     [
-
-                        {
-                            opacity: 0,
-                            transform:
-                                "translateY(20px)"
-                        },
-
-                        {
-                            opacity: 1,
-                            transform:
-                                "translateY(0px)"
-                        }
-
+                        { opacity: 0, top: (topFinalGrupo + 20) + "px" },
+                        { opacity: 1, top: topFinalGrupo + "px" }
                     ],
-
                     {
-
-                        duration:
-                            504,
-
-                        delay:
-                            delay,
-
-                        easing:
-                            "cubic-bezier(0.22, 1, 0.36, 1)",
-
-                        fill:
-                            "forwards"
-
+                        duration: 504,
+                        delay: delay,
+                        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+                        fill: "both"
                     }
-
                 );
 
+                animacion.finished.then(function () {
+                    elemento.style.top = topFinalGrupo + "px";
+                    elemento.style.opacity = "1";
+                    animacion.cancel();
+                }).catch(function () {});
+
+                return animacion;
             }
 
 
@@ -920,7 +904,7 @@ document.documentElement
                                             1,
 
                                         transform:
-                                            "translate(0px, 0px) scale(1)"
+                                            "none"
                                     }
 
                                 ],
