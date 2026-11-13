@@ -372,7 +372,7 @@ html.halley-hero-intro-running
    ========================================================= */
 
 #HeaderD .halley-hero-titulo-intro.halley-hero-titulo-estatico {
-    transform: none !important;
+    transform: translate(0px, 0px) scale(1) !important;
     will-change: auto !important;
 
     opacity: 1 !important;
@@ -384,7 +384,7 @@ html.halley-hero-intro-running
 
 #HeaderD .halley-hero-titulo-intro.halley-hero-titulo-estatico
 .halley-hero-grupo-titulo {
-    transform: none !important;
+    transform: translateY(0px) !important;
     will-change: auto !important;
     opacity: 1 !important;
 }
