@@ -196,13 +196,13 @@ html.halley-hero-intro-running
 .halley-hero-grupo-titulo {
 
     display: inline-block;
+    position: relative;
     white-space: nowrap;
 
     opacity: 0;
 
-    will-change:
-        transform,
-        opacity;
+    /* No mantener una capa transformada independiente por línea. */
+    will-change: auto;
 }
 
 
