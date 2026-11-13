@@ -767,14 +767,10 @@ document.documentElement
 
 
             function animarGrupo(elemento, delay) {
-                /* Conservar la corrección calculada por alinearRenglon. */
-                var topFinalGrupo =
-                    parseFloat(window.getComputedStyle(elemento).top) || 0;
-
-                var animacion = elemento.animate(
+                return elemento.animate(
                     [
-                        { opacity: 0, top: (topFinalGrupo + 20) + "px" },
-                        { opacity: 1, top: topFinalGrupo + "px" }
+                        { opacity: 0, transform: "translateY(20px)" },
+                        { opacity: 1, transform: "translateY(0px)" }
                     ],
                     {
                         duration: 504,
@@ -783,16 +779,7 @@ document.documentElement
                         fill: "both"
                     }
                 );
-
-                animacion.finished.then(function () {
-                    elemento.style.top = topFinalGrupo + "px";
-                    elemento.style.opacity = "1";
-                    animacion.cancel();
-                }).catch(function () {});
-
-                return animacion;
             }
-
 
             /* =================================================
                MOSTRAR WRAPPER + ANIMAR HIJO INTERNO
@@ -866,6 +853,16 @@ document.documentElement
                 .then(
                     function () {
 
+                        /* Liberar las animaciones de las líneas antes del viaje.
+                           No cambiar tres capas independientes al aterrizar. */
+                        [grupo1, grupo2, grupo3].forEach(function (grupo) {
+                            grupo.style.opacity = "1";
+                            grupo.style.transform = "translateY(0px)";
+                            grupo.getAnimations().forEach(function (animacion) {
+                                animacion.cancel();
+                            });
+                        });
+
                         return new Promise(
                             function (resolver) {
 
@@ -904,7 +901,7 @@ document.documentElement
                                             1,
 
                                         transform:
-                                            "none"
+                                            "translate(0px, 0px) scale(1)"
                                     }
 
                                 ],
@@ -991,29 +988,14 @@ document.documentElement
                            subpíxel en algunos DPI y resoluciones. */
                         titulo.classList.add("halley-hero-titulo-retained");
 
-                       /* Mantener el clon y su geometría, pero finalizar
-   los efectos de animación y habilitar la selección. */
-copia.classList.add("halley-hero-titulo-estatico");
-
-/* Sustituir el transform inicial que quedó inline.
-   Así no reaparece al cancelar la animación. */
-copia.style.transform = "none";
-copia.style.opacity = "1";
-
-var elementosTitulo = [copia].concat(
-    Array.from(
-        copia.querySelectorAll(".halley-hero-grupo-titulo")
-    )
-);
-
-elementosTitulo.forEach(function (elemento) {
-    elemento.style.transform = "none";
-    elemento.style.opacity = "1";
-
-    elemento.getAnimations().forEach(function (animacion) {
-        animacion.cancel();
-    });
-});
+                        /* Conservar el mismo sistema de coordenadas 2D al
+                           cancelar el efecto. No pasar de transform a none. */
+                        copia.style.transform = "translate(0px, 0px) scale(1)";
+                        copia.style.opacity = "1";
+                        copia.getAnimations().forEach(function (animacion) {
+                            animacion.cancel();
+                        });
+                        copia.classList.add("halley-hero-titulo-estatico");
 
                         document.documentElement
                             .classList
