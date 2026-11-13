@@ -366,3 +366,30 @@ html.halley-hero-intro-running
     opacity: 0 !important;
     visibility: hidden !important;
 }
+
+/* =========================================================
+   TÍTULO ESTÁTICO AL FINALIZAR LA INTRO
+   ========================================================= */
+
+#HeaderD .halley-hero-titulo-intro.halley-hero-titulo-estatico {
+    transform: none !important;
+    will-change: auto !important;
+
+    opacity: 1 !important;
+
+    pointer-events: auto !important;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+}
+
+#HeaderD .halley-hero-titulo-intro.halley-hero-titulo-estatico
+.halley-hero-grupo-titulo {
+    transform: none !important;
+    will-change: auto !important;
+    opacity: 1 !important;
+}
+
+#HeaderD .halley-hero-titulo-intro.halley-hero-titulo-estatico * {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+}
